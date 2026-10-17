@@ -1,6 +1,6 @@
 # Fiqh Rule Register
 
-Register version: **0.1.0 (draft)**. Date: 2026-10-17.
+Register version: **0.1.1 (draft)**. Date: 2026-10-17.
 
 > **Read this first.** Every rule below is **UNVERIFIED**. The author (an AI engineering assistant) wrote them from general knowledge to define *what must be decided*, not to state what is correct. No rule here has been checked by a qualified scholar. No Quran or Hadith reference is given because none has been verified; none will be added from memory. The app is a tracking tool, not a source of fatwas.
 
@@ -20,7 +20,18 @@ Register version: **0.1.0 (draft)**. Date: 2026-10-17.
 
 ## Initial jurisprudential profile
 
-Hanafi, as requested. The user must explicitly confirm the profile in onboarding; the app does not assume the same rulings for other schools. Other schools' positions below are recorded only as *known areas of difference to be documented after review*.
+Hanafi (owner-approved, ADR-0007). The user must explicitly confirm the profile in onboarding; the app does not assume the same rulings for other schools. Other schools' positions below are recorded only as *known areas of difference to be documented after review*.
+
+## Owner decisions recorded 2026-10-17 (engineering policy, not religious verification)
+
+These decisions govern how the app behaves while rules remain open. They do **not** change any rule's status, which stays `UNVERIFIED`.
+
+- Keep all unverified rules marked `UNVERIFIED`; do not invent references.
+- Qaza: support the estimated 365 per Fard category; Witr is a separate configurable category, never added without user confirmation; manual estimate corrections are supported; disputed Qaza ordering is not enforced.
+- Asr: configurable calculation convention; never silently selected.
+- Open religious questions must not delay the Android engineering foundation.
+
+See ADR-0015.
 
 ## Rules
 
@@ -41,17 +52,20 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 ### FQ-003 Witr and its Qaza
 - Ruling as currently understood: under the Hanafi framework Witr (3 rakah) is Wajib, and a missed Witr requires Qaza. Other schools generally classify Witr as a confirmed Sunnah without Qaza obligation in the same sense.
 - Source: to be cited. Status: `DISPUTED` across schools; Hanafi position `UNVERIFIED`.
-- Implication: Witr is a separate Qaza category only when profile = Hanafi **and** the user confirms. The planning figure of 365 Witr is a user estimate pending that confirmation. Switching profile never deletes ledger entries (they remain, flagged by profile at creation).
+- **Owner decision (2026-10-17):** Witr is a **separate, configurable category**. It is **never added automatically**; enabling it requires explicit user confirmation, recorded with timestamp and active profile. The planning figure of 365 Witr is only an editable suggestion offered after enabling.
+- Implication: Witr ledger entries are accepted only while an active confirmation exists (invariant L11 in `qaza-accounting.md`). Switching profile never deletes ledger entries; each entry records the profile and register version in force when it was created.
 
 ### FQ-004 Order of making up missed prayers (tartib)
 - Ruling as currently understood: Hanafi texts discuss maintaining order between missed and current prayers, with conditions under which the requirement lapses. Details (thresholds, forgetfulness, time constraints) unknown to the author.
-- Source: to be cited. Status: `UNVERIFIED`.
-- Implication: **not enforced in v1.** Completions are order-agnostic; the UI will not claim any order is correct.
+- Source: to be cited. Status: `UNVERIFIED` / `DISPUTED`.
+- **Owner decision (2026-10-17):** disputed Qaza ordering rules are **not automatically enforced**.
+- Implication: completions are order-agnostic; the UI will not claim any order is correct or required.
 
 ### FQ-005 Prayer-window boundaries and Asr start
 - Open questions: Asr start (one shadow-length vs two, commonly associated with different schools), the end of Fajr at sunrise, Dhuhr beginning after zenith, Maghrib end / Isha start (twilight definition: red vs white shafaq), Fajr and Isha twilight angle conventions.
 - Status: `DISPUTED` / `UNVERIFIED`.
-- Implication: calculation method, Asr setting and twilight convention are explicit user settings with no silent default; the settings used are snapshotted on every record (`TimeCalcSnapshot`). Onboarding asks the user to choose and to confirm with their local authority's published timetable if they wish.
+- **Owner decision (2026-10-17):** Asr calculation convention is **configurable and never silently selected**.
+- Implication: calculation method, Asr setting and twilight convention are explicit user settings with no silent default; until chosen, windows show "setup needed". The settings used are snapshotted on every record (`TimeCalcSnapshot`).
 
 ### FQ-006 "Preferred time" versus end of window
 - Open question: what counts as the preferred (mustahab) portion for each prayer (for example early Fajr versus sunrise approach, Asr before the sun's discoloration, avoiding delay of Maghrib).
@@ -90,7 +104,7 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 ### FQ-014 Estimating historical Qaza
 - Open questions: from when obligations began, how to count when unsure, whether a conservative estimate is expected, treatment of periods of uncertainty.
 - Status: `UNVERIFIED`.
-- Implication: **the app records the user's own number and never computes or fabricates it.** The planning figure of 365 per prayer is the owner's estimate, not a ruling. The owner should seek qualified guidance on the estimate.
+- Implication: **the app records the user's own number and never computes or fabricates it.** The planning figure of 365 per prayer is the owner's estimate, not a ruling; the app supports it as an editable suggestion and supports manual corrections (ADR-0015). The owner should seek qualified guidance on the estimate.
 
 ### FQ-015 Fasting: Ramadan Qaza and Kaffarah
 - Ruling as currently understood: a missed Ramadan fast is made up later (Qaza). Kaffarah applies only to specific deliberate violations with conditions that differ across schools.
@@ -117,7 +131,9 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 
 ### FQ-021 Hijri month start and local adjustment
 - Open question: calculation vs local moon sighting; which authority the user follows.
-- Status: `DISPUTED`. Implication: configurable method plus user day-offset and per-month override (ADR-0013); never claim calculated dates equal sighting.
+- Status: `DISPUTED`.
+- **Owner decision (2026-10-17):** configurable Hijri calendar with local date adjustment and monthly overrides; **no calculation algorithm selected** without proper evaluation (ADR-0013).
+- Implication: never claim calculated dates equal sighting.
 
 ### FQ-022 Breaking a voluntary fast
 - Ruling as currently understood: schools differ on whether a voluntary fast that is broken must be made up. The Hanafi position is commonly stated as requiring a make-up; other schools differ.
@@ -128,10 +144,11 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 - Open questions: when an excuse defers vs waives the obligation, and the concept of compensation (fidya) in permanent inability.
 - Status: `UNVERIFIED`. Implication: `EXCUSED` is a recorded status only; it never silently cancels an obligation or creates one.
 
-## Decisions awaiting scholarly review (summary list)
+## Questions that remain open (none are resolved by the owner decisions above)
 
-FQ-003 Witr Qaza; FQ-005 Asr and twilight conventions; FQ-004 order of Qaza; FQ-006 preferred time; FQ-007 Tahajjud; FQ-008/009 Ishraq and Duha; FQ-010 Awwabeen; FQ-013 voluntary Qaza; FQ-014 historical Qaza estimation; FQ-015/016/018/019/020/022 fasting rules; FQ-021 Hijri method.
+FQ-003 whether Witr Qaza is obligatory for this user; FQ-005 which Asr/twilight convention applies; FQ-004 whether any order applies; FQ-006 preferred time; FQ-007 Tahajjud; FQ-008/009 Ishraq and Duha; FQ-010 Awwabeen; FQ-013 voluntary Qaza; FQ-014 historical Qaza estimation; FQ-015/016/018/019/020/022 fasting rules; FQ-021 Hijri method.
 
 ## Changelog
 
+- 0.1.1: record owner engineering decisions (Witr configurable, Asr configurable, no ordering enforcement, Hijri configurable without algorithm); no rule status changed.
 - 0.1.0: initial draft, all rules `UNVERIFIED`.
