@@ -1,0 +1,37 @@
+# Gradle / Android build output
+.gradle/
+build/
+*.apk
+*.aab
+*.ap_
+*.dex
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing material - NEVER commit
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# Personal worship data - NEVER commit (see docs/security/privacy-model.md)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.ibadahbackup
+*.ibadahexport
+ibadah-export*
+ibadah-backup*
+private-data/
+
+# Secrets
+.env
+*.pem
+secrets.*
