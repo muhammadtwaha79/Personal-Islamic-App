@@ -1,40 +1,43 @@
 # Agent Handoff — Ibadah Companion
 
-**Last written 2026-10-18.** This may become stale when a PR is merged. The NEXT agent MUST verify GitHub reality before trusting these notes. Read [CLAUDE.md](../CLAUDE.md), [ENGINEERING_STATUS](ENGINEERING_STATUS.md) and [SESSION_LOG](SESSION_LOG.md).
+**Date of snapshot: 2026-10-18.** Start by reading [CLAUDE.md](../CLAUDE.md) and [ENGINEERING_STATUS.md](ENGINEERING_STATUS.md), then inspect the **real** GitHub main HEAD, open PRs, branches and latest CI run. Accounts share no chat history: repository is the single source of truth.
 
-## Identity
+## Project identity
 
-Repository: https://github.com/muhammadtwaha79/Personal-Islamic-App; application ID `com.muhammadtwaha.ibadahcompanion`, Android minSdk 26. Native Kotlin / Jetpack Compose / Material 3 / Hilt / Room / Gradle 9.6 / AGP 9.4, offline-first and no INTERNET permission. All personal worship records are sensitive and stored on the device, **never** in GitHub.
+- Repository: https://github.com/muhammadtwaha79/Personal-Islamic-App (public).
+- Android ID: `com.muhammadtwaha.ibadahcompanion`; minimum SDK 26.
+- Technology: Kotlin, Jetpack Compose, Material 3, Room 2.8, Hilt, Navigation Compose, AGP 9.4 / Gradle 9.6 / JDK 17.
+- Privacy baseline: fully offline, no INTERNET permission, no analytics, no personal data in GitHub.
 
-## Git history and branch ownership
+## Verified integrated state
 
-- `main`: Phase 0 and Phase 1 are merged. Phase 1 PR #2 merged as `1701350`.
-- `phase-2/worship-tracking`: ChatGPT-authored Phase 2 MVP and Quran expansion, open [PR #3](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/3) at this file's time of writing.
-- The owner explicitly authorized the engineering agent to merge PRs autonomously when verified, on 2026-10-18. Never force-push or overwrite.
-- Branch ownership: ChatGPT currently holds `phase-2/worship-tracking`; release after merge. Subsequent agents should create new task branches from verified `main`.
-- Inspect actual PR and branch SHA! Do not mistake old 2026-10-18 Phase 1 context for current state.
+- [MERGED] Phase 0 PR #1.
+- [MERGED] Phase 1 PR #2, merge `1701350`.
+- [MERGED] Phase 2 feature PR #3, merge **`ca2f596dbca76edbf0aa1c603e60b674922947a9`**.
+- [GREEN CI] Final Phase 2 PR head `ca2534d`, [workflow run 39103550819](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39103550819): Kotlin/Android build, unit tests, lint, debug APK artifact upload succeeded. Artifact `ibadah-companion-debug-apk` ID `12127319015`. **On-device use not yet verified**.
+- [CURRENT DOCUMENTATION BRANCH] `docs/postmerge-worship-status`; at time of writing this branch is updating stale README/status/handoff and has not necessarily been merged. Check live PR state and complete it when green, if still pending.
+- [BRANCH OWNERSHIP] No active code development agent currently owns `phase-2/worship-tracking`; it was merged and released. Owner permits verified PR merges (no direct force pushes).
 
-## Verified technical milestones
+## What is implemented
 
-- Phase 1 successful run: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39101278554 .
-- Phase 2 implementation successful compile/test/lint/assemble/upload job on implementation SHA `76dd7a2`: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39102929249 .
-- **Final PR #3 head may be newer** due challenge streak refinement, extra Nafl types, ADR and memory commits. Obtain the latest workflow result and artifact for its actual head; do not use an older green check to justify merging a newer commit.
-- There has been **no verified emulator/device test or migration upgrade from a populated v1 database**; these remain gating risks before depending on the tracker as a sole source.
+Fard Salah user logs with Jamaat and Takbeer statuses, 40-day Oct20 challenge, Sunnah/Nafl daily logs (Tahajjud, Ishraq, Chasht, Awwabeen, pre-Asr and pre-Isha 4), Quran daily half-para/Yaseen/Waqiah/Mulk, Ramadan reading volume target and **separate** confirmed full khatam events. All local Room persisted (v3; additive migrations from v1). See [Owner brief](requirements/2026-10-worship-and-quran-owner-brief.md) and [ADR-0017](decisions/0017-worship-quran-tracking-slices.md).
 
-## Implemented scope and limitations
+## Exact next engineering action
 
-Four functional routes: five Fard Salah (Jamaat vs alone, opening Takbeer, explicit missed, historical dates and edits), 40-day fixed October 20 challenge, Sunnah/Nafl voluntary tracking, Quran half-juz+Yaseen/Waqiah/Mulk daily and manually-dated Ramadan five-khatam tracking with separate volume / full completion counts. The database is at schema **v3**, with **two** explicit additive migrations, `1→2` and `2→3`. Android migration upgrade tests remain pending. No Qaza ledger, fasting, Azkar/Duas, prayer times, fiqh-certified rules or encrypted backups yet.
+1. Verify documentation PR is merged; if not, inspect its CI and merge it once green per owner authorization.
+2. Install debug APK on a physical Android device. Test recording Salah, optional prayers, Quran records, app restart and historical corrections; the owner needs to report device findings.
+3. **Before trusting this as sole personal record**, add Android instrumented integration tests for Room migrations 1→2→3 and UI persistence; prioritize safe encrypted export/restore (no backup exists yet).
+4. Continue missing Qaza ledger (critical pre-existing owner goal), fasting/Hijri integration, and the newly requested Adhkar/Duas module. Keep work on separate task branches with small reviewable PRs.
+5. Religious source-sensitive items remain UNVERIFIED and must be reviewed by a qualified scholar; do not bake disputed rules into automated validity checks.
 
-**Owner 2026-10-20 start:** Do not fabricate historical data. The 40-day challenge is 20 Oct through 28 Nov 2026 inclusive. User can backfill later, and future record actions are disabled. Default daily Quran target is half-para; Ramadan goal is 5 manually confirmed complete khatams, with 150 juz volume as planning metric, not proof.
+## Safety / constraints
 
-## Next precise action
+- No device database, worship journal, keystore, secret, backup or OAuth credential in public repo.
+- No `INTERNET` permission without a new security ADR and owner approval.
+- No force pushes or silent history replacement. Never mark a verified-device status based on CI alone.
+- The user requested 20 Oct 2026 start and 40-day challenge through 28 Nov inclusive. No fabricated historical data.
+- Multi-Claude-account continuity: update this file, [SESSION_LOG](SESSION_LOG.md), [ENGINEERING_STATUS](ENGINEERING_STATUS.md) and [ROADMAP](ROADMAP.md) after major steps and re-verify GitHub facts.
 
-1. Re-read current PR #3 and CI runs; if final commit green and APK uploaded, merge PR #3 into `main` and verify.
-2. If necessary create a tiny postmerge branch to correct stale handoff references; merge with CI.
-3. Tell owner how to download/install APK. Clearly distinguish CI pass from device-tested stability.
-4. For next development branch, prioritize reliable Room migration/instrumented testing and safe encrypted export, plus outstanding Qaza ledger and fasting. Adhkar/Duas is a separately approved future module in [requirements](requirements/2026-10-worship-and-quran-owner-brief.md).
-5. Keep [Roadmap](ROADMAP.md), [ADR-0017](decisions/0017-worship-quran-tracking-slices.md), fiqh register and risks consistent. Never silently assign unverifed religious rulings.
+## Links
 
-## Tool limitations / hygiene
-
-This account has GitHub branch, PR, Actions run/job/artifact tools; future Claude accounts must rediscover their capabilities. Do not reveal credentials. Work on one branch with one writer at a time; track commits and update status at handoffs.
+[PR #3](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/3) · [CI](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39103550819) · [Roadmap](ROADMAP.md) · [Fiqh register](fiqh/rule-register.md).
