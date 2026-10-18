@@ -68,7 +68,7 @@ private fun NaflCard(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { if (rakahs > 1) rakahs-- }) { Text("−") }
                 Text("$rakahs rakahs", modifier = Modifier.padding(top = 12.dp))
-                OutlinedButton(onClick = { if (rakahs < 20) rakahs++ }) { Text("+") }
+                OutlinedButton(onClick = { if (rakahs < 100) rakahs++ }) { Text("+") }
             }
             Button(onClick = { update(rakahs, saved?.completed != true) }) {
                 Text(if (saved?.completed == true) "Undo record" else "Mark completed")
