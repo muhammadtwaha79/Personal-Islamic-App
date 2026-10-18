@@ -62,3 +62,15 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Added ADR-0016 and updated status/handoff documents. These documentation commits need a fresh final-HEAD CI green result.
 - No Salah logging, Jamaat, Takbeer-e-Ula, Qaza or fasting screens were implemented. Owner's 2026-10-20 start requirements remain for Phase 2.
 - Next: verify final-head CI; mark PR ready for review; owner merges; then begin Phase 2 safely.
+
+
+## S-006: Owner-approved automated Phase 1 merge, first Salah/Nafl/Quran tracker release
+
+- Date: 2026-10-18. Agent: ChatGPT, user expressly granted autonomy to perform GitHub PR merges and development.
+- Verified Phase 1 PR #2 head `3319cb5` had successful CI run 39101278554. Merged PR #2 into `main` as `1701350`.
+- Created branch `phase-2/worship-tracking` and PR #3. Added Room v2/v3 schema and additive migrations; canonical daily Salah revision logs; Jamaat, Takbeer-e-Ula, Friday self-report mode; derived 40-day challenge since 2026-10-20; Sunnah and Nafl self-report checklists; Quran half-para, daily Yaseen/Waqiah/Mulk, manually dated Ramadan 5-khatam target with separate khatam events.
+- Added challenge and domain JVM tests. Initial compilation failure was an omitted Compose Row import; fixed in `76dd7a2`.
+- **Verified** build job success (compile, JVM tests, Android lint and uploaded APK) at `76dd7a2`, run 39102929249. Later small UI, docs, roadmap changes require final head CI before merging.
+- Added user scope document `docs/requirements/2026-10-worship-and-quran-owner-brief.md`, ADR-0017 and repo memory updates; planned Adhkar/Duas but did **not** implement them.
+- No physical device verification, no dedicated Android Room migration test or UI test, no encrypted backup, no Qaza ledger or fasting. All unverified religious rulings remain pending scholar review.
+- Next: check PR #3 final head CI; merge if green, then create fresh branch for hardening/next module.

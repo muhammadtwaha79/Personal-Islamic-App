@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ibadah Companion</string>
-    <string name="foundation_notice">Foundation build. No worship features yet.</string>
+    <string name="foundation_notice">Personal worship tracker. Records stay on this device.</string>
 </resources>

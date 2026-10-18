@@ -1,19 +1,56 @@
 package com.muhammadtwaha.ibadahcompanion.ui.navigation
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.muhammadtwaha.ibadahcompanion.ui.home.HomeScreen
+import com.muhammadtwaha.ibadahcompanion.data.WorshipRepository
+import com.muhammadtwaha.ibadahcompanion.ui.nafl.NaflScreen
+import com.muhammadtwaha.ibadahcompanion.ui.quran.QuranScreen
+import com.muhammadtwaha.ibadahcompanion.ui.salah.ChallengeScreen
+import com.muhammadtwaha.ibadahcompanion.ui.salah.SalahScreen
 
-object Routes {
-    const val HOME = "home"
-}
+private data class Tab(val route: String, val label: String, val symbol: String)
+private val tabs = listOf(
+    Tab("salah", "Salah", "S"),
+    Tab("challenge", "40 days", "40"),
+    Tab("nafl", "Nafl", "N"),
+    Tab("quran", "Quran", "Q"),
+)
 
 @Composable
-fun AppNavHost(navController: NavHostController = rememberNavController()) {
-    NavHost(navController = navController, startDestination = Routes.HOME) {
-        composable(Routes.HOME) { HomeScreen() }
+fun AppNavHost(repository: WorshipRepository) {
+    val navController = rememberNavController()
+    val entry = navController.currentBackStackEntryAsState().value
+    Scaffold(bottomBar = {
+        NavigationBar {
+            tabs.forEach { tab ->
+                NavigationBarItem(
+                    selected = (entry?.destination?.route ?: "salah") == tab.route,
+                    onClick = { navController.navigate(tab.route) {
+                        popUpTo("salah") { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    } },
+                    icon = { Text(tab.symbol) },
+                    label = { Text(tab.label) },
+                )
+            }
+        }
+    }) { inner ->
+        NavHost(navController = navController, startDestination = "salah",
+            modifier = Modifier.padding(inner)) {
+            composable("salah") { SalahScreen(repository) }
+            composable("challenge") { ChallengeScreen(repository) }
+            composable("nafl") { NaflScreen(repository) }
+            composable("quran") { QuranScreen(repository) }
+        }
     }
 }
