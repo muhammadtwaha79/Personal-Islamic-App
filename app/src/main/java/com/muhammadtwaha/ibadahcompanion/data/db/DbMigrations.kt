@@ -5,6 +5,27 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 /** Explicit, non-destructive upgrade from the previously shipped Phase 1 Room schema. */
 object DbMigrations {
+    /** New daily Sunnah/Munajat tables; never clear existing worship records. */
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `daily_sunnah_check` (
+                    `date` TEXT NOT NULL, `habit_id` TEXT NOT NULL,
+                    `completed` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL,
+                    PRIMARY KEY(`date`, `habit_id`)
+                )
+            """.trimIndent())
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `munajat_manzil` (
+                    `date` TEXT NOT NULL, `manzil` INTEGER NOT NULL,
+                    `edition` TEXT NOT NULL, `completed` INTEGER NOT NULL,
+                    `updated_at` INTEGER NOT NULL,
+                    PRIMARY KEY(`date`)
+                )
+            """.trimIndent())
+        }
+    }
+
     /** Add the append-only recitation journal and optional Dala'il day selection. */
     val MIGRATION_3_4 = object : Migration(3, 4) {
         override fun migrate(db: SupportSQLiteDatabase) {

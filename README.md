@@ -12,7 +12,8 @@ Application ID: `com.muhammadtwaha.ibadahcompanion` • Minimum Android version:
 - Quran reading log: half-para daily baseline from **20 October 2026**, Surah Yaseen, Waqiah and Mulk independently marked complete.
 - Ramadan planner: user-selected Ramadan date range, **five complete Quran khatams** target, 150-juz reading-volume planning, plus **separate user-confirmed full-khatam events**.
 - **Salawat & Adhkar tracking:** 1,200/day short Salawat, 1,200/day Istighfar, 1,000/day Bismillah; separate 10x after each Farz for all 20 owner-supplied Arabic Salawat formulations; select and log the daily Dala'il al-Khayrat manzil (no book text included). Full Arabic RTL reader, corrections and event-based local persistence.
-- Local Room persistence (schema v4) and non-destructive v1→v2→v3→v4 migration declarations.
+- **Under PR #7:** Source-linked morning/evening adhkar (3× three Qul Surahs each, Sayyidul Istighfar, 3× protection dua and more), daily contextual Masnoon Duas, 10 Sunnah practice check-ins, and a manual 7-manzil *Munajat-e-Maqbool* tracker. This is a curated starter library, **not a claim to contain every authentic Dua/Sunnah**. The requested 7× Hasbiyallahu report is separately labeled disputed and excluded from the authenticated-core completion score.
+- Local Room persistence (schema v5 on PR #7) and explicit additive v1→v2→v3→v4→v5 migration declarations.
 - English-language working interface with five tabs (Salah, 40 days, Nafl, Quran, Dhikr); calm Material 3 dark/light theme.
 
 **Important:** Code has passed GitHub Actions compilation, JVM unit tests, lint and debug APK assembly, but **Android phone/emulator use and a database migration on a populated device have not yet been verified**. This is an engineering MVP, not an audited production release.
@@ -31,7 +32,7 @@ To try it, open the run while signed into GitHub, scroll to **Artifacts**, downl
 
 - Production-grade append-only **Qaza Salah recovery ledger** with the user's independently confirmed estimates, plus Witr rule review.
 - Ramadan/Qaza/voluntary **fasting** with lunar calendar safeguards.
-- Expanded **morning/evening Adhkar and personal Duas** library/tracker; source-verified wording, optional custom targets and flexible schedules. Salawat counting MVP exists, but scholarly attribution of all formulas remains unverified.
+- **Further verified morning/evening and personal Dua expansion**, Roman Urdu meanings/transliteration, configurable targets, source-review workflow and optional reminders. The first sourced catalog is currently under PR #7; exact Arabic orthography and grading still need scholarly editorial review.
 - Accurate prayer-time calculations, selected Asr conventions, configurable fiqh profile, travel/excuses, repeatable 40-day challenge attempts, reminder system.
 - Encrypted backup, app lock, device UI tests, migration tests, full accessibility/localization and release signing.
 
@@ -50,3 +51,9 @@ The repository is public. Never commit personal worship history, local database 
 User-supplied Salawat texts and their historical names are included for private reading and counting; **their Arabic orthography, attribution and claimed merits have not received scholarly/textual verification**. Daily targets (1,200 / 1,200 / 1,000 and 10 for each Salawat after each Farz) are the owner's personal schedule, not a religiously binding prescription. See [owner brief](docs/requirements/salawat-dhikr-2026-10-owner-brief.md), [ADR-0018](docs/decisions/0018-personal-salawat-counters.md), and [Fiqh register](docs/fiqh/rule-register.md). Dala'il manzil is manually chosen to match the user's edition.
 
 For the Salawat feature's **latest verified build/PR**, see [ENGINEERING_STATUS](docs/ENGINEERING_STATUS.md). No physical-device migration or backup testing has yet been completed.
+
+## Daily Masnoon Azkar and Munajat (PR #7)
+
+The new curated catalog introduces morning, evening, occasion-based, and per-Fard recitation scopes, with linked Sunnah.com collection references and named-grade labels. It includes source-linked habits such as meal etiquette, sleep/wudu etiquette, right-first shoes and greetings. `Munajat-e-Maqbool` has a **separate manual manzil 1–7** tracker alongside `Dala'il al-Khayrat`; neither book's text is embedded. Read [source research](docs/research/masnoon-source-register.md), [owner brief](docs/requirements/masnoon-adhkar-munajat-2026-10-owner-brief.md) and [ADR-0019](docs/decisions/0019-source-linked-daily-masnoon-adhkar.md).
+
+**Religious caveat:** some reports have disputed grades; particularly the requested 7× `Hasbiyallahu` report in Sunan Abi Dawud 5081 is labeled fabricated in the cited grading. It is visibly flagged and not counted as authenticated core practice. Do not infer automatic protection or spiritual rank from checklist scores.

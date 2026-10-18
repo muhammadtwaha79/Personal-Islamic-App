@@ -2,6 +2,7 @@ package com.muhammadtwaha.ibadahcompanion.ui.dhikr
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalLayoutDirection
 import com.muhammadtwaha.ibadahcompanion.data.DhikrRepository
+import com.muhammadtwaha.ibadahcompanion.data.MasnoonRepository
+import com.muhammadtwaha.ibadahcompanion.ui.masnoon.MasnoonScreen
 import com.muhammadtwaha.ibadahcompanion.data.db.DalailDaily
 import com.muhammadtwaha.ibadahcompanion.data.db.RecitationTotal
 import com.muhammadtwaha.ibadahcompanion.domain.dhikr.SalawatCatalog
@@ -47,10 +50,10 @@ import com.muhammadtwaha.ibadahcompanion.ui.shared.rememberTrackingDate
 import java.time.LocalDate
 import kotlinx.coroutines.launch
 
-private enum class DhikrTab { DAILY, AFTER_FARD, DALAIL }
+private enum class DhikrTab { DAILY, AFTER_FARD, DALAIL, MASNOON }
 
 @Composable
-fun DhikrScreen(repository: DhikrRepository) {
+fun DhikrScreen(repository: DhikrRepository, masnoonRepository: MasnoonRepository) {
     val (date, setDate) = rememberTrackingDate()
     val totals by remember(repository, date) {
         repository.totals(date)
@@ -78,6 +81,18 @@ fun DhikrScreen(repository: DhikrRepository) {
         }
     }
 
+    // Give the new catalog the full screen instead of nesting scrollable screens
+    // inside the old daily-counter column (which otherwise clips on small phones).
+    if (currentTab == DhikrTab.MASNOON) {
+        Column(Modifier.fillMaxSize()) {
+            OutlinedButton(onClick = { currentTab = DhikrTab.DAILY }) {
+                Text("← Back to Salawat counters")
+            }
+            Box(Modifier.weight(1f)) { MasnoonScreen(masnoonRepository) }
+        }
+        return
+    }
+
     Column(Modifier.fillMaxSize().padding(horizontal = 14.dp)) {
         Text("Salawat & Adhkar", style = MaterialTheme.typography.titleLarge)
         DaySwitcher(date, setDate)
@@ -90,6 +105,7 @@ fun DhikrScreen(repository: DhikrRepository) {
                 DhikrTab.DAILY to "Daily goals",
                 DhikrTab.AFTER_FARD to "After each Fard",
                 DhikrTab.DALAIL to "Dala'il manzil",
+                DhikrTab.MASNOON to "Masnoon & Munajat",
             ).forEach { (tab, label) ->
                 OutlinedButton(onClick = { currentTab = tab }) {
                     Text((if (currentTab == tab) "✓ " else "") + label)
@@ -160,6 +176,7 @@ fun DhikrScreen(repository: DhikrRepository) {
                     }
                 }
             }
+            DhikrTab.MASNOON -> { /* full-screen view handled above */ }
             DhikrTab.DALAIL -> {
                 DalailManzilCard(date, dalail, enabled,
                     onSave = { manzil, edition, completed ->

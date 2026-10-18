@@ -1,31 +1,36 @@
 # Engineering Status — Ibadah Companion
 
-**Snapshot 2026-10-18.** Live GitHub state and CI override any stale snapshot. [CLAUDE.md](../CLAUDE.md) · [AGENT_HANDOFF.md](AGENT_HANDOFF.md)
+**Snapshot date 2026-10-18.** This is a GitHub handoff snapshot, not a substitute for inspecting the latest branch/PR/CI. Agent instructions: [CLAUDE.md](../CLAUDE.md); handoff: [AGENT_HANDOFF](AGENT_HANDOFF.md).
 
-## Merged stable foundation
+## Integrated baseline
 
-- Phase 0 PR #1, Phase 1 PR #2 (merge `1701350`), Phase 2 PR #3 (merge `ca2f596`), and post-merge documentation PR #4 (merge `b4d7879c44ad573f3ee4b7fb7e9d11fe0b2d88e3`) are confirmed merged.
-- Native Kotlin/Compose/Room foundation with five-prayer Salah, Jamaat/Takbeer, 40-day challenge, Sunnah/Nafl and Quran/Ramadan tilawat tracking is on `main`.
-- Prior verified successful worship tracker CI: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39103550819
+- Phase 0 PR #1, Android foundation PR #2, Fard/Nafl/Quran tracking PR #3, docs PR #4, Salawat/Dhikr PR #5 and docs PR #6 were **merged to main**.
+- Prior verified complete Salawat debug APK from [Android run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987), final Salawat feature head `5e29b81`, merged as `5edc84e`.
+- Repository on `main` before this feature has Room **v4**, offline five Fard daily tracking (Jamaat, Takbeer, challenge 20 Oct–28 Nov 2026), Sunnah/Nafl, Quran half-para/Yaseen/Waqiah/Mulk, Ramadan five-khatam planner, 1200 daily short Salawat, 1200 Istighfar, 1000 Bismillah, 20 Salawat after each Farz, and Dala'il daily manzil.
 
-## Current feature — Salawat and daily Dhikr
+## Current task — PR #7
 
-- [MERGED] Salawat / daily Dhikr PR #5: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5 — merge commit **`5edc84e4d77612b32535e126cfd026b4d312d45c`**. The previous development branch `feature/salawat-adhkar-counting` is now historical.
-- [IMPLEMENTED] 1,200x independent short Salawat, 1,200x Istighfar, 1,000x Bismillah daily goals, signed adjustments with transactional nonnegative count checks.
-- [IMPLEMENTED] 20 owner-supplied Arabic Salawat each with a **personal goal 10x after each of five Fard prayers**; 100 separate after-Fard goals. Full Arabic text shown in an RTL dialog. Source/attribution/merit claims are UNVERIFIED.
-- [IMPLEMENTED] Dala'il al-Khayrat daily manzil 1–7 manual selection, edition label, completion checkbox. The copyrighted book itself is not included; no edition day mapping is assumed.
-- [IMPLEMENTED] Room schema v4 (new `recitation_event` and `dalail_daily` tables), explicit additive 3→4 migration, date/practice/prayer index for efficient queries, event journal and basic JVM rules tests.
-- [VERIFIED] Final Salawat PR #5 head **`5e29b81be44c57af8e5542e0440532a290627d41`** passed full Android CI **39108600987**: wrapper, compilation, unit tests, lint, APK assembly and artifact upload all succeeded. [View verified run](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987). APK artifact `ibadah-companion-debug-apk`, ID **12128819307** (GitHub artifact ZIP ≈ 12.1 MB; not the raw APK SHA-256). GitHub confirmed PR #5 merge.
+- Branch `feature/daily-masnoon-adhkar-sunnah-munajat`; [PR #7](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7) OPEN at time of writing. Recheck live GitHub state before any merge.
+- **[IMPLEMENTED ON BRANCH]** Source-linked catalog: **28** morning/evening/occasion/post-Salah Dua/Adhkar entries plus **10** context-dependent Sunnah etiquette habits; independent MORNING and EVENING counters; after-Fard scopes independent of existing 1200x Salawat/Istighfar targets.
+- Includes **Sayyidul Istighfar**, three Qul Surahs each 3x both morning and evening (chapter titles only—read full Surahs from Mushaf), 3x Bismillahilladhi, 100x Subhanallah wa bihamdihi, Allahumma bika asbahna/amsayna, al-'afw wal-'afiyah, 3x Allahumma afini fi badani, selected daily-life duas, post-Fard Dhikr and Sunnah habit checkbox list.
+- **[SOURCE CAUTION]** Requested 7x Hasbiyallahu morning/evening: cited Abu Dawud 5081 is graded `Mawdu'` (fabricated) by al-Albani on the reviewed Sunnah.com page. Entry is OPTIONAL with visible warning and excluded from core completion; no promised protection asserted.
+- **[IMPLEMENTED ON BRANCH]** Separate *Munajat-e-Maqbool* daily manzil 1–7 manual selection + optional edition/undo, **without any printed book text**. Existing Dala'il tracker remains separate.
+- **[IMPLEMENTED ON BRANCH]** Room **v5**, explicit non-destructive v4→5 migration creating only `daily_sunnah_check` and `munajat_manzil` tables, while continuing to use existing signed recitation event journal. New JVM catalog/source/repetition tests.
+- **[CI PENDING FINAL-HEAD]** First code PR build run [39110939138](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39110939138) was cancelled when later commits pushed (Actions concurrency). The **latest** branch commit needs successful full Android compilation, tests, lint, debug APK upload before merging. Do not extrapolate success from the old green Salawat run.
 
-## Quality and religious limitations
+## Unverified work and limitations
 
-- **No real device or populated Room migration 1→2→3→4 test has been executed.** CI validation is not equivalent to on-device data safety.
-- A local SQLite database is **not encrypted** and backup/restore are not yet implemented; clearing app storage/uninstalling may permanently erase user records. Do not use the app as the only long-term record until this is addressed.
-- Quran/Qaza/fasting source-sensitive religious questions, Salawat attributions and Dala'il editions require qualified textual/fiqh review. App targets are OWNER-PERSONAL and do not claim a universal reward or binding obligation.
-- Qaza ledger, fasting, advanced Adhkar/Duas source library, optional reminders, app lock and encrypted export remain incomplete.
+- Physical Android installation/launch, offline persistence under real interaction, and migration from populated Room v1–4 databases have NOT been verified.
+- No encrypted backup/export exists; Android backup is disabled. **Clearing app data/uninstalling can erase all private worship records.**
+- Arabic orthography and hadith grading beyond named source references still require qualified editorial/scholarly review. A source reference does not prove this app's transcription is perfect.
+- The 28+10 collection is deliberately **not exhaustive** and the tracker is not a fatwa or evaluation of divine acceptance.
+- Qaza Ledger, fasting, detailed custom Duas, optional reminders and better accessibility/localization remain outstanding priorities. Do not claim the whole project completed.
 
-## Exact next task
+## Next exact steps
 
-1. Ask the owner to download the new APK from [run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987) and verify installation, app restart persistence, +1/+10 corrections, Arabic view, after-Fard counters and Dala'il manzil on device.
-2. Add an Android instrumented **populated Room v3→v4 migration test** and restore/export path before depending on local SQLite as the only long-term record.
-3. Continue previously approved Qaza obligations ledger and fasting plus the newly scoped authenticated morning/evening Adhkar and Duas library. Preserve Arabic text/source review status.
+1. Get PR #7 latest head SHA and the exact corresponding GitHub Actions run, investigate failures, obtain green compile/test/lint and uploaded debug APK.
+2. Under standing owner authorization, mark PR ready and merge only if current head is mergeable and CI is green; verify merge SHA.
+3. Update handoff/status docs in a small postmerge docs PR if necessary, green-check and merge.
+4. User installs the final debug APK and tests real-device feature flow (without uninstalling if an earlier version has data). Add proper Room migration/device and encrypted export verification soon after; never claim on-device success until tested.
+
+Evidence / research: [Masnoon source register](research/masnoon-source-register.md) · [ADR-0019](decisions/0019-source-linked-daily-masnoon-adhkar.md) · [Owner brief](requirements/masnoon-adhkar-munajat-2026-10-owner-brief.md).

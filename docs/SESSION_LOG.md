@@ -109,3 +109,16 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Scope includes 20 owner-supplied Arabic Salawat formulas, 1,200 short Salawat, 1,200 Istighfar, 1,000 Bismillah, 10x each Salawat after each Fard, and Dala'il 1–7 manually selected daily manzil. Sources and claims UNVERIFIED.
 - Real device launch/data persistence and populated database migration NOT tested; encrypted backup unavailable. Don't treat a green build as production assurance.
 - Next: owner to try APK on Android; engineering to add migration tests, safe export/restore and subsequent Adhkar/Duas, Qaza and fasting modules.
+
+
+## S-010: Owner-requested Daily Masnoon Duas, Sunnah habits and Munajat-e-Maqbool
+
+- Date: 2026-10-18. Agent: ChatGPT (authorized engineering owner of branch `feature/daily-masnoon-adhkar-sunnah-munajat`). Started from verified merged `main` after PR #6. Opened draft [PR #7](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7).
+- Product goal: add separate morning/evening recitations, daily occasion-based Prophetic supplications and context-sensitive Sunnah manners, one user-chosen manzil of *Munajat-e-Maqbool* daily. Owner has not installed any APK yet, so physical installation is pending.
+- Source lookup: looked up named Sunnah.com Sahih Bukhari, Sahih Muslim and Abu Dawud reports (see [research/masnoon-source-register.md](research/masnoon-source-register.md)). In particular the requested 7x Hasbiyallahu Abu Dawud 5081 report is graded Mawdu' by al-Albani on the visited page; optional flagged entry excluded from core checklist. No guaranteed protection/reward or exhaustive hadith claims.
+- Committed `MasnoonCatalog.kt` containing 28 source-linked practice entries and 10 situational Sunnah habits; `MasnoonDao` and Room entities for habit checks and Munajat daily manzil; `MasnoonRepository` reusing existing append-only recitation journal for time/prayer-scoped counts. Room schema v4→v5 non-destructive migration added, Hilt DAO and Activity injection updated.
+- Implemented `MasnoonScreen` with RTL Arabic/source dialog, Morning/Evening/Daily Duas/After Salah/Sunnah Habits/Munajat views; opened from the existing Dhikr tab without adding a cramped sixth bottom nav item. No copyrighted Munajat book text included, and division/edition is manual.
+- Added `MasnoonCatalogTest` for unique stable identifiers, three Qul repetitions, separate morning/evening scopes, unverified 7x exclusion, occasion distinctions and negative-counter protection.
+- GitHub Actions first run 39110939138 was cancelled by later concurrent documentation commits. **The last source/doc SHA after this session log is not yet verified**: obtain current PR #7 HEAD and require green compile, tests, lint and debug APK artifact upload before merging.
+- Risks pending: real device launch, populated Room migration v1–v5, long Arabic textual/editorial verification, encrypted backup/export, and full comprehensiveness of daily Sunnah catalog. Qaza ledger/fasting roadmap remains open.
+- Next: verify final PR #7 head CI; fix if failed; merge on green under existing user authorization; update status documents to merged and request the owner test on-device.
