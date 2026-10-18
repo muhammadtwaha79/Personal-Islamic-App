@@ -138,7 +138,7 @@ The owner explicitly requested these modules **after Salah, Sunnah/Nafl and Qura
 
 ## Salawat / daily Dhikr feature milestone — October 2026
 
-**Status: IMPLEMENTED ON FEATURE BRANCH, UNDER CI/PR VERIFICATION.** The user requested 1,200 daily short Salawat, 1,200 daily Istighfar, 1,000 daily Bismillah, 20 user-supplied Arabic Salawat (each 10 after each Farz), and daily Dala'il al-Khayrat manzil. Feature branch: `feature/salawat-adhkar-counting`; [PR #5](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5). See [specification](requirements/salawat-dhikr-2026-10-owner-brief.md) and [ADR-0018](decisions/0018-personal-salawat-counters.md).
+**Status: IMPLEMENTED, CI-VERIFIED AND MERGED in [PR #5](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5) on 2026-10-18.** The user requested 1,200 daily short Salawat, 1,200 daily Istighfar, 1,000 daily Bismillah, 20 user-supplied Arabic Salawat (each 10 after each Farz), and daily Dala'il al-Khayrat manzil. Historical branch: `feature/salawat-adhkar-counting`; final [green Actions run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987), merge SHA `5edc84e`. See [specification](requirements/salawat-dhikr-2026-10-owner-brief.md) and [ADR-0018](decisions/0018-personal-salawat-counters.md).
 
 **Implemented:** separate daily and per-prayer recitation event counters; append-only adjustment records, no negative balance; Arabic catalog with 20 texts as supplied, RTL reading dialog; manual Dala'il manzil + optional edition; Room v3→v4 additive migration; tests for recitation math and unique catalog entries.
 
