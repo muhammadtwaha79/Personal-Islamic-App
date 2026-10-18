@@ -17,6 +17,10 @@ object DbMigrations {
                 )
             """.trimIndent())
             db.execSQL("""
+                CREATE INDEX IF NOT EXISTS `index_recitation_event_date_item_id_prayer`
+                ON `recitation_event` (`date`, `item_id`, `prayer`)
+            """.trimIndent())
+            db.execSQL("""
                 CREATE TABLE IF NOT EXISTS `dalail_daily` (
                     `date` TEXT NOT NULL, `manzil` INTEGER NOT NULL,
                     `edition` TEXT NOT NULL, `completed` INTEGER NOT NULL,
