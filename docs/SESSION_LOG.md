@@ -85,3 +85,16 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Started `docs/postmerge-worship-status` to correct README and cross-account memory. Final documentation-only PR and merge must be verified separately.
 - No physical Android installation, UI test or on-device Room migration test was executed. Qaza, fasting, Adhkar/Duas and encrypted backup remain planned.
 - Next owner task: download Android debug APK from the verified run and try on device; next agent task: device/emulator migration testing and prioritized missing modules.
+
+
+## S-008: Salawat/Adhkar counters and Dala'il manzil — Phase 2 extension
+
+- Date: 2026-10-18. Agent: ChatGPT, following owner authorization to implement and merge verified PRs.
+- Base main contained Phase 0, Android foundation, Salah/Quran trackers, and postmerge docs (merge PR #4 `b4d7879`). Created branch `feature/salawat-adhkar-counting`, [PR #5](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5).
+- Implemented 20 owner-provided Arabic Salawat texts (full catalog, source/attributions UNVERIFIED), separate 1,200 short Salawat, 1,200 Istighfar, 1,000 Bismillah daily target counters, 10 repetitions per supplied Salawat after each of the five Fard prayers, and manually selected daily Dala'il manzil 1–7 with optional edition.
+- Architecture: append-only `recitation_event` with per-date/item/prayer aggregate, transactional nonnegative corrections and unique event ID; separate Dala'il daily checklist. Room v4 with explicit non-destructive migration 3→4 and indexed count lookup.
+- UI: fifth `Dhikr` tab, date switcher, progress, +1/+10/+100 and undo, per-Fard Arabic reader and tracking, Dala'il completion.
+- Added JUnit tests and supporting owner brief/ADR-0018/fiqh register entries FQ-024–027; no fabricated hadith authentication or religious obligation was introduced.
+- [VERIFIED] [GitHub Actions run 39108218410](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108218410) on earlier source SHA `61ea289` succeeded with compile, tests, lint and debug APK upload (artifact ID `12129013814`). **Final-HEAD CI after later index/docs commits remains the next required verification.**
+- [NOT VERIFIED] Physical Android installation, populated Room migrations, Arabic letter-by-letter textual authentication; no encrypted backup currently exists.
+- Next: verify newest PR #5 head's CI, merge on green under standing owner permission, then update status/handoff to merged state. Continue Qaza/Fasting and remaining sourced adhkar/dua modules.
