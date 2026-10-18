@@ -1,51 +1,37 @@
 # Engineering Status
 
-*Current verified project state only. Next-agent instructions are in [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history is in [SESSION_LOG.md](SESSION_LOG.md); rules are in [../CLAUDE.md](../CLAUDE.md). Statements are labelled `PLANNED`, `IMPLEMENTED`, `VERIFIED` or `BLOCKED`.*
+Current factual project state. Permanent agent rules: [../CLAUDE.md](../CLAUDE.md); continuation: [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history: [SESSION_LOG.md](SESSION_LOG.md).
 
-## Current phase
+## Phase
 
-**Phase 1: Native Android Foundation + GitHub Actions + First Compiled APK.** Started 2026-10-18 on branch `phase-1/foundation` (owner instructed the resume in the session brief). Phase 0 is complete and merged. **No Android code exists yet.** Phase details: [ROADMAP.md](ROADMAP.md), [phases/phase-1-plan.md](phases/phase-1-plan.md).
+**Phase 1 — Native Android Foundation and GitHub Actions.** Implementation verified by CI at `00a9ed6ffb3b4d7ab0cb724f7b2e65a7c5cc8932`. Phase 1 remains on an unmerged draft PR pending final post-documentation CI and owner review. No Salah/Qaza/Fasting functionality is implemented yet.
 
-## Repository state (as read from GitHub on 2026-10-18)
+## Repository state (2026-10-18)
 
-- `main`: `c022becda506c85f9b2c36aacba7bb2d29d7cff3`, the merge commit of PR #1 (2026-10-18T04:42:19Z, merged by the owner). Unprotected. `VERIFIED`
-- `phase-1/foundation`: cut from `c022bec`, was identical to `main` until this session's documentation commits (`b4fd296`, `244ea46`, then the handoff commit that follows them). Read the exact head from GitHub. `VERIFIED`
-- `phase-0/foundation`: head `4413d9d`, merged via PR #1, no longer needed. `VERIFIED`
-- `test/claude-github-connection`: connectivity test branch; do not merge. `VERIFIED`
-- Open pull requests: **none**. PR #1 is merged. (The list-PR tool reports `merged: false` for it, but `merged_at` is set and `main` contains its merge commit; the tool field is unreliable.) `VERIFIED`
+- `main` contains Phase 0 merge commit `c022becda506c85f9b2c36aacba7bb2d29d7cff3`.
+- Current development branch: `phase-1/foundation`. **Read its latest HEAD from GitHub**, because handoff commits follow the verified implementation SHA.
+- Draft PR #2: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/2 — **do not merge without owner approval**.
 
-## CI
+## Implemented and verified
 
-No workflow exists. No build, test or lint has ever run. Last CI run: **none**. No APK exists.
+- Native Android `app` module with Kotlin, Jetpack Compose, Material 3 light/dark theme, Hilt, a Room database foundation (AppMeta), Navigation Compose and a real launcher activity. The screen explicitly says foundation-only; no fake worship logging.
+- Gradle 9.6.0 Wrapper scripts and JAR committed, with distribution checksum, JAR SHA-256 check and official wrapper validation in CI.
+- GitHub Actions workflows: `android-ci.yml` runs privacy checks, `:app:testDebugUnitTest`, `:app:lintDebug`, `:app:assembleDebug`, uploads reports and `ibadah-companion-debug-apk`; `bootstrap-wrapper.yml` generated the binary wrapper.
+- CI run **39100930667** on implementation commit `00a9ed6` concluded **success**: all relevant step conclusions (wrapper validation, compilation+tests+lint+assemble, report upload, APK summary and artifact upload) were `success`.
+- Evidence: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39100930667
+- Verified uploaded `ibadah-companion-debug-apk` artifact ID **12126855738** (ZIP artifact size 11,929,805 bytes, retention through 2026-11-01, unless retention changes). This byte count and GitHub artifact digest are for the artifact archive; do not confuse them with the APK payload's SHA-256. The workflow run's summary computes the APK SHA-256.
 
-## What exists
+## Not yet verified / remaining
 
-- `IMPLEMENTED` and `VERIFIED` by read-back: the Phase 0 documentation set (merged to `main`).
-- `IMPLEMENTED` and `VERIFIED` by read-back on `phase-1/foundation`: [architecture/toolchain-matrix.md](architecture/toolchain-matrix.md) (**partial**: AGP 9.4.0, Gradle 9.6.0, JDK 17, Build Tools 36.0.0 verified from official sources; Kotlin, KSP, Compose, Room, Hilt, Navigation, runner image still `UNKNOWN`) and [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md) (owner requirements captured, not yet architected).
-- **No Android code, database, workflow, test, app or APK.** Phases 2-9: `PLANNED`.
+- The **final documentation-only branch HEAD** must also get green CI before marking the PR ready and requesting merge.
+- Installation and launch on a real Android phone have **not** been personally verified; owner can download the debug APK from the run's Artifacts section and report results.
+- CI-tested Android foundation does not include Phase 2 Salah logging, 40-day Takbeer-e-Ula challenge, Qaza or fasting. Requirements for the 2026-10-20 start are captured at [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md).
+- Roman Urdu locale remains deferred; future Room migration chain and instrumented emulator/device tests are not yet implemented. Verify schema export/migration requirements before adding religious records.
+- Religious rules remain `UNVERIFIED`, including the precise Takbeer-e-Ula interpretation and Friday/Jumu'ah handling; no ruling is silently selected.
+- No personal data, signing keys or passwords should be committed to this public repository.
 
-## Decisions
+## Next exact action
 
-All accepted architecture decisions are in [decisions/README.md](decisions/README.md) (ADR-0001 to ADR-0015). New decision pending: AGP 9 with built-in Kotlin, no opt-out (recorded in the toolchain matrix; needs an ADR when the matrix is frozen).
+Verify the final `phase-1/foundation` HEAD CI run is green, review PR #2, then owner approves merging Phase 1. After merging, start Phase 2 daily Salah and congregation tracking, with explicit 2026-10-20 backfill support. Resolve the product/fiqh open questions before implementing challenged religious behavior.
 
-## Not verified
-
-Repository Actions settings (owner must confirm; the agent cannot inspect them); Kotlin/KSP/Compose/Room/Hilt/Navigation versions and their compatibility with AGP 9.4; compileSdk and runner image packages; whether the connector can upload binaries; Roman Urdu locale handling; and every religious rule (all `UNVERIFIED` in [fiqh/rule-register.md](fiqh/rule-register.md)).
-
-## Known limitations
-
-- Tools discovered in the 2026-10-18 session: file, branch, commit, pull-request and check-run tools. **No** tool to list workflow runs, read job logs or download artifacts. Another account may differ; re-discover each session.
-- The agent sandbox cannot reach Gradle or Google Maven hosts, so **no local build is possible**; all build evidence must come from GitHub Actions check runs.
-- The agent cannot download or run the APK; the owner does.
-- No branch protection on `main` (owner action recommended; not changed by agents).
-
-## Open questions
-
-- Religious (need a qualified reviewer, all open): see [fiqh/rule-register.md](fiqh/rule-register.md) and section 9 of the Salah requirements capture (Friday/Jumu'ah, Takbeer-e-Ula definition options). None block Phase 1.
-- Product/design for Phase 2 (Q2 excused days, Q3 occurrence date rule, Q4 state-model reconciliation): section 9 of [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md).
-- Design: open item O1 in [domain/qaza-accounting.md](domain/qaza-accounting.md), needed before Phase 4.
-- Architecture risks: [architecture/risk-register.md](architecture/risk-register.md).
-
-## Next task
-
-See "Next exact action" in [AGENT_HANDOFF.md](AGENT_HANDOFF.md).
+See [AGENT_HANDOFF.md](AGENT_HANDOFF.md) for handoff instructions.
