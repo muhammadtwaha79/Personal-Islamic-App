@@ -64,9 +64,9 @@ fun QuranScreen(repository: WorshipRepository) {
         Text("Recorded reading: ${halfUnits / 2.0} juz")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton(enabled = canRecord, onClick = { scope.launch { repository.setQuran(date,
-                newHalfUnits = (halfUnits - 1).coerceAtLeast(0)) } }) { Text("− ½ para") }
+                deltaHalfUnits = -1) } }) { Text("− ½ para") }
             Button(enabled = canRecord, onClick = { scope.launch { repository.setQuran(date,
-                newHalfUnits = (halfUnits + 1).coerceAtMost(60)) } }) { Text("+ ½ para") }
+                deltaHalfUnits = 1) } }) { Text("+ ½ para") }
         }
         Text(if (halfUnits >= 1) "Daily reading target reached" else "Daily reading target pending")
         listOf(
