@@ -26,6 +26,7 @@ class WorshipRepository @Inject constructor(
         dao.observeKhatams(from.toString(), until.toString())
 
     suspend fun recordKhatam(date: LocalDate, completed: Boolean) {
+        require(!date.isAfter(clock.today())) { "Future khatam completion is not allowed" }
         val delta = if (completed) 1 else -1
         dao.recordKhatam(QuranKhatamEvent(UUID.randomUUID().toString(),
             date.toString(), delta, clock.now().toEpochMilli()))
@@ -39,6 +40,7 @@ class WorshipRepository @Inject constructor(
         require(WorshipRules.valid(status, congregation, takbeer, joining)) {
             "Invalid Salah and congregation combination"
         }
+        require(!date.isAfter(clock.today())) { "Future Salah completion is not allowed" }
         if (prayer != Prayer.DHUHR) require(middayMode == MiddayMode.UNKNOWN)
         val record = SalahRecord(date.toString(), prayer.name, status.name, congregation.name,
             takbeer.name, joining.name, middayMode.name, clock.now().toEpochMilli())
@@ -52,6 +54,7 @@ class WorshipRepository @Inject constructor(
     }
 
     suspend fun setPractice(date: LocalDate, practice: String, rakahs: Int, completed: Boolean) {
+        require(!date.isAfter(clock.today())) { "Future Sunnah/Nafl completion is not allowed" }
         require(practice in PRACTICES.map { it.key })
         require(rakahs in 1..20)
         dao.upsertPractice(PracticeRecord(date.toString(), practice, rakahs, completed,
@@ -59,15 +62,13 @@ class WorshipRepository @Inject constructor(
     }
 
     suspend fun setQuran(
-        date: LocalDate, newHalfUnits: Int? = null,
+        date: LocalDate, deltaHalfUnits: Int = 0,
         yaseen: Boolean? = null, waqiah: Boolean? = null, mulk: Boolean? = null,
     ) {
-        val old = dao.getQuranDay(date.toString())
-        val units = newHalfUnits ?: old?.halfJuzUnits ?: 0
-        require(units in 0..60)
-        dao.upsertQuranDay(QuranDay(date.toString(), units,
-            yaseen ?: old?.yaseen ?: false, waqiah ?: old?.waqiah ?: false,
-            mulk ?: old?.mulk ?: false, clock.now().toEpochMilli()))
+        require(!date.isAfter(clock.today())) { "Future Quran reading is not allowed" }
+        require(deltaHalfUnits in -1..1)
+        dao.applyQuranChange(date.toString(), deltaHalfUnits, yaseen, waqiah, mulk,
+            clock.now().toEpochMilli())
     }
 
     suspend fun setRamadanRange(from: LocalDate, until: LocalDate) {
