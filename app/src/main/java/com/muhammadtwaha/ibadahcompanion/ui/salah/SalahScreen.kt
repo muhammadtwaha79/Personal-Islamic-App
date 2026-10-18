@@ -37,7 +37,9 @@ fun SalahScreen(repository: WorshipRepository) {
         Text("Five daily Fard prayers — personal record")
         DaySwitcher(date, setDate)
         Text("Record only what you actually performed. Unanswered does not mean missed.")
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        if (date.isAfter(LocalDate.now())) {
+            Text("Future date — recording unlocks on the selected date.")
+        } else LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(Prayer.entries) { prayer ->
                 SalahPrayerCard(date, prayer, records.firstOrNull { it.prayer == prayer.name }) {
                     status, mode, takbeer, joining, midday ->
