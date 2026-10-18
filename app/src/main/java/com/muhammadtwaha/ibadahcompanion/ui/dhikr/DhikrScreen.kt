@@ -2,6 +2,7 @@ package com.muhammadtwaha.ibadahcompanion.ui.dhikr
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -78,6 +79,18 @@ fun DhikrScreen(repository: DhikrRepository, masnoonRepository: MasnoonRepositor
                 error = e.message ?: "Invalid correction"
             }
         }
+    }
+
+    // Give the new catalog the full screen instead of nesting scrollable screens
+    // inside the old daily-counter column (which otherwise clips on small phones).
+    if (currentTab == DhikrTab.MASNOON) {
+        Column(Modifier.fillMaxSize()) {
+            OutlinedButton(onClick = { currentTab = DhikrTab.DAILY }) {
+                Text("← Back to Salawat counters")
+            }
+            Box(Modifier.weight(1f)) { MasnoonScreen(masnoonRepository) }
+        }
+        return
     }
 
     Column(Modifier.fillMaxSize().padding(horizontal = 14.dp)) {
@@ -163,9 +176,7 @@ fun DhikrScreen(repository: DhikrRepository, masnoonRepository: MasnoonRepositor
                     }
                 }
             }
-            DhikrTab.MASNOON -> {
-                MasnoonScreen(masnoonRepository)
-            }
+            DhikrTab.MASNOON -> { /* full-screen view handled above */ }
             DhikrTab.DALAIL -> {
                 DalailManzilCard(date, dalail, enabled,
                     onSave = { manzil, edition, completed ->
