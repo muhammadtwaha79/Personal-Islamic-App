@@ -23,7 +23,7 @@ Repository: https://github.com/muhammadtwaha79/Personal-Islamic-App; application
 
 ## Implemented scope and limitations
 
-Four functional routes: five Fard Salah (Jamaat vs alone, opening Takbeer, explicit missed, historical dates and edits), 40-day fixed October 20 challenge, Sunnah/Nafl voluntary tracking, Quran half-juz+Yaseen/Waqiah/Mulk daily and manually-dated Ramadan five-khatam tracking with separate volume / full completion counts. Three additive Room database migrations have not been added: the path is `v1 -> v2 -> v3`, i.e. **two** additive migrations. No Qaza ledger, fasting, Azkar/Duas, prayer times, fiqh-certified rules or encrypted backups yet.
+Four functional routes: five Fard Salah (Jamaat vs alone, opening Takbeer, explicit missed, historical dates and edits), 40-day fixed October 20 challenge, Sunnah/Nafl voluntary tracking, Quran half-juz+Yaseen/Waqiah/Mulk daily and manually-dated Ramadan five-khatam tracking with separate volume / full completion counts. The database is at schema **v3**, with **two** explicit additive migrations, `1→2` and `2→3`. Android migration upgrade tests remain pending. No Qaza ledger, fasting, Azkar/Duas, prayer times, fiqh-certified rules or encrypted backups yet.
 
 **Owner 2026-10-20 start:** Do not fabricate historical data. The 40-day challenge is 20 Oct through 28 Nov 2026 inclusive. User can backfill later, and future record actions are disabled. Default daily Quran target is half-para; Ramadan goal is 5 manually confirmed complete khatams, with 150 juz volume as planning metric, not proof.
 
