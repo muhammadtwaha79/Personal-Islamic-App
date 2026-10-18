@@ -86,6 +86,10 @@ private fun SalahPrayerCard(
                 Takbeer.NOT_ACHIEVED, Joining.JOINED_LATE, midday) }) {
                 Text("Jamaat — joined late")
             }
+            OutlinedButton(onClick = { onRecord(PrayerStatus.COMPLETED, Congregation.WITH_JAMAAT,
+                Takbeer.UNKNOWN, Joining.UNKNOWN, midday) }) {
+                Text("Jamaat — Takbeer uncertain")
+            }
             OutlinedButton(onClick = { onRecord(PrayerStatus.COMPLETED, Congregation.INDIVIDUAL,
                 Takbeer.NOT_APPLICABLE, Joining.UNKNOWN, midday) }) {
                 Text("Prayed individually")
