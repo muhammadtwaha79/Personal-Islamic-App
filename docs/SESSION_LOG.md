@@ -98,3 +98,14 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - [VERIFIED] [GitHub Actions run 39108218410](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108218410) on earlier source SHA `61ea289` succeeded with compile, tests, lint and debug APK upload (artifact ID `12129013814`). **Final-HEAD CI after later index/docs commits remains the next required verification.**
 - [NOT VERIFIED] Physical Android installation, populated Room migrations, Arabic letter-by-letter textual authentication; no encrypted backup currently exists.
 - Next: verify newest PR #5 head's CI, merge on green under standing owner permission, then update status/handoff to merged state. Continue Qaza/Fasting and remaining sourced adhkar/dua modules.
+
+
+## S-009: Salawat module final verification and GitHub merge
+
+- Date: 2026-10-18. Agent: ChatGPT, user-authorized GitHub engineering.
+- Feature PR #5 final head `5e29b81be44c57af8e5542e0440532a290627d41` passed [GitHub Actions run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987). Wrapper, Kotlin compilation, unit tests, Android lint, debug APK assembly, test reports and APK artifact upload ALL succeeded. Debug APK artifact ID `12128819307`.
+- PR #5 was marked ready and merged into main as `5edc84e4d77612b32535e126cfd026b4d312d45c`, confirmed by GitHub merge API.
+- Created `docs/postmerge-salawat-status` to synchronize Engineering Status, Handoff and Roadmap for subsequent Claude/ChatGPT accounts. Check this docs PR's current status before changing main.
+- Scope includes 20 owner-supplied Arabic Salawat formulas, 1,200 short Salawat, 1,200 Istighfar, 1,000 Bismillah, 10x each Salawat after each Fard, and Dala'il 1–7 manually selected daily manzil. Sources and claims UNVERIFIED.
+- Real device launch/data persistence and populated database migration NOT tested; encrypted backup unavailable. Don't treat a green build as production assurance.
+- Next: owner to try APK on Android; engineering to add migration tests, safe export/restore and subsequent Adhkar/Duas, Qaza and fasting modules.
