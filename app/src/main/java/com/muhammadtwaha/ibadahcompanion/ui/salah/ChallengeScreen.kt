@@ -35,7 +35,8 @@ fun ChallengeScreen(repository: WorshipRepository) {
         Text("40 Days of Takbeer-e-Ula")
         Text("20 Oct – 28 Nov 2026 • 5 prayers per day • strict opening Takbeer self-report")
         Text("Achieved: ${summary.achievedOpportunities} / 200")
-        Text("Full days: ${summary.fullSuccessDays} • Longest streak: ${summary.longestConsecutiveDays}")
+        Text("Full days: ${summary.fullSuccessDays} • Current streak: ${summary.currentConsecutiveDays}")
+        Text("Longest streak: ${summary.longestConsecutiveDays} days")
         Text("Unknown is not success. These are personal metrics, not a ruling or reward guarantee.")
         LazyColumn(verticalArrangement = Arrangement.spacedBy(7.dp), modifier = Modifier.padding(top = 12.dp)) {
             items((0 until 40).toList()) { offset ->
