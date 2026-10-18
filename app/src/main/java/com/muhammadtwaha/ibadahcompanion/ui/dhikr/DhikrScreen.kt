@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalLayoutDirection
 import com.muhammadtwaha.ibadahcompanion.data.DhikrRepository
+import com.muhammadtwaha.ibadahcompanion.data.MasnoonRepository
+import com.muhammadtwaha.ibadahcompanion.ui.masnoon.MasnoonScreen
 import com.muhammadtwaha.ibadahcompanion.data.db.DalailDaily
 import com.muhammadtwaha.ibadahcompanion.data.db.RecitationTotal
 import com.muhammadtwaha.ibadahcompanion.domain.dhikr.SalawatCatalog
@@ -47,10 +49,10 @@ import com.muhammadtwaha.ibadahcompanion.ui.shared.rememberTrackingDate
 import java.time.LocalDate
 import kotlinx.coroutines.launch
 
-private enum class DhikrTab { DAILY, AFTER_FARD, DALAIL }
+private enum class DhikrTab { DAILY, AFTER_FARD, DALAIL, MASNOON }
 
 @Composable
-fun DhikrScreen(repository: DhikrRepository) {
+fun DhikrScreen(repository: DhikrRepository, masnoonRepository: MasnoonRepository) {
     val (date, setDate) = rememberTrackingDate()
     val totals by remember(repository, date) {
         repository.totals(date)
@@ -90,6 +92,7 @@ fun DhikrScreen(repository: DhikrRepository) {
                 DhikrTab.DAILY to "Daily goals",
                 DhikrTab.AFTER_FARD to "After each Fard",
                 DhikrTab.DALAIL to "Dala'il manzil",
+                DhikrTab.MASNOON to "Masnoon & Munajat",
             ).forEach { (tab, label) ->
                 OutlinedButton(onClick = { currentTab = tab }) {
                     Text((if (currentTab == tab) "✓ " else "") + label)
@@ -159,6 +162,9 @@ fun DhikrScreen(repository: DhikrRepository) {
                         }
                     }
                 }
+            }
+            DhikrTab.MASNOON -> {
+                MasnoonScreen(masnoonRepository)
             }
             DhikrTab.DALAIL -> {
                 DalailManzilCard(date, dalail, enabled,
