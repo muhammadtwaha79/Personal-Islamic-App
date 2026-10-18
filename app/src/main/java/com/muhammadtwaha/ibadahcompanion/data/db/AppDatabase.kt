@@ -5,8 +5,8 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [AppMetaEntity::class, SalahRecord::class, SalahRevision::class,
-        PracticeRecord::class, QuranDay::class],
-    version = 2,
+        PracticeRecord::class, QuranDay::class, QuranKhatamEvent::class],
+    version = 3,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
