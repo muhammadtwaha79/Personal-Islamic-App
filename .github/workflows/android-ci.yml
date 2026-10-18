@@ -28,16 +28,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # The first build uses pinned Gradle until wrapper bootstrap generates its JAR.
-      # Restore mandatory wrapper validation before Phase 1 can be called complete.
-      - name: Configure pinned Gradle 9.6.0
-        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
-        with:
-          gradle-version: '9.6.0'
-      
-      - name: Validate wrapper if generated
-        if: ${{ hashFiles('gradle/wrapper/gradle-wrapper.jar') != '' }}
+      - name: Require committed Gradle wrapper
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f gradle/wrapper/gradle-wrapper.jar
+          test -f gradle/wrapper/gradle-wrapper.properties
+          test -f gradlew.bat
+          test -x gradlew
+          test "$(sha256sum gradle/wrapper/gradle-wrapper.jar | cut -d' ' -f1)" = "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7"
+
+      - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
+
+      - name: Configure Gradle caching
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
 
       - name: Check repository privacy baseline
         shell: bash
@@ -54,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          gradle :app:testDebugUnitTest :app:lintDebug :app:assembleDebug --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+          ./gradlew :app:testDebugUnitTest :app:lintDebug :app:assembleDebug --stacktrace 2>&1 | tee "$RUNNER_TEMP/gradle.log"
 
       - name: Upload reports
         if: always()
