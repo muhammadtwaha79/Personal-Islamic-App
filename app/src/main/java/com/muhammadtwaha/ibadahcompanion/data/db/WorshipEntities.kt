@@ -38,6 +38,14 @@ data class PracticeRecord(
     @ColumnInfo(name = "updated_at") val updatedAt: Long,
 )
 
+@Entity(tableName = "quran_khatam_event")
+data class QuranKhatamEvent(
+    @PrimaryKey val eventId: String,
+    val date: String,
+    val delta: Int,
+    @ColumnInfo(name = "recorded_at") val recordedAt: Long,
+)
+
 @Entity(tableName = "quran_day")
 data class QuranDay(
     @PrimaryKey val date: String,
