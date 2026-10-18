@@ -1,34 +1,34 @@
 # Engineering Status — Ibadah Companion
 
-**Snapshot: 2026-10-18.** Verify current GitHub HEAD, PRs and CI instead of trusting this file uncritically. Rules: [CLAUDE.md](../CLAUDE.md). Handoff: [AGENT_HANDOFF.md](AGENT_HANDOFF.md).
+**Snapshot 2026-10-18.** Live GitHub state and CI override any stale snapshot. [CLAUDE.md](../CLAUDE.md) · [AGENT_HANDOFF.md](AGENT_HANDOFF.md)
 
-## Verified merged milestones
+## Merged stable foundation
 
-- [VERIFIED] Phase 0 PR #1 merged.
-- [VERIFIED] Phase 1 PR #2 merged to `main` as `170135078fb6dcee6433ef2b51d22cc6d8f3df37`.
-- [VERIFIED] Phase 2 feature PR #3 merged to `main` as **`ca2f596dbca76edbf0aa1c603e60b674922947a9`**.
-- [VERIFIED] CI on final Phase 2 PR head `ca2534d46990039a0ba4fb3b71ffb8098a9bb6b9`: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39103550819 — Android wrapper validation, compilation, unit tests, lint, APK assembly, reports and debug APK artifact upload succeeded.
-- Debug APK artifact `ibadah-companion-debug-apk`, ID `12127319015`, uploaded to that run. Artifact archive byte count 12,061,047; this is **not** the raw APK payload's SHA-256.
+- Phase 0 PR #1, Phase 1 PR #2 (merge `1701350`), Phase 2 PR #3 (merge `ca2f596`), and post-merge documentation PR #4 (merge `b4d7879c44ad573f3ee4b7fb7e9d11fe0b2d88e3`) are confirmed merged.
+- Native Kotlin/Compose/Room foundation with five-prayer Salah, Jamaat/Takbeer, 40-day challenge, Sunnah/Nafl and Quran/Ramadan tilawat tracking is on `main`.
+- Prior verified successful worship tracker CI: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39103550819
 
-## Features implemented in merged Phase 2 MVP
+## Current feature — Salawat and daily Dhikr
 
-- Five daily Fard self-reported Salah, Jamā‘ah vs individual, opening Takbeer yes/no/unknown, joined-late, explicit missed/unknown, optional Friday Dhuhr/Jumu'ah label. Current record and immutable Salah revisions saved with Room.
-- Fixed personal 40-day challenge starting **2026-10-20**, 200 opportunities, confirmed opportunities and daily consecutive-streak arithmetic.
-- Sunnah/Nafl personal log: Tahajjud, Ishraq, Chasht, Awwabeen, four pre-Asr, four pre-Isha and other common optional prayers, adjustable rakahs.
-- Quran half-para daily from 2026-10-20, independent Yaseen/Waqiah/Mulk check-ins.
-- Manually configured Ramadan dates, target 5 **confirmed** full Quran khatams and 150 juz volume (kept separate), with tracked self-confirmations and undo events.
-- Local Room v3 schema with explicit 1→2→3 migration chain; Kotlin domain tests in CI.
-- Four Compose tabs, no INTERNET permission, no required login, no ads or analytics.
+- Branch: `feature/salawat-adhkar-counting`.
+- PR #5: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5
+- [IMPLEMENTED] 1,200x independent short Salawat, 1,200x Istighfar, 1,000x Bismillah daily goals, signed adjustments with transactional nonnegative count checks.
+- [IMPLEMENTED] 20 owner-supplied Arabic Salawat each with a **personal goal 10x after each of five Fard prayers**; 100 separate after-Fard goals. Full Arabic text shown in an RTL dialog. Source/attribution/merit claims are UNVERIFIED.
+- [IMPLEMENTED] Dala'il al-Khayrat daily manzil 1–7 manual selection, edition label, completion checkbox. The copyrighted book itself is not included; no edition day mapping is assumed.
+- [IMPLEMENTED] Room schema v4 (new `recitation_event` and `dalail_daily` tables), explicit additive 3→4 migration, date/practice/prayer index for efficient queries, event journal and basic JVM rules tests.
+- [VERIFIED ON EARLIER FEATURE HEAD] GitHub Actions run **39108218410** concluded **success** on implementation SHA `61ea289b8983bf6c2b7f6a31cf303d7707884bf8`: wrapper validation, Kotlin compilation, JVM tests, lint, APK creation and artifact upload. Debug APK artifact ID **12129013814**.
+- [PENDING VERIFICATION] Index and documentation commits after `61ea289` need final-head CI before PR #5 can merge. Do not treat the earlier run as confirmation of the latest revision.
 
-## Important limitations
+## Quality and religious limitations
 
-- [NOT VERIFIED] APK installation or real-device UI; no Android emulator end-to-end tests, or populated Room migration tests. These should be the first hardening actions.
-- [NOT IMPLEMENTED] Qaza ledger, fasting, Witr tracking, verified fiqh profile/onboarding, prayer-time calculation, repeatable 40-day challenges, Adhkar/Duas, reminders, encrypted backup/app lock and production release.
-- [SECURITY] Offline SQLite is not claimed encrypted; Android auto-backup disabled, so uninstall/device loss can irreversibly erase worship records until verified backup exists.
-- [RELIGIOUS] Takbeer-e-Ula, Jumu'ah, Sunnah categories, Hijri timing and reward-related rules require qualified review and remain UNVERIFIED. App does not claim any guarantee of divine acceptance.
+- **No real device or populated Room migration 1→2→3→4 test has been executed.** CI validation is not equivalent to on-device data safety.
+- A local SQLite database is **not encrypted** and backup/restore are not yet implemented; clearing app storage/uninstalling may permanently erase user records. Do not use the app as the only long-term record until this is addressed.
+- Quran/Qaza/fasting source-sensitive religious questions, Salawat attributions and Dala'il editions require qualified textual/fiqh review. App targets are OWNER-PERSONAL and do not claim a universal reward or binding obligation.
+- Qaza ledger, fasting, advanced Adhkar/Duas source library, optional reminders, app lock and encrypted export remain incomplete.
 
-## Next task
+## Exact next task
 
-The owner authorized agents to handle verified PR merges. Following this documentation PR, prioritize **device/emulator launch and Room migration testing, plus secure local export** before the user relies solely on the app. Next feature request is Adhkar/Duas after existing Salah/Nafl/Quran tracking; the existing Qaza and fasting roadmap must also continue. Full product roadmap: [ROADMAP](ROADMAP.md), requirements: [Owner brief](requirements/2026-10-worship-and-quran-owner-brief.md).
-
-GitHub is the permanent cross-account memory; consult [AGENT_HANDOFF](AGENT_HANDOFF.md), and do not modify `main` without review or force-push.
+1. Inspect PR #5's **current** head SHA; wait for full Android CI success plus debug APK artifact upload for that SHA. Fix failures and reverify if necessary.
+2. Merge PR #5 into main using the user's standing authorization once verified; verify GitHub merge result. Record final merge commit in a new small docs-only update if needed.
+3. Ask owner to test APK installation and count persistence on a real phone; add Android migration/device instrumentation before treating the tracker as production-reliable.
+4. Next milestones: secure backup/restore, append-only Qaza accounting, fasting, optional sourced Adhkar/Duas, and Arabic textual/source review.
