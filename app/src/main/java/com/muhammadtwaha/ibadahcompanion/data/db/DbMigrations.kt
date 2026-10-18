@@ -5,6 +5,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 /** Explicit, non-destructive upgrade from the previously shipped Phase 1 Room schema. */
 object DbMigrations {
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `quran_khatam_event` (
+                    `eventId` TEXT NOT NULL, `date` TEXT NOT NULL,
+                    `delta` INTEGER NOT NULL, `recorded_at` INTEGER NOT NULL,
+                    PRIMARY KEY(`eventId`)
+                )
+            """.trimIndent())
+        }
+    }
+
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("""
