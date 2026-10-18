@@ -135,3 +135,11 @@ A minimal recording screen was implemented early under the Phase 2 user-directed
 ## Planned after current tracking milestone: Adhkar, Dhikr, Salawat and Duas
 
 The owner explicitly requested these modules **after Salah, Sunnah/Nafl and Quran tracking**. Scope for a separate milestone: morning/evening Adhkar checklists, source-verified phrases (no fabricated Islamic virtues), configurable Dhikr/Salawat counting, personal dua lists, consent-based private journaling and eventual gentle reminders. Keep each practice distinct from obligatory worship and never silently introduce religious rulings. Schedule this work alongside the already approved Qaza Ledger and fasting program; do not erase their priority in the existing roadmap. Requires its own ADR, privacy review, test plan, and independent CI-verified implementation.
+
+## Salawat / daily Dhikr feature milestone — October 2026
+
+**Status: IMPLEMENTED ON FEATURE BRANCH, UNDER CI/PR VERIFICATION.** The user requested 1,200 daily short Salawat, 1,200 daily Istighfar, 1,000 daily Bismillah, 20 user-supplied Arabic Salawat (each 10 after each Farz), and daily Dala'il al-Khayrat manzil. Feature branch: `feature/salawat-adhkar-counting`; [PR #5](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5). See [specification](requirements/salawat-dhikr-2026-10-owner-brief.md) and [ADR-0018](decisions/0018-personal-salawat-counters.md).
+
+**Implemented:** separate daily and per-prayer recitation event counters; append-only adjustment records, no negative balance; Arabic catalog with 20 texts as supplied, RTL reading dialog; manual Dala'il manzil + optional edition; Room v3→v4 additive migration; tests for recitation math and unique catalog entries.
+
+**Remaining hardening:** populated Room migration test, real phone use, production-safe backup/restore; source verification of attributions/texts; optional custom schedules. Future **sourced morning/evening Adhkar and Dua management** is still planned; don't conflate it with this first Salawat implementation. Qaza ledger and fasting remain outstanding roadmap priorities.
