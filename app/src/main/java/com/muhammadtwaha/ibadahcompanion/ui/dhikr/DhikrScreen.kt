@@ -13,7 +13,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.item
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -111,7 +110,7 @@ fun DhikrScreen(repository: DhikrRepository) {
                             SalawatCatalog.DAILY_SHORT_ID,
                             SalawatCatalog.DAILY_SHORT_TARGET,
                             count(totals, SalawatCatalog.DAILY_SHORT_ID),
-                            enabled, ::adjustDailyAdapter
+                            enabled, { id, delta -> adjust(id, null, delta) }
                         )
                     }
                     item {
