@@ -1,6 +1,6 @@
 # Roadmap
 
-Status legend: Phase 0 is in review (PR #1); Phases 1-9 are **planned, not started**. Dates are intentionally absent; ordering follows engineering dependencies. Each phase ends only when its Definition of Done is met and recorded in `ENGINEERING_STATUS.md`.
+Status as of 2026-10-18: **Phase 0 and Phase 1 merged**. Phase 2 has an initial offline Fard Salah, congregational, Takbeer and 40-day tracking slice on PR #3. A user-driven early Sunnah/Nafl and Quran tracker has also been introduced on this branch. **These early slices do not yet satisfy every original phase Definition of Done**, especially device migration/UI testing, time-window calculation and fiqh review. Phases 4-9 remain planned. Current exact state is in `docs/ENGINEERING_STATUS.md`.
 
 Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3, 5; 7 needs 2-5; 8 needs 4-5; 9 needs all. Phase 4 may be pulled ahead of Phase 3 if the owner prioritizes Qaza (the engine only needs Phase 1 plus the Salah record model from Phase 2).
 
@@ -32,7 +32,9 @@ Detailed plan: `docs/phases/phase-1-plan.md`.
 - **Risks:** version incompatibilities; no log tools (mitigated by report comment); wrapper bootstrap friction; see risk register R5-R10.
 - **Definition of Done:** green CI on a clean runner, status file updated with the real run reference.
 
-## Phase 2: Five Daily Fard Salah Tracking
+## Phase 2: Five Daily Fard Salah Tracking (initial MVP includes Jamaat / Takbeer / Quran)
+
+**Early implementation scope requested for 20 October 2026:** offline manual five-prayer records, user-confirmed Jamaat and opening Takbeer, fixed 40-day metrics, Sunnah/Nafl checks and Quran half-para/Yaseen/Waqiah/Mulk daily log plus manually dated Ramadan reading and khatam targets. These are **earlier-than-original-roadmap vertical slices**; they do not waive the original remaining acceptance and fiqh requirements. See [owner brief](requirements/2026-10-worship-and-quran-owner-brief.md) and [ADR-0017](decisions/0017-worship-quran-tracking-slices.md).
 
 - **Objectives:** a complete vertical slice for daily Fard prayers.
 - **Architecture:** `PrayerRecord`, revisions, window calculation behind an interface, Home and Daily Salah screens, onboarding step for calculation settings (including an explicit Asr convention choice, never silently defaulted).
@@ -45,6 +47,8 @@ Detailed plan: `docs/phases/phase-1-plan.md`.
 - **Definition of Done:** acceptance met with CI evidence; known limitations recorded.
 
 ## Phase 3: Sunnah and Nafl Prayer Engine
+
+A minimal recording screen was implemented early under the Phase 2 user-directed slice. **Phase 3 remains incomplete** pending profile confirmation, rule review, richer history and tests. Do not count a completed checklist as fiqh validation.
 
 - **Objectives:** profile-confirmed Sunnah table and voluntary prayer tracking.
 - **Architecture:** `FiqhProfile` confirmation (Hanafi initial), `SunnahRuleSet` from register data, `VoluntaryPrayerLog` and config.
@@ -127,3 +131,7 @@ Detailed plan: `docs/phases/phase-1-plan.md`.
 - **Dependencies:** Phases 1-8.
 - **Risks:** late discovery of integrity or accessibility issues.
 - **Definition of Done:** owner approves publication; nothing is published without that approval.
+
+## Planned after current tracking milestone: Adhkar, Dhikr, Salawat and Duas
+
+The owner explicitly requested these modules **after Salah, Sunnah/Nafl and Quran tracking**. Scope for a separate milestone: morning/evening Adhkar checklists, source-verified phrases (no fabricated Islamic virtues), configurable Dhikr/Salawat counting, personal dua lists, consent-based private journaling and eventual gentle reminders. Keep each practice distinct from obligatory worship and never silently introduce religious rulings. Schedule this work alongside the already approved Qaza Ledger and fasting program; do not erase their priority in the existing roadmap. Requires its own ADR, privacy review, test plan, and independent CI-verified implementation.
