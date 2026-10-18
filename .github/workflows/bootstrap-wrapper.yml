@@ -19,7 +19,7 @@ jobs:
       - name: Check out trusted development branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Set up JDK
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
@@ -54,15 +54,23 @@ jobs:
           fi
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "build: generate verified Gradle 9.6 wrapper"
 
-      - name: Push wrapper commit
+      - name: Push wrapper commit (fast-forward with safe retry)
         shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if git diff HEAD^ HEAD --name-only 2>/dev/null | grep -q 'gradle-wrapper.jar'; then
-            header="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-            git -c http.https://github.com/.extraheader="AUTHORIZATION: basic $header" push origin HEAD:refs/heads/phase-1/foundation
-          else
-            echo "No wrapper commit needed."
+          if ! git log -1 --format=%s | grep -Fxq 'build: generate verified Gradle 9.6 wrapper'; then
+            echo "Wrapper already present, no push required."
+            exit 0
           fi
+          for attempt in 1 2 3; do
+            git fetch origin phase-1/foundation
+            # Only rebase this new generated-file commit. Never force-push.
+            git rebase origin/phase-1/foundation
+            if git push origin HEAD:refs/heads/phase-1/foundation; then
+              echo "Wrapper committed to the repository."
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "::error::Wrapper push failed. Check Actions token permissions and concurrent changes."
+          exit 1
