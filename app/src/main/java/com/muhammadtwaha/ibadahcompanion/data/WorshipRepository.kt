@@ -56,7 +56,7 @@ class WorshipRepository @Inject constructor(
     suspend fun setPractice(date: LocalDate, practice: String, rakahs: Int, completed: Boolean) {
         require(!date.isAfter(clock.today())) { "Future Sunnah/Nafl completion is not allowed" }
         require(practice in PRACTICES.map { it.key })
-        require(rakahs in 1..20)
+        require(rakahs in 1..100)
         dao.upsertPractice(PracticeRecord(date.toString(), practice, rakahs, completed,
             clock.now().toEpochMilli()))
     }
@@ -98,4 +98,9 @@ val PRACTICES = listOf(
     PracticeDefinition("ISHRAQ", "Ishraq", 2),
     PracticeDefinition("CHASHT", "Chasht / Duha", 2),
     PracticeDefinition("AWWABEEN", "Awwabeen", 2),
+    PracticeDefinition("TAWBAH", "Salat al-Tawbah", 2),
+    PracticeDefinition("TAHIYYAT_WUDU", "Tahiyyat al-Wudu", 2),
+    PracticeDefinition("TAHIYYAT_MASJID", "Tahiyyat al-Masjid", 2),
+    PracticeDefinition("DHUHR_NAFL", "Dhuhr — optional Nafl", 2),
+    PracticeDefinition("MAGHRIB_NAFL", "Maghrib — optional Nafl", 2),
 )
