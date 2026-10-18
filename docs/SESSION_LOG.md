@@ -31,7 +31,7 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Date: 2026-10-18. Agent: unlabelled Claude account. Base commit: `08c5883`. Branch: `phase-0/foundation`.
 - Objective: make any new Claude account able to resume from GitHub alone.
 - Files changed: `CLAUDE.md` (startup protocol, branch ownership, safe write procedure, CI evidence rule, session end protocol), `docs/ENGINEERING_STATUS.md` (slimmed, links instead of duplication), new `docs/AGENT_HANDOFF.md`, new `docs/SESSION_LOG.md`, `README.md` (doc map).
-- Commits: recorded in the follow-up handoff commit (see the branch history after `08c5883`).
+- Commits: `b7e525d` (content), followed by one handoff-only commit recording that SHA.
 - Tests executed: none. CI verification: none.
 - Known failures: none known.
 - Remaining work: owner approval to merge PR #1.

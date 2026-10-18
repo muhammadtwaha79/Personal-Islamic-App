@@ -20,7 +20,7 @@ Last updated: 2026-10-18 (see [SESSION_LOG.md](SESSION_LOG.md), entry S-003).
 | Current task | **None active.** Waiting for owner approval to merge PR #1. Phase 1 not started. |
 | Active development branch | `phase-0/foundation` |
 | Open pull request | #1 https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1 |
-| Last verified commit | see section H (content commit; later commits on the branch are handoff-only) |
+| Last verified commit | `b7e525dcf1866eb32018a8ee7e942f03bbf288f5` (content); the branch head may be later by handoff-only commits |
 | Last verified CI workflow | **none** (no workflow exists) |
 
 ## C. Work completed
@@ -76,9 +76,9 @@ Last updated: 2026-10-18 (see [SESSION_LOG.md](SESSION_LOG.md), entry S-003).
 ## H. Evidence
 
 - PR #1: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1
-- Key commits on `phase-0/foundation`:
-  - https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/08c588364cea67998336f4a8feb750b393fffe61 (documentation fixes; head before the continuity system)
+- Last verified content commit (continuity system): https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/b7e525dcf1866eb32018a8ee7e942f03bbf288f5 (parent `08c5883`, verified linear history)
+- Earlier key commits on `phase-0/foundation`:
+  - https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/08c588364cea67998336f4a8feb750b393fffe61 (documentation fixes)
   - https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/83fe87947bb741f1eadcb4965e9eb3fc0e16045f (owner decisions incorporated)
-  - Connectivity test commit: https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/52808d99f3131c0d03401e08b3c46210b3255439
-- Continuity-system commit (last verified content commit): recorded in [SESSION_LOG.md](SESSION_LOG.md) entry S-003.
+- Connectivity test commit (test branch): https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/52808d99f3131c0d03401e08b3c46210b3255439
 - CI workflow URLs: none exist. GitHub issues: none known (not checked).
