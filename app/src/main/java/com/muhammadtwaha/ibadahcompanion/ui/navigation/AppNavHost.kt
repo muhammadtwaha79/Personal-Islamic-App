@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.muhammadtwaha.ibadahcompanion.data.WorshipRepository
 import com.muhammadtwaha.ibadahcompanion.data.DhikrRepository
+import com.muhammadtwaha.ibadahcompanion.data.MasnoonRepository
 import com.muhammadtwaha.ibadahcompanion.ui.dhikr.DhikrScreen
 import com.muhammadtwaha.ibadahcompanion.ui.nafl.NaflScreen
 import com.muhammadtwaha.ibadahcompanion.ui.quran.QuranScreen
@@ -29,7 +30,7 @@ private val tabs = listOf(
 )
 
 @Composable
-fun AppNavHost(repository: WorshipRepository, dhikrRepository: DhikrRepository) {
+fun AppNavHost(repository: WorshipRepository, dhikrRepository: DhikrRepository, masnoonRepository: MasnoonRepository) {
     val navController = rememberNavController()
     val entry = navController.currentBackStackEntryAsState().value
     Scaffold(bottomBar = {
@@ -54,7 +55,7 @@ fun AppNavHost(repository: WorshipRepository, dhikrRepository: DhikrRepository) 
             composable("challenge") { ChallengeScreen(repository) }
             composable("nafl") { NaflScreen(repository) }
             composable("quran") { QuranScreen(repository) }
-            composable("dhikr") { DhikrScreen(dhikrRepository) }
+            composable("dhikr") { DhikrScreen(dhikrRepository, masnoonRepository) }
         }
     }
 }
