@@ -1,0 +1,76 @@
+name: Bootstrap Gradle Wrapper
+on:
+  push:
+    branches: [phase-1/foundation]
+    paths:
+      - ".github/workflows/bootstrap-wrapper.yml"
+      - "gradle/wrapper/gradle-wrapper.properties"
+
+permissions:
+  contents: read
+
+jobs:
+  generate-wrapper:
+    if: ${{ github.repository == 'muhammadtwaha79/Personal-Islamic-App' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Check out trusted development branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+
+      - name: Set up JDK
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up pinned Gradle
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
+        with:
+          gradle-version: '9.6.0'
+
+      - name: Generate wrapper in isolated directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/isolated-gradle"
+          cd "$RUNNER_TEMP/isolated-gradle"
+          printf 'rootProject.name = "wrapper-bootstrap"\n' > settings.gradle.kts
+          gradle wrapper --gradle-version 9.6.0 --distribution-type bin --gradle-distribution-sha256-sum bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01
+          cp gradlew gradlew.bat "$GITHUB_WORKSPACE/"
+          mkdir -p "$GITHUB_WORKSPACE/gradle/wrapper"
+          cp gradle/wrapper/gradle-wrapper.jar "$GITHUB_WORKSPACE/gradle/wrapper/"
+          # Preserve the reviewed properties containing distribution URL and checksum.
+          cd "$GITHUB_WORKSPACE"
+          test "$(sha256sum gradle/wrapper/gradle-wrapper.jar | cut -d' ' -f1)" = "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7"
+          chmod +x gradlew
+          git add gradlew gradlew.bat gradle/wrapper/gradle-wrapper.jar
+          if git diff --cached --quiet; then
+            echo "Wrapper already present."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "build: generate verified Gradle 9.6 wrapper"
+
+      - name: Push wrapper commit (fast-forward with safe retry)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git log -1 --format=%s | grep -Fxq 'build: generate verified Gradle 9.6 wrapper'; then
+            echo "Wrapper already present, no push required."
+            exit 0
+          fi
+          for attempt in 1 2 3; do
+            git fetch origin phase-1/foundation
+            # Only rebase this new generated-file commit. Never force-push.
+            git rebase origin/phase-1/foundation
+            if git push origin HEAD:refs/heads/phase-1/foundation; then
+              echo "Wrapper committed to the repository."
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "::error::Wrapper push failed. Check Actions token permissions and concurrent changes."
+          exit 1

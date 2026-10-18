@@ -1,84 +1,48 @@
-# Agent Handoff
+# Agent Handoff — Ibadah Companion
 
-*Exact instructions for the next Claude agent. Follow the startup protocol in [../CLAUDE.md](../CLAUDE.md) first and **verify GitHub before trusting this file**. Every statement carries a label: `PLANNED`, `IMPLEMENTED`, `VERIFIED`, `BLOCKED`.*
+Read [CLAUDE.md](../CLAUDE.md) before acting. This file is intentionally concise. **GitHub is the source of truth; recheck all SHAs, PRs, and run conclusions.**
 
-Last updated: 2026-10-18 (see [SESSION_LOG.md](SESSION_LOG.md), entry S-003).
+## Identity
 
-## A. Project identity
+- Repository: https://github.com/muhammadtwaha79/Personal-Islamic-App (public)
+- App: Ibadah Companion; ID `com.muhammadtwaha.ibadahcompanion`; minSdk 26.
+- Stack: Kotlin + Compose/Material 3, Room, Hilt, Navigation Compose, AGP 9.4.0, Gradle 9.6.0, JDK 17.
+- Privacy: no INTERNET permission, no analytics, no user records in GitHub.
+- Religious claims must remain unverified until qualified review; see [fiqh rule register](fiqh/rule-register.md).
 
-- Name: **Ibadah Companion**. Repository: https://github.com/muhammadtwaha79/Personal-Islamic-App (public). Owner/GitHub user: `muhammadtwaha79`.
-- Android application ID (working): `com.muhammadtwaha.ibadahcompanion`. `minSdk = 26` ([ADR-0014](decisions/0014-minimum-sdk-api-26.md)).
-- Stack (`PLANNED`, none built): Kotlin, Jetpack Compose, Material 3, Room/SQLite, Hilt, Coroutines/Flow, Navigation Compose, DataStore, WorkManager, Gradle Kotlin DSL, GitHub Actions.
-- Principles: offline-first, no INTERNET permission, append-only Qaza ledger, religious rules `UNVERIFIED` until reviewed, privacy first. See [../README.md](../README.md), [PROJECT_BRIEF.md](PROJECT_BRIEF.md), [architecture/overview.md](architecture/overview.md).
+## Current state, 2026-10-18
 
-## B. Current engineering state
+- Phase 0 was merged into `main` in `c022bec`.
+- Phase 1 source and CI are implemented on `phase-1/foundation`.
+- Draft PR #2: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/2
+- Implementation SHA **`00a9ed6ffb3b4d7ab0cb724f7b2e65a7c5cc8932`** has a **successful** Android CI run: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39100930667
+- At that SHA, wrapper validation, unit tests, lint, debug APK assembly, report upload and debug APK artifact upload succeeded.
+- Artifact: `ibadah-companion-debug-apk`, ID `12126855738` on run `39100930667`. Owner has not yet verified installation on an Android device.
+- More recent documentation commits (ADR-0016, status, handoff, session log) require final-head CI verification.
+- No Phase 2 implementation yet. The user's tracking program should support start date 2026-10-20, congregation status, Takbeer-e-Ula and the 40-day challenge; requirements are in [owner brief](requirements/salah-takbeer-ula-challenge-owner-brief.md).
 
-| Item | Value |
-| --- | --- |
-| Phase | 0: Product Architecture and Engineering Foundation |
-| Milestone | Phase 0 PR awaiting owner review/merge |
-| Current task | **None active.** Waiting for owner approval to merge PR #1. Phase 1 not started. |
-| Active development branch | `phase-0/foundation` |
-| Open pull request | #1 https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1 |
-| Last verified commit | `b7e525dcf1866eb32018a8ee7e942f03bbf288f5` (content); the branch head may be later by handoff-only commits |
-| Last verified CI workflow | **none** (no workflow exists) |
+## Exact next action
 
-## C. Work completed
+1. Confirm final `phase-1/foundation` branch HEAD and verify Android CI for that exact SHA; if it fails, read logs, fix without weakening tests, repeat.
+2. Ensure CI's APK artifact exists on the final green run; give owner workflow URL and artifact instructions.
+3. Change draft PR #2 to ready for review once satisfied (do NOT merge). Owner reviews and authorizes merge.
+4. After merge, create a dedicated Phase 2 branch for Fard Salah recording and congregation/Takbeer-e-Ula. First reconcile [domain models](domain/domain-models.md) and the owner brief; document handling of Friday Jumu'ah, excused situations, occurrence dates and exact Takbeer-e-Ula definition, with religious review where needed.
 
-- `IMPLEMENTED` + `VERIFIED` (read back from GitHub): Phase 0 documentation set listed in [ENGINEERING_STATUS.md](ENGINEERING_STATUS.md); multi-account continuity system (this file, session log, protocol in CLAUDE.md).
-- `VERIFIED`: GitHub connector read and write access on the Phase 0 account (branch, commit and PR operations succeeded).
-- Tests executed: **none** (no code exists).
-- Engineering decisions: [decisions/README.md](decisions/README.md) (ADR-0001 to ADR-0015). Risks: [architecture/risk-register.md](architecture/risk-register.md).
-- Implemented functionality: **none**; no Android code, no APK.
+## Branch ownership
 
-## D. Incomplete work
+| Branch | Owner | State |
+| --- | --- | --- |
+| `main` | repository owner only | integrate reviewed PRs; no agent direct pushes |
+| `phase-1/foundation` | this ChatGPT engineering session | **released once this handoff lands**; future writer must verify HEAD and take over explicitly |
+| `phase-0/foundation` | historical | merged, released |
+| `test/claude-github-connection` | none | obsolete test branch; do not merge |
 
-- Partially implemented functionality: none.
-- Uncommitted changes known: none.
-- Failed tests / build errors: none (nothing has been built).
-- Known defects: none known in code. Documentation gaps: toolchain matrix not yet written; PR mergeable state was `unknown` when last read (GitHub recomputes after pushes).
+## Limits and open questions
 
-## E. Next exact action
+- This account's GitHub tools include access to PR-triggered runs, job steps, and workflow artifacts; re-discover tools on each new account.
+- App device installation is not verified by CI. No worship tracking functionality exists in the Phase 1 UI.
+- All religious references are `UNVERIFIED`; [owner brief section 9](requirements/salah-takbeer-ula-challenge-owner-brief.md) records the Phase 2 open questions.
+- Qaza estimate-surplus issue O1 remains open before the Qaza phase.
+- See [risk register](architecture/risk-register.md), [CI design](architecture/ci-build-strategy.md), [toolchain matrix](architecture/toolchain-matrix.md), and [ENGINEERING_STATUS.md](ENGINEERING_STATUS.md).
 
-**Gate (`BLOCKED` on owner):** do nothing beyond read-only verification until the owner says either "merge done, start Phase 1" or "start Phase 1 on this branch". Agents never merge PR #1.
-
-**Once authorized: Phase 1 step 1, the toolchain compatibility matrix.**
-
-- Objective: record, from official sources, a mutually compatible set of Gradle, Android Gradle Plugin, Kotlin, KSP, Compose compiler plugin, Hilt, JDK, compileSdk/targetSdk, and the runner image's SDK packages, with `minSdk = 26`. No versions from memory.
-- Relevant files: create `docs/architecture/toolchain-matrix.md` (links and retrieval date per entry); context in [phases/phase-1-plan.md](phases/phase-1-plan.md) and [architecture/ci-build-strategy.md](architecture/ci-build-strategy.md).
-- Dependencies: owner confirms the Actions pre-flight settings in the Phase 1 plan (agents cannot inspect them); new branch `phase-1/foundation` cut from the then-current integration head.
-- Acceptance: every version has an official source link and retrieval date; cross-compatibility is argued from those sources; unknowns are marked, not guessed.
-- Verification: documentation commit read back from GitHub. No CI job applies yet.
-
-## F. Blockers
-
-- `BLOCKED` owner decision: merge of PR #1 and authorization to start Phase 1.
-- `BLOCKED` unverified: repository Actions settings (owner must confirm per Phase 1 plan).
-- Missing tools (as seen on the Phase 0 account): workflow runs, job logs, artifacts. Re-discover on each account; if absent, use check runs and give the run URL when blocked.
-- Missing decisions: religious questions in the [rule register](fiqh/rule-register.md), all `UNVERIFIED` and none blocking Phase 1; open item O1 in [domain/qaza-accounting.md](domain/qaza-accounting.md) before Phase 4; no qualified fiqh reviewer nominated yet.
-- Security: repository is public (no data, secrets or personal information may be committed); `main` has no branch protection (owner action recommended: require pull requests, block force pushes; agents must not change it).
-
-## G. Safety conditions
-
-- Do not change without owner approval: accepted ADRs, ledger invariants (L1-L12), the no-INTERNET baseline, religious rule statuses, repository settings, branch protection.
-- Owner approval required for: merging, adding any permission, adding analytics/ads/network, changing religious behavior, anything irreversible.
-- Data-integrity risks: [architecture/risk-register.md](architecture/risk-register.md) R1-R4 (ledger bypass, migrations, erase/restore, estimate lowering).
-- Branch restrictions: never push to `main`; never force-push; follow the safe write procedure in [../CLAUDE.md](../CLAUDE.md).
-
-### Branch ownership (update on every takeover or release)
-
-| Branch | Owner | Purpose | State |
-| --- | --- | --- | --- |
-| `main` | owner (merges only) | integration | `512e59d`, unprotected |
-| `phase-0/foundation` | unlabelled Claude account used in S-001 to S-003 | Phase 0 docs, PR #1 | **released** after S-003; next writer must record takeover in the session log |
-| `test/claude-github-connection` | none | connectivity test | abandoned; do not merge; owner may delete in the GitHub UI |
-
-## H. Evidence
-
-- PR #1: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1
-- Last verified content commit (continuity system): https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/b7e525dcf1866eb32018a8ee7e942f03bbf288f5 (parent `08c5883`, verified linear history)
-- Earlier key commits on `phase-0/foundation`:
-  - https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/08c588364cea67998336f4a8feb750b393fffe61 (documentation fixes)
-  - https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/83fe87947bb741f1eadcb4965e9eb3fc0e16045f (owner decisions incorporated)
-- Connectivity test commit (test branch): https://github.com/muhammadtwaha79/Personal-Islamic-App/commit/52808d99f3131c0d03401e08b3c46210b3255439
-- CI workflow URLs: none exist. GitHub issues: none known (not checked).
+Never rely on a chat transcript, do not force-push, do not merge without owner authorization, and update [SESSION_LOG.md](SESSION_LOG.md) after meaningful work.

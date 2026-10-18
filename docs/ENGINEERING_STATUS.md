@@ -1,48 +1,37 @@
 # Engineering Status
 
-*Current verified project state only. Next-agent instructions are in [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history is in [SESSION_LOG.md](SESSION_LOG.md); rules are in [../CLAUDE.md](../CLAUDE.md). Statements are labelled `PLANNED`, `IMPLEMENTED`, `VERIFIED` or `BLOCKED`.*
+Current factual project state. Permanent agent rules: [../CLAUDE.md](../CLAUDE.md); continuation: [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history: [SESSION_LOG.md](SESSION_LOG.md).
 
-## Current phase
+## Phase
 
-**Phase 0: Product Architecture and Engineering Foundation.** Documentation is complete on `phase-0/foundation`; PR #1 is open and awaiting the owner's merge decision. Phase 1 has **not** started and must not start before owner authorization. Phase details: [ROADMAP.md](ROADMAP.md).
+**Phase 1 — Native Android Foundation and GitHub Actions.** Implementation verified by CI at `00a9ed6ffb3b4d7ab0cb724f7b2e65a7c5cc8932`. Phase 1 remains on an unmerged draft PR pending final post-documentation CI and owner review. No Salah/Qaza/Fasting functionality is implemented yet.
 
-## Repository state (as last read from GitHub)
+## Repository state (2026-10-18)
 
-- `main`: `512e59d25e4f5ac4d749ab256228eac4596ccf77` (initial commit), unprotected. Nothing from Phase 0 is merged. `VERIFIED`
-- `phase-0/foundation`: documentation branch. Exact head: read it from GitHub; the handoff records the last verified commit. `VERIFIED`
-- PR #1: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1 (open, not draft). `VERIFIED`
-- `test/claude-github-connection`: connectivity test branch; do not merge. `VERIFIED`
+- `main` contains Phase 0 merge commit `c022becda506c85f9b2c36aacba7bb2d29d7cff3`.
+- Current development branch: `phase-1/foundation`. **Read its latest HEAD from GitHub**, because handoff commits follow the verified implementation SHA.
+- Draft PR #2: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/2 — **do not merge without owner approval**.
 
-## CI
+## Implemented and verified
 
-No workflow exists. No build, test or lint has ever run. Last CI run: **none**.
+- Native Android `app` module with Kotlin, Jetpack Compose, Material 3 light/dark theme, Hilt, a Room database foundation (AppMeta), Navigation Compose and a real launcher activity. The screen explicitly says foundation-only; no fake worship logging.
+- Gradle 9.6.0 Wrapper scripts and JAR committed, with distribution checksum, JAR SHA-256 check and official wrapper validation in CI.
+- GitHub Actions workflows: `android-ci.yml` runs privacy checks, `:app:testDebugUnitTest`, `:app:lintDebug`, `:app:assembleDebug`, uploads reports and `ibadah-companion-debug-apk`; `bootstrap-wrapper.yml` generated the binary wrapper.
+- CI run **39100930667** on implementation commit `00a9ed6` concluded **success**: all relevant step conclusions (wrapper validation, compilation+tests+lint+assemble, report upload, APK summary and artifact upload) were `success`.
+- Evidence: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39100930667
+- Verified uploaded `ibadah-companion-debug-apk` artifact ID **12126855738** (ZIP artifact size 11,929,805 bytes, retention through 2026-11-01, unless retention changes). This byte count and GitHub artifact digest are for the artifact archive; do not confuse them with the APK payload's SHA-256. The workflow run's summary computes the APK SHA-256.
 
-## What exists
+## Not yet verified / remaining
 
-- `IMPLEMENTED` and `VERIFIED` by read-back: documentation set (README, CLAUDE.md, brief, requirements, domain models, Qaza ledger design, architecture overview, CI strategy, risk register, test strategy, privacy model, fiqh rule register, ADR-0001 to ADR-0015, roadmap, Phase 1 plan, status, handoff, session log), `.gitignore`, PR template.
-- **No Android code, database, app or APK.** Phase 0 documentation does not constitute a built or verified Android application.
-- Phases 1-9: `PLANNED`.
+- The **final documentation-only branch HEAD** must also get green CI before marking the PR ready and requesting merge.
+- Installation and launch on a real Android phone have **not** been personally verified; owner can download the debug APK from the run's Artifacts section and report results.
+- CI-tested Android foundation does not include Phase 2 Salah logging, 40-day Takbeer-e-Ula challenge, Qaza or fasting. Requirements for the 2026-10-20 start are captured at [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md).
+- Roman Urdu locale remains deferred; future Room migration chain and instrumented emulator/device tests are not yet implemented. Verify schema export/migration requirements before adding religious records.
+- Religious rules remain `UNVERIFIED`, including the precise Takbeer-e-Ula interpretation and Friday/Jumu'ah handling; no ruling is silently selected.
+- No personal data, signing keys or passwords should be committed to this public repository.
 
-## Decisions
+## Next exact action
 
-All accepted architecture decisions are in [decisions/README.md](decisions/README.md) (ADR-0001 to ADR-0015, including owner approvals of 2026-10-17). Not repeated here.
+Verify the final `phase-1/foundation` HEAD CI run is green, review PR #2, then owner approves merging Phase 1. After merging, start Phase 2 daily Salah and congregation tracking, with explicit 2026-10-20 backfill support. Resolve the product/fiqh open questions before implementing challenged religious behavior.
 
-## Not verified
-
-Toolchain versions (none chosen), repository Actions settings, whether the CI design works, `.gitignore` behavior, connector binary upload, Roman Urdu locale handling, and every religious rule (all `UNVERIFIED` in [fiqh/rule-register.md](fiqh/rule-register.md)).
-
-## Known limitations
-
-- On the account that did Phase 0 the connector has no Actions run, log or artifact tools; see tooling rules in [../CLAUDE.md](../CLAUDE.md). Other accounts may differ.
-- The agent cannot download or run the APK; the owner does.
-- No branch protection on `main` (owner action recommended; not changed by agents).
-
-## Open questions
-
-- Religious (need a qualified reviewer, all open, none block Phase 1): see "Questions that remain open" in [fiqh/rule-register.md](fiqh/rule-register.md).
-- Design: open item O1 in [domain/qaza-accounting.md](domain/qaza-accounting.md), needed before Phase 4.
-- Architecture risks: [architecture/risk-register.md](architecture/risk-register.md).
-
-## Next task
-
-See "Next exact action" in [AGENT_HANDOFF.md](AGENT_HANDOFF.md).
+See [AGENT_HANDOFF.md](AGENT_HANDOFF.md) for handoff instructions.
