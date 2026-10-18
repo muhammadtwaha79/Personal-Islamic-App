@@ -36,3 +36,16 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Known failures: none known.
 - Remaining work: owner approval to merge PR #1.
 - Next action: owner merges PR #1 and authorizes Phase 1; see [AGENT_HANDOFF.md](AGENT_HANDOFF.md) section E.
+
+## S-004: Recovery on a new account, Phase 1 start, Salah requirements capture
+
+- Date: 2026-10-18. Agent: unlabelled Claude account (new account; no prior chat history). Base commit: `c022bec` (merge of PR #1). Branch: `phase-1/foundation` (takeover on the owner's instruction in the session brief; previously identical to `main`).
+- Objective: recover real state from GitHub; begin Phase 1; record the owner's new Salah, Jamaat, Takbeer-e-Ula and 40-day challenge requirements.
+- Discrepancies found and reconciled: handoff/status said PR #1 open and `main` at `512e59d`; actually PR #1 merged and `main` at `c022bec`. `phase-1/foundation` confirmed at zero commits ahead of `main` before this session. No workflow, no code, no open PRs.
+- Files changed: new `docs/architecture/toolchain-matrix.md` (partial), new `docs/requirements/salah-takbeer-ula-challenge-owner-brief.md`, `docs/ENGINEERING_STATUS.md`, `docs/AGENT_HANDOFF.md`, this log.
+- Commits: `b4fd296`, `244ea46`, plus the handoff commit that follows them.
+- Verified facts (official sources, see matrix): AGP 9.4.0 requires Gradle 9.6.0, JDK 17, Build Tools 36.0.0; AGP 9 built-in Kotlin forbids the `kotlin-android` plugin and kapt.
+- Tests executed: none (no code). CI verification: none (no workflow).
+- Known failures: third-party search results for versions were stale (AGP 8-era) and were discarded.
+- Remaining work: rest of the toolchain matrix; skeleton; wrapper bootstrap (blocked on owner Actions settings); CI; Phase 1 PR.
+- Next action: see [AGENT_HANDOFF.md](AGENT_HANDOFF.md) section E.

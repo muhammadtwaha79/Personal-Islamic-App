@@ -4,42 +4,45 @@
 
 ## Current phase
 
-**Phase 0: Product Architecture and Engineering Foundation.** Documentation is complete on `phase-0/foundation`; PR #1 is open and awaiting the owner's merge decision. Phase 1 has **not** started and must not start before owner authorization. Phase details: [ROADMAP.md](ROADMAP.md).
+**Phase 1: Native Android Foundation + GitHub Actions + First Compiled APK.** Started 2026-10-18 on branch `phase-1/foundation` (owner instructed the resume in the session brief). Phase 0 is complete and merged. **No Android code exists yet.** Phase details: [ROADMAP.md](ROADMAP.md), [phases/phase-1-plan.md](phases/phase-1-plan.md).
 
-## Repository state (as last read from GitHub)
+## Repository state (as read from GitHub on 2026-10-18)
 
-- `main`: `512e59d25e4f5ac4d749ab256228eac4596ccf77` (initial commit), unprotected. Nothing from Phase 0 is merged. `VERIFIED`
-- `phase-0/foundation`: documentation branch. Exact head: read it from GitHub; the handoff records the last verified commit. `VERIFIED`
-- PR #1: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/1 (open, not draft). `VERIFIED`
+- `main`: `c022becda506c85f9b2c36aacba7bb2d29d7cff3`, the merge commit of PR #1 (2026-10-18T04:42:19Z, merged by the owner). Unprotected. `VERIFIED`
+- `phase-1/foundation`: cut from `c022bec`, was identical to `main` until this session's documentation commits (`b4fd296`, `244ea46`, then the handoff commit that follows them). Read the exact head from GitHub. `VERIFIED`
+- `phase-0/foundation`: head `4413d9d`, merged via PR #1, no longer needed. `VERIFIED`
 - `test/claude-github-connection`: connectivity test branch; do not merge. `VERIFIED`
+- Open pull requests: **none**. PR #1 is merged. (The list-PR tool reports `merged: false` for it, but `merged_at` is set and `main` contains its merge commit; the tool field is unreliable.) `VERIFIED`
 
 ## CI
 
-No workflow exists. No build, test or lint has ever run. Last CI run: **none**.
+No workflow exists. No build, test or lint has ever run. Last CI run: **none**. No APK exists.
 
 ## What exists
 
-- `IMPLEMENTED` and `VERIFIED` by read-back: documentation set (README, CLAUDE.md, brief, requirements, domain models, Qaza ledger design, architecture overview, CI strategy, risk register, test strategy, privacy model, fiqh rule register, ADR-0001 to ADR-0015, roadmap, Phase 1 plan, status, handoff, session log), `.gitignore`, PR template.
-- **No Android code, database, app or APK.** Phase 0 documentation does not constitute a built or verified Android application.
-- Phases 1-9: `PLANNED`.
+- `IMPLEMENTED` and `VERIFIED` by read-back: the Phase 0 documentation set (merged to `main`).
+- `IMPLEMENTED` and `VERIFIED` by read-back on `phase-1/foundation`: [architecture/toolchain-matrix.md](architecture/toolchain-matrix.md) (**partial**: AGP 9.4.0, Gradle 9.6.0, JDK 17, Build Tools 36.0.0 verified from official sources; Kotlin, KSP, Compose, Room, Hilt, Navigation, runner image still `UNKNOWN`) and [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md) (owner requirements captured, not yet architected).
+- **No Android code, database, workflow, test, app or APK.** Phases 2-9: `PLANNED`.
 
 ## Decisions
 
-All accepted architecture decisions are in [decisions/README.md](decisions/README.md) (ADR-0001 to ADR-0015, including owner approvals of 2026-10-17). Not repeated here.
+All accepted architecture decisions are in [decisions/README.md](decisions/README.md) (ADR-0001 to ADR-0015). New decision pending: AGP 9 with built-in Kotlin, no opt-out (recorded in the toolchain matrix; needs an ADR when the matrix is frozen).
 
 ## Not verified
 
-Toolchain versions (none chosen), repository Actions settings, whether the CI design works, `.gitignore` behavior, connector binary upload, Roman Urdu locale handling, and every religious rule (all `UNVERIFIED` in [fiqh/rule-register.md](fiqh/rule-register.md)).
+Repository Actions settings (owner must confirm; the agent cannot inspect them); Kotlin/KSP/Compose/Room/Hilt/Navigation versions and their compatibility with AGP 9.4; compileSdk and runner image packages; whether the connector can upload binaries; Roman Urdu locale handling; and every religious rule (all `UNVERIFIED` in [fiqh/rule-register.md](fiqh/rule-register.md)).
 
 ## Known limitations
 
-- On the account that did Phase 0 the connector has no Actions run, log or artifact tools; see tooling rules in [../CLAUDE.md](../CLAUDE.md). Other accounts may differ.
+- Tools discovered in the 2026-10-18 session: file, branch, commit, pull-request and check-run tools. **No** tool to list workflow runs, read job logs or download artifacts. Another account may differ; re-discover each session.
+- The agent sandbox cannot reach Gradle or Google Maven hosts, so **no local build is possible**; all build evidence must come from GitHub Actions check runs.
 - The agent cannot download or run the APK; the owner does.
 - No branch protection on `main` (owner action recommended; not changed by agents).
 
 ## Open questions
 
-- Religious (need a qualified reviewer, all open, none block Phase 1): see "Questions that remain open" in [fiqh/rule-register.md](fiqh/rule-register.md).
+- Religious (need a qualified reviewer, all open): see [fiqh/rule-register.md](fiqh/rule-register.md) and section 9 of the Salah requirements capture (Friday/Jumu'ah, Takbeer-e-Ula definition options). None block Phase 1.
+- Product/design for Phase 2 (Q2 excused days, Q3 occurrence date rule, Q4 state-model reconciliation): section 9 of [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md).
 - Design: open item O1 in [domain/qaza-accounting.md](domain/qaza-accounting.md), needed before Phase 4.
 - Architecture risks: [architecture/risk-register.md](architecture/risk-register.md).
 
