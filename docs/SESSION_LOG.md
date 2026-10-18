@@ -122,3 +122,16 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - GitHub Actions first run 39110939138 was cancelled by later concurrent documentation commits. **The last source/doc SHA after this session log is not yet verified**: obtain current PR #7 HEAD and require green compile, tests, lint and debug APK artifact upload before merging.
 - Risks pending: real device launch, populated Room migration v1–v5, long Arabic textual/editorial verification, encrypted backup/export, and full comprehensiveness of daily Sunnah catalog. Qaza ledger/fasting roadmap remains open.
 - Next: verify final PR #7 head CI; fix if failed; merge on green under existing user authorization; update status documents to merged and request the owner test on-device.
+
+
+## S-011: Daily Masnoon source-linked starter catalog — final green CI and merge
+
+- Date: 2026-10-18. Agent: ChatGPT (owner-authorized engineer).
+- Final PR #7 feature branch source SHA `5960a199174914099824e869780f454430e5e9e3` passed [Android Actions run 39111339151](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151): wrapper validation, Kotlin compilation, JUnit tests, Android lint, debug APK build, report and APK artifact upload all confirmed success.
+- Final debug APK GitHub artifact: `ibadah-companion-debug-apk`, ID `12130677678`, ZIP 12,216,635 bytes, expires around 2026-11-01 according to GitHub artifact retention settings. This archive size must not be confused with raw APK SHA-256.
+- PR #7 marked ready and **merged into main** as commit `baab2cf3320c3a9ab30982b88abc8d744c0199c2`, verified by GitHub merge API.
+- Feature scope: sourced **28** dua/adhkar items for Morning, Evening, Occasions and after Farz, **10** situational Sunnah practices, independent counts, special 3x Surah Ikhlas/Falaq/Nas each morning and evening, selected other repetition counts; **optional contested** 7x Hasbiyallahu excluded from core completion due Abu Dawud 5081 listed `Mawdu'` grade, and separate daily `Munajat-e-Maqbool` 1–7 manzil selection without book text. Existing `Dala'il al-Khayrat` remains distinct. Room additive migration v4→5 and append-only dhikr events; original worship data must remain intact.
+- GitHub source register, fiqh review caveat, ADR-0019, owner requirements, README, Roadmap, status and cross-account handoff documented.
+- Started `docs/postmerge-masnoon-handoff` to reconcile the now-merged state; check PR #8 and merge after green CI when available. Documentation-only.
+- **Outstanding:** user has not installed the APK. Physical Android UI, populated Room migrations, Islamic editorial checking, encrypted backups, Qaza and fasting are NOT verified/completed. No claim the curated collection exhausts authentic daily Sunnah.
+- Next: owner downloads/installs verified debug APK and reports smoke tests (not private worship data); engineering adds migration/backup tests and continues remaining high-priority features.
