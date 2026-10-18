@@ -160,12 +160,29 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 - Editions differ in manzil partition and labeling. Owner chooses a 1–7 number and optional edition each day; the program tracks completion only and reproduces no edition text.
 - **Status: `UNVERIFIED` for canonical day-to-manzil attribution or specific virtues.** Do not silently select a schedule.
 
+### FQ-028 Authentic morning/evening Adhkar, variation and repetition
+- The initial collection includes three Qul Surahs 3x morning/evening (Sunan Abi Dawud 5082, graded Hasan by al-Albani on the listing), Sayyidul Istighfar by day/night (Sahih al-Bukhari 6306), the Bismillahilladhi la yadurru 3x (Abu Dawud 5088), and Subhanallahi wa bihamdihi 100x morning/evening (Sahih Muslim 2692). Each reported pattern has its own timing and frequency; mixing them, claiming universal grades or silently changing counts is prohibited.
+- **Status: `SOURCE-LINKED / SCHOLAR-REVIEW-PENDING`.** Primary collection references have been located, but longer Arabic wording/diacritics and fiqh contexts await editorial validation. See `docs/research/masnoon-source-register.md`.
+
+### FQ-029 Sevenfold Hasbiyallahu report
+- Owner requested `حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ ...` 7x morning/evening. Sunan Abi Dawud 5081's cited listing explicitly grades the particular report **`Mawdu' (fabricated) (Al-Albani)`**.
+- **Status: `CONTESTED / DO NOT AUTHENTICATE`.** Display only with visible grade warning and optional self-report, EXCLUDED from the core masnoon-completion count. Never teach a fabricated-grade report as universally authenticated Sunnah, and never claim a guaranteed reward. Other assessments require separate documented review.
+
+### FQ-030 Daily Sunnah etiquette and occasion-dependent duas
+- Source-linked entries exist for food etiquette, wudu before sleep, right-side sleep, greetings, siwak on waking at night, toilet entry/exit, mosque entry/exit, after Adhan, and one post-Salah remembrance pattern. These are context-dependent; the absence of an opportunity MUST NOT count as moral or religious failure.
+- **Status: `SOURCE-LINKED / SCHOLAR-REVIEW-PENDING`.** The current app is a curated educational starting set, not a complete enumeration of the Sunnah.
+
+### FQ-031 Munajat-e-Maqbool daily manzil
+- Manual user choice of manzil 1–7 and edition; app contains no published book text and assumes neither a canonical weekday mapping nor a binding obligation.
+- **Status: `USER-PERSONAL-GOAL`; bibliographic/edition mapping `UNVERIFIED`.**
+
 ## Questions that remain open (none are resolved by the owner decisions above)
 
 FQ-003 whether Witr Qaza is obligatory for this user; FQ-005 which Asr/twilight convention applies; FQ-004 whether any order applies; FQ-006 preferred time; FQ-007 Tahajjud; FQ-008/009 Ishraq and Duha; FQ-010 Awwabeen; FQ-013 voluntary Qaza; FQ-014 historical Qaza estimation; FQ-015/016/018/019/020/022 fasting rules; FQ-021 Hijri method.
 
 ## Changelog
 
+- 0.1.3: source-link selected daily Masnoon Duas/Sunnah (FQ-028–031), distinctly warn about disputed 7x Hasbiyallahu report; no exhaustive/authenticated-canon claim.
 - 0.1.2: add owner-supplied Salawat/Dhikr and Dala'il manzil tracking questions (FQ-024–027); no claims authenticated.
 - 0.1.1: record owner engineering decisions (Witr configurable, Asr configurable, no ordering enforcement, Hijri configurable without algorithm); no rule status changed.
 - 0.1.0: initial draft, all rules `UNVERIFIED`.
