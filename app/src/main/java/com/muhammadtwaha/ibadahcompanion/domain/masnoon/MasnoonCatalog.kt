@@ -56,6 +56,8 @@ object MasnoonCatalog {
         Practice("AFTER_PRAYER_TAHMID", "Tahmid after prayer", "الْحَمْدُ لِلَّهِ", 33, setOf(Window.AFTER_SALAH), "Sahih Muslim 597a", "https://sunnah.com/muslim:597a", Evidence.SAHIH, "One reported pattern: 33 times."),
         Practice("AFTER_PRAYER_TAKBIR", "Takbir after prayer", "اللَّهُ أَكْبَرُ", 33, setOf(Window.AFTER_SALAH), "Sahih Muslim 597a", "https://sunnah.com/muslim:597a", Evidence.SAHIH, "One reported pattern: 33 times, followed by a distinct concluding tahlil."),
         Practice("AFTER_PRAYER_TAHLIL", "Concluding Tahlil", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", 1, setOf(Window.AFTER_SALAH), "Sahih Muslim 597a", "https://sunnah.com/muslim:597a", Evidence.SAHIH, "Completes one described 100-count post-prayer sequence."),
+        Practice("SNEEZE_PRAISE", "When you sneeze", "الْحَمْدُ لِلَّهِ", 1, setOf(Window.OCCASION), "Sahih al-Bukhari 6224", "https://sunnah.com/bukhari:6224", Evidence.SAHIH, "When sneezing. If greeted with Yarhamukallah, reply Yahdikumullahu wa yuslihu balakum."),
+        Practice("SNEEZE_REPLY", "Reply to sneezing companion", "يَرْحَمُكَ اللَّهُ", 1, setOf(Window.OCCASION), "Sahih al-Bukhari 6224", "https://sunnah.com/bukhari:6224", Evidence.SAHIH, "Said when a fellow Muslim sneezes and praises Allah; etiquette depends on circumstances."),
     )
 
     val habits = listOf(
@@ -63,6 +65,13 @@ object MasnoonCatalog {
         SunnahHabit("EAT_NEAREST", "Eat from what is nearest", "Sahih al-Bukhari 5376", "https://sunnah.com/bukhari:5376", "Relevant when sharing a dish, not every meal."),
         SunnahHabit("RIGHT_SIDE_SLEEP", "Rest/sleep on right side", "Sahih al-Bukhari 6315", "https://sunnah.com/bukhari:6315", "Before sleep; context dependent."),
         SunnahHabit("SIWAK_NIGHT", "Use siwak when waking at night", "Sahih al-Bukhari 245", "https://sunnah.com/bukhari:245", "Context-dependent, only if waking at night."),
+
+        SunnahHabit("WUDU_BEFORE_SLEEP", "Make wudu before going to bed", "Sahih al-Bukhari 247", "https://sunnah.com/bukhari:247", "When preparing to sleep; does not imply wudu was obligatory in every circumstance."),
+        SunnahHabit("SHOES_RIGHT_FIRST", "Put on right shoe first and remove left first", "Sahih al-Bukhari 5855", "https://sunnah.com/bukhari:5855", "Only when wearing shoes."),
+        SunnahHabit("RIGHT_FIRST_CLEANING", "Begin appropriate personal cleaning on the right", "Sahih al-Bukhari 168", "https://sunnah.com/bukhari:168", "Appropriate circumstances; contextual etiquette, not a universal mandatory sequence."),
+        SunnahHabit("GREET_WITH_SALAM", "Greet people with Salam", "Sahih al-Bukhari 12", "https://sunnah.com/bukhari:12", "Where greeting is appropriate."),
+        SunnahHabit("SHARE_FOOD", "Share food / feed others when possible", "Sahih al-Bukhari 12", "https://sunnah.com/bukhari:12", "Opportunity-based practice, not a compulsory daily debt."),
+        SunnahHabit("SNEEZE_ETIQUETTE", "Follow the Sunnah of responding to sneezes", "Sahih al-Bukhari 6224", "https://sunnah.com/bukhari:6224", "Only if someone sneezes; keep circumstances in mind."),
     )
 
     val practiceIds = practices.map { it.id }.toSet()
