@@ -6,6 +6,7 @@ import com.muhammadtwaha.ibadahcompanion.data.db.AppDatabase
 import com.muhammadtwaha.ibadahcompanion.data.db.AppMetaDao
 import com.muhammadtwaha.ibadahcompanion.data.db.DbMigrations
 import com.muhammadtwaha.ibadahcompanion.data.db.DhikrDao
+import com.muhammadtwaha.ibadahcompanion.data.db.MasnoonDao
 import com.muhammadtwaha.ibadahcompanion.data.db.WorshipDao
 import com.muhammadtwaha.ibadahcompanion.domain.id.IdGenerator
 import com.muhammadtwaha.ibadahcompanion.domain.id.UuidIdGenerator
@@ -24,11 +25,12 @@ object AppModule {
     @Provides @Singleton
     fun database(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.NAME)
-            .addMigrations(DbMigrations.MIGRATION_1_2, DbMigrations.MIGRATION_2_3, DbMigrations.MIGRATION_3_4).build()
+            .addMigrations(DbMigrations.MIGRATION_1_2, DbMigrations.MIGRATION_2_3, DbMigrations.MIGRATION_3_4, DbMigrations.MIGRATION_4_5).build()
 
     @Provides fun appMetaDao(database: AppDatabase): AppMetaDao = database.appMetaDao()
     @Provides fun worshipDao(database: AppDatabase): WorshipDao = database.worshipDao()
     @Provides fun dhikrDao(database: AppDatabase): DhikrDao = database.dhikrDao()
+    @Provides fun masnoonDao(database: AppDatabase): MasnoonDao = database.masnoonDao()
     @Provides @Singleton fun clock(): AppClock = SystemAppClock()
     @Provides @Singleton fun idGenerator(): IdGenerator = UuidIdGenerator()
 }
