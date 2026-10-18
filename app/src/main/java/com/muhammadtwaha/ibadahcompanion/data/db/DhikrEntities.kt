@@ -2,10 +2,11 @@ package com.muhammadtwaha.ibadahcompanion.data.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /** Immutable event journal. The canonical count is the sum of signed changes. */
-@Entity(tableName = "recitation_event")
+@Entity(tableName = "recitation_event", indices = [Index(value = ["date", "item_id", "prayer"])])
 data class RecitationEvent(
     @PrimaryKey @ColumnInfo(name = "event_id") val eventId: String,
     val date: String,
