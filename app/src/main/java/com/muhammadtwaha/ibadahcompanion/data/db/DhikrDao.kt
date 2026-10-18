@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
+import com.muhammadtwaha.ibadahcompanion.domain.dhikr.RecitationRules
 
 @Dao
 interface DhikrDao {
@@ -28,11 +29,8 @@ interface DhikrDao {
     /** Serial read/validate/insert, rollback on error. No destructive REPLACE or DELETE. */
     @Transaction
     suspend fun adjustCount(entry: RecitationEvent) {
-        require(entry.delta in -1000..1000 && entry.delta != 0)
         val current = count(entry.date, entry.itemId, entry.prayer)
-        require(current + entry.delta in 0L..1_000_000L) {
-            "Cannot subtract unrecorded recitations or exceed the safe tracking limit."
-        }
+        RecitationRules.nextCount(current, entry.delta)
         insertEvent(entry)
     }
 
