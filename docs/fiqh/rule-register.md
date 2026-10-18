@@ -144,11 +144,28 @@ Each rule: **Practice / School / Ruling as currently understood (unverified) / S
 - Open questions: when an excuse defers vs waives the obligation, and the concept of compensation (fidya) in permanent inability.
 - Status: `UNVERIFIED`. Implication: `EXCUSED` is a recorded status only; it never silently cancels an obligation or creates one.
 
+### FQ-024 Salawat texts, names and attributions (personal catalog)
+- Owner supplied 20 named Arabic formulations, including a separate short form for daily 1,200 recitations. Original names and source attributions require *individual* verification against qualified scholars and primary texts. No hadith authenticity, attribution, comparative potency, or guaranteed spiritual reward is asserted.
+- **Status: `UNVERIFIED`**. Implementation: store supplied Arabic as owner-submitted personal reading material; show caveat in UI, not a sourced fatwa.
+
+### FQ-025 Repetition targets after Fard
+- Owner's stated routine: 10 repetitions of each of the 20 supplied formulations after each Farz prayer, independent of the separate 1,200 short-form Salawat goal.
+- **Status: `USER-PERSONAL-GOAL` for schedule; `UNVERIFIED` as a religious prescription.** No automatic link to the valid performance of a Fard prayer, and no claim that a fixed 10x is universal Sunnah.
+
+### FQ-026 Istighfar 1,200 and Bismillah 1,000 daily
+- These are user-chosen daily practice amounts. The brief Istighfar example is not imposed as the one uniquely prescribed wording.
+- **Status: `USER-PERSONAL-GOAL` for quantity; `UNVERIFIED` for any specific attributed virtue.** Do not require qaza of missed personal goals.
+
+### FQ-027 Dala'il al-Khayrat weekly manzil
+- Editions differ in manzil partition and labeling. Owner chooses a 1–7 number and optional edition each day; the program tracks completion only and reproduces no edition text.
+- **Status: `UNVERIFIED` for canonical day-to-manzil attribution or specific virtues.** Do not silently select a schedule.
+
 ## Questions that remain open (none are resolved by the owner decisions above)
 
 FQ-003 whether Witr Qaza is obligatory for this user; FQ-005 which Asr/twilight convention applies; FQ-004 whether any order applies; FQ-006 preferred time; FQ-007 Tahajjud; FQ-008/009 Ishraq and Duha; FQ-010 Awwabeen; FQ-013 voluntary Qaza; FQ-014 historical Qaza estimation; FQ-015/016/018/019/020/022 fasting rules; FQ-021 Hijri method.
 
 ## Changelog
 
+- 0.1.2: add owner-supplied Salawat/Dhikr and Dala'il manzil tracking questions (FQ-024–027); no claims authenticated.
 - 0.1.1: record owner engineering decisions (Witr configurable, Asr configurable, no ordering enforcement, Hijri configurable without algorithm); no rule status changed.
 - 0.1.0: initial draft, all rules `UNVERIFIED`.
