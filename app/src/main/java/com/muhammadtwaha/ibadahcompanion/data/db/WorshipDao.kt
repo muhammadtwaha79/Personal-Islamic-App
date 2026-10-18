@@ -48,6 +48,20 @@ interface WorshipDao {
     @Upsert
     suspend fun upsertQuranDay(record: QuranDay)
 
+    @Transaction
+    suspend fun applyQuranChange(
+        date: String, deltaHalfUnits: Int, yaseen: Boolean?, waqiah: Boolean?,
+        mulk: Boolean?, recordedAt: Long,
+    ) {
+        val old = getQuranDay(date)
+        val units = ((old?.halfJuzUnits ?: 0) + deltaHalfUnits).coerceIn(0, 60)
+        upsertQuranDay(QuranDay(date, units,
+            yaseen ?: old?.yaseen ?: false,
+            waqiah ?: old?.waqiah ?: false,
+            mulk ?: old?.mulk ?: false,
+            recordedAt))
+    }
+
     @Query("SELECT * FROM quran_khatam_event WHERE date >= :from AND date <= :until")
     fun observeKhatams(from: String, until: String): Flow<List<QuranKhatamEvent>>
 
