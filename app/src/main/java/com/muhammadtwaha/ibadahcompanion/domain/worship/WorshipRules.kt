@@ -44,6 +44,7 @@ data class ChallengeSummary(
     val achievedOpportunities: Int,
     val fullSuccessDays: Int,
     val longestConsecutiveDays: Int,
+    val currentConsecutiveDays: Int,
     val remainingOpportunities: Int,
     val consideredDays: Int,
 )
@@ -77,6 +78,7 @@ object ChallengeCalculator {
             achievedOpportunities = distinct.size,
             fullSuccessDays = full,
             longestConsecutiveDays = longest,
+            currentConsecutiveDays = running,
             remainingOpportunities = WorshipRules.challengeLength * 5 - distinct.size,
             consideredDays = elapsed,
         )
