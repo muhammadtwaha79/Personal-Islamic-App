@@ -23,7 +23,7 @@ object AppModule {
     @Provides @Singleton
     fun database(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.NAME)
-            .addMigrations(DbMigrations.MIGRATION_1_2).build()
+            .addMigrations(DbMigrations.MIGRATION_1_2, DbMigrations.MIGRATION_2_3).build()
 
     @Provides fun appMetaDao(database: AppDatabase): AppMetaDao = database.appMetaDao()
     @Provides fun worshipDao(database: AppDatabase): WorshipDao = database.worshipDao()
