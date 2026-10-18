@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedButton
@@ -39,6 +40,12 @@ fun QuranScreen(repository: WorshipRepository) {
     var untilText by remember { mutableStateOf("") }
     var range by remember { mutableStateOf<Pair<LocalDate, LocalDate>?>(null) }
     var error by remember { mutableStateOf("") }
+    var confirmKhatam by remember { mutableStateOf(false) }
+    val dayKhatams by remember(date) {
+        repository.khatamPeriod(date, date)
+    }.collectAsState(initial = emptyList())
+    val dayKhatamCount = dayKhatams.sumOf { it.delta }
+    val canRecord = !date.isAfter(LocalDate.now())
     LaunchedEffect(repository) {
         repository.ramadanRange()?.let {
             fromText = it.first.toString()
@@ -51,13 +58,14 @@ fun QuranScreen(repository: WorshipRepository) {
         verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text("Quran Tilawat — 20 October 2026 onward")
         DaySwitcher(date, setDate)
+        if (!canRecord) Text("Future date — recording unlocks on that day.")
         Text("Daily target: half para (0.5 juz)")
         val halfUnits = day?.halfJuzUnits ?: 0
         Text("Recorded reading: ${halfUnits / 2.0} juz")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = { scope.launch { repository.setQuran(date,
+            OutlinedButton(enabled = canRecord, onClick = { scope.launch { repository.setQuran(date,
                 newHalfUnits = (halfUnits - 1).coerceAtLeast(0)) } }) { Text("− ½ para") }
-            Button(onClick = { scope.launch { repository.setQuran(date,
+            Button(enabled = canRecord, onClick = { scope.launch { repository.setQuran(date,
                 newHalfUnits = (halfUnits + 1).coerceAtMost(60)) } }) { Text("+ ½ para") }
         }
         Text(if (halfUnits >= 1) "Daily reading target reached" else "Daily reading target pending")
@@ -70,7 +78,7 @@ fun QuranScreen(repository: WorshipRepository) {
                 Row(Modifier.fillMaxWidth().padding(12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(title + if (checked) " — completed" else " — pending")
-                    OutlinedButton(onClick = {
+                    OutlinedButton(enabled = canRecord, onClick = {
                         scope.launch {
                             when (key) {
                                 "yaseen" -> repository.setQuran(date, yaseen = !checked)
@@ -81,6 +89,24 @@ fun QuranScreen(repository: WorshipRepository) {
                     }) { Text(if (checked) "Undo" else "Record") }
                 }
             }
+        }
+        Text("Full Quran completions logged on $date: $dayKhatamCount")
+        Button(enabled = canRecord, onClick = { confirmKhatam = true }) { Text("Record full Quran khatam") }
+        OutlinedButton(enabled = canRecord && dayKhatamCount > 0,
+            onClick = { scope.launch { repository.recordKhatam(date, completed = false) } }) {
+            Text("Undo one khatam record")
+        }
+        if (confirmKhatam) {
+            AlertDialog(
+                onDismissRequest = { confirmKhatam = false },
+                title = { Text("Confirm full Quran completion") },
+                text = { Text("Only confirm after personally finishing all 30 juz of a full Quran. Reading-volume totals alone are not a khatam.") },
+                confirmButton = { Button(onClick = {
+                    confirmKhatam = false
+                    scope.launch { repository.recordKhatam(date, completed = true) }
+                }) { Text("Confirm completed") } },
+                dismissButton = { OutlinedButton(onClick = { confirmKhatam = false }) { Text("Cancel") } },
+            )
         }
         Text("Ramadan planner — 5 Quran khatams (150 juz)")
         Text("Set Ramadan dates manually after confirming the local lunar calendar. No dates assumed.")
@@ -106,10 +132,19 @@ fun QuranScreen(repository: WorshipRepository) {
             }.collectAsState(initial = emptyList())
             val units = daily.sumOf { it.halfJuzUnits }
             val percent = QuranRules.progressPercent(units, QuranRules.ramadanTargetHalfJuzUnits)
+            val khatams by remember(currentRange) {
+                repository.khatamPeriod(currentRange.first, currentRange.second)
+            }.collectAsState(initial = emptyList())
+            val verifiedKhatams = khatams.sumOf { it.delta }
+            val days = java.time.temporal.ChronoUnit.DAYS.between(
+                currentRange.first, currentRange.second).toInt() + 1
+            val dailyRamadanHalfUnits = (QuranRules.ramadanTargetHalfJuzUnits + days - 1) / days
             Text("Ramadan range: ${currentRange.first} – ${currentRange.second}")
             Text("Reading: ${units / 2.0} / 150 juz ($percent%)")
-            Text("Estimated completed equivalents: ${units / 60} / 5 khatams (by logged juz volume)")
-            Text("Volume tracking does not prove five sequential full Qurans; record a khatam separately after completion.")
+            Text("Confirmed full khatams: $verifiedKhatams / 5")
+            Text("Planning pace: ${dailyRamadanHalfUnits / 2.0} juz per day across $days days.")
+            Text("Reading-volume equivalents: ${units / 60} full Quran lengths; not a confirmed khatam.")
+            Text("Progress uses your manual date range; no moon sighting is inferred.")
         }
         Text("These are personal reading logs, not a claim about spiritual rank or guaranteed reward.")
     }
