@@ -39,7 +39,9 @@ fun NaflScreen(repository: WorshipRepository) {
         Text("Sunnah & Nafl — personal log")
         DaySwitcher(date, setDate)
         Text("Only completed prayers are counted. Rakah counts are self-reported; consult fiqh guidance.")
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (date.isAfter(LocalDate.now())) {
+            Text("Future date — recording unlocks on the selected date.")
+        } else LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(PRACTICES) { practice ->
                 NaflCard(date, practice, records.firstOrNull { it.practice == practice.key }) { rakahs, complete ->
                     scope.launch { repository.setPractice(date, practice.key, rakahs, complete) }
