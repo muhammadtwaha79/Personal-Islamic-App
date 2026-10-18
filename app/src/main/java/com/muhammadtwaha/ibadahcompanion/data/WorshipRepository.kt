@@ -22,6 +22,15 @@ class WorshipRepository @Inject constructor(
     fun quranPeriod(from: LocalDate, until: LocalDate) =
         dao.observeQuranRange(from.toString(), until.toString())
 
+    fun khatamPeriod(from: LocalDate, until: LocalDate) =
+        dao.observeKhatams(from.toString(), until.toString())
+
+    suspend fun recordKhatam(date: LocalDate, completed: Boolean) {
+        val delta = if (completed) 1 else -1
+        dao.recordKhatam(QuranKhatamEvent(UUID.randomUUID().toString(),
+            date.toString(), delta, clock.now().toEpochMilli()))
+    }
+
     suspend fun setSalah(
         date: LocalDate, prayer: Prayer, status: PrayerStatus,
         congregation: Congregation, takbeer: Takbeer, joining: Joining = Joining.UNKNOWN,
