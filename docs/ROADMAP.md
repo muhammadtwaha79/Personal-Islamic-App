@@ -143,3 +143,13 @@ The owner explicitly requested these modules **after Salah, Sunnah/Nafl and Qura
 **Implemented:** separate daily and per-prayer recitation event counters; append-only adjustment records, no negative balance; Arabic catalog with 20 texts as supplied, RTL reading dialog; manual Dala'il manzil + optional edition; Room v3→v4 additive migration; tests for recitation math and unique catalog entries.
 
 **Remaining hardening:** populated Room migration test, real phone use, production-safe backup/restore; source verification of attributions/texts; optional custom schedules. Future **sourced morning/evening Adhkar and Dua management** is still planned; don't conflate it with this first Salawat implementation. Qaza ledger and fasting remain outstanding roadmap priorities.
+
+## October 2026 — Source-linked Masnoon Duas, Sunnah Habits and Munajat
+
+**PR #7: IN PROGRESS pending latest-head Android CI and review** — https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7 . Phase 0/1, Fard/Nafl/Quran tracking and Salawat PR #5 have already merged.
+
+**New implemented branch slice:** source-linked **28** morning/evening/occasional/post-Salah adhkar and dua entries with original Arabic prompts, reported grades, links to named hadith collection pages, independent counters per window/prayer, **10** context-dependent Sunnah habit self-reports, and *Munajat-e-Maqbool* manually selected manzil 1–7 (edition note and completion checkbox; no book text). Reuses additive Room migration v4→v5 and existing append-only recitation journal.
+
+**Important:** original owner asked for an extremely broad full Masnoon Sunnah program. This starter catalog is **NOT exhaustive**; new texts require primary source/grade review. Requested 7x Hasbiyallahu was found graded `Mawdu'` on the cited Sunan Abi Dawud 5081 page and is flagged separately, excluded from core-completion metrics. See [owner brief](requirements/masnoon-adhkar-munajat-2026-10-owner-brief.md), [source review](research/masnoon-source-register.md), [ADR-0019](decisions/0019-source-linked-daily-masnoon-adhkar.md).
+
+**Future engineering acceptance still outstanding:** full spoken/reading Arabic manuscript review, Roman Urdu meanings/transliteration, expanded vetted library, phone/emulator UI acceptance, populated Room migrations 1→2→3→4→5, independent encrypted backup/export, and remaining Qaza Ledger and fasting programs. Do not silently equate code+CI with device-tested stability, nor treat a missed voluntary checklist as religious invalidity.
