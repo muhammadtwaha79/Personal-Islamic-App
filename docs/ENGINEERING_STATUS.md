@@ -1,37 +1,38 @@
-# Engineering Status
+# Engineering Status — Ibadah Companion
 
-Current factual project state. Permanent agent rules: [../CLAUDE.md](../CLAUDE.md); continuation: [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history: [SESSION_LOG.md](SESSION_LOG.md).
+**Recorded:** 2026-10-18. Always inspect GitHub before relying on this snapshot. Agent rules: [CLAUDE.md](../CLAUDE.md); continuation: [AGENT_HANDOFF.md](AGENT_HANDOFF.md); history: [SESSION_LOG.md](SESSION_LOG.md).
 
-## Phase
+## Current phase and repository
 
-**Phase 1 — Native Android Foundation and GitHub Actions.** Implementation verified by CI at `00a9ed6ffb3b4d7ab0cb724f7b2e65a7c5cc8932`. Phase 1 remains on an unmerged draft PR pending final post-documentation CI and owner review. No Salah/Qaza/Fasting functionality is implemented yet.
+- Phase 0 and Phase 1 merged to `main`. Phase 1 merge commit: `170135078fb6dcee6433ef2b51d22cc6d8f3df37` (PR #2).
+- Phase 2 early combined feature branch: `phase-2/worship-tracking`; PR #3 https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/3
+- Branch head changes as CI/documentation commits land; inspect real HEAD before editing or merging. **PR #3 merge must be verified after final CI**.
+- Owner explicitly authorized direct agent-managed PR merges for this project on 2026-10-18. Do not force-push or overwrite branches.
 
-## Repository state (2026-10-18)
+## Implemented on Phase 2 branch
 
-- `main` contains Phase 0 merge commit `c022becda506c85f9b2c36aacba7bb2d29d7cff3`.
-- Current development branch: `phase-1/foundation`. **Read its latest HEAD from GitHub**, because handoff commits follow the verified implementation SHA.
-- Draft PR #2: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/2 — **do not merge without owner approval**.
+- [IMPLEMENTED] Offline Room records for five daily Fard Salah, explicit completed/missed/unknown, separate individual/Jamaat, opening Takbeer yes/no/unknown and joined-late fields. Friday midday Jumu'ah/Dhuhr user label. Each change records immutable full Salah revision snapshot; daily records unique by date and prayer.
+- [IMPLEMENTED] Derived 40-day challenge from 2026-10-20 through 2026-11-28, 200 opportunities, per-day full success and current/longest streak. Pending is not success.
+- [IMPLEMENTED] Sunnah/Nafl checklist with independently entered rakahs: Tahajjud, Ishraq, Chasht, Awwabeen, 4 pre-Asr, 4 pre-Isha, other daily Sunnah and optional Nafl including Tawbah and Tahiyyat varieties.
+- [IMPLEMENTED] Quran daily half-para reading progress since 2026-10-20 and separate Yaseen, Waqiah and Mulk daily confirmations. User-entered Ramadan date range, target 150 juz of reading volume and **five separately confirmed completed khatams**, explicit correction events.
+- [IMPLEMENTED] Room schema v1->2->3 through additive, non-destructive migrations. Basic JVM tests for challenge arithmetic and self-reported state invariants.
+- [IMPLEMENTED] Offline app UI with Salah, 40 days, Nafl and Quran navigation tabs. No network permission or analytics.
 
-## Implemented and verified
+## Verification
 
-- Native Android `app` module with Kotlin, Jetpack Compose, Material 3 light/dark theme, Hilt, a Room database foundation (AppMeta), Navigation Compose and a real launcher activity. The screen explicitly says foundation-only; no fake worship logging.
-- Gradle 9.6.0 Wrapper scripts and JAR committed, with distribution checksum, JAR SHA-256 check and official wrapper validation in CI.
-- GitHub Actions workflows: `android-ci.yml` runs privacy checks, `:app:testDebugUnitTest`, `:app:lintDebug`, `:app:assembleDebug`, uploads reports and `ibadah-companion-debug-apk`; `bootstrap-wrapper.yml` generated the binary wrapper.
-- CI run **39100930667** on implementation commit `00a9ed6` concluded **success**: all relevant step conclusions (wrapper validation, compilation+tests+lint+assemble, report upload, APK summary and artifact upload) were `success`.
-- Evidence: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39100930667
-- Verified uploaded `ibadah-companion-debug-apk` artifact ID **12126855738** (ZIP artifact size 11,929,805 bytes, retention through 2026-11-01, unless retention changes). This byte count and GitHub artifact digest are for the artifact archive; do not confuse them with the APK payload's SHA-256. The workflow run's summary computes the APK SHA-256.
+- [VERIFIED] Native Phase 1 build and APK green before merge: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39101278554
+- [VERIFIED] Phase 2 PR run 39102929249 had a completed **success** compile/test/lint/assemble job and uploaded debug APK: https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39102929249 (implementation commit `76dd7a2`). Check GitHub workflow-level conclusion and final HEAD again before merging; later refinements and docs have separate CI runs.
+- [NOT VERIFIED] Android device/emulator launch and Room migration from a populated old version; test before treating personal tracking as production-safe. CI JVM tests alone do not prove these scenarios.
+- [NOT IMPLEMENTED] Automatic prayer times, full fiqh configuration, Witr and Qaza ledger, fasting, optional Adhkar/Duas, encrypted backup, app lock and notifications. These are still on the roadmap. Do not misrepresent a first MVP as all original phase definitions met.
+- [UNVERIFIED] Islamic source and juristic interpretations, including the exact Takbeer-e-Ula threshold and Jumu'ah handling; consult a qualified scholar. User self-report metrics are **not** religious verdicts.
 
-## Not yet verified / remaining
+## Security / caveats
 
-- The **final documentation-only branch HEAD** must also get green CI before marking the PR ready and requesting merge.
-- Installation and launch on a real Android phone have **not** been personally verified; owner can download the debug APK from the run's Artifacts section and report results.
-- CI-tested Android foundation does not include Phase 2 Salah logging, 40-day Takbeer-e-Ula challenge, Qaza or fasting. Requirements for the 2026-10-20 start are captured at [requirements/salah-takbeer-ula-challenge-owner-brief.md](requirements/salah-takbeer-ula-challenge-owner-brief.md).
-- Roman Urdu locale remains deferred; future Room migration chain and instrumented emulator/device tests are not yet implemented. Verify schema export/migration requirements before adding religious records.
-- Religious rules remain `UNVERIFIED`, including the precise Takbeer-e-Ula interpretation and Friday/Jumu'ah handling; no ruling is silently selected.
-- No personal data, signing keys or passwords should be committed to this public repository.
+Public GitHub must contain no private worship records, device databases, backups, secrets or keystores. The app has local unencrypted SQLite and disabled automatic backup; encrypted manual backup is **not yet implemented**. The user must understand that uninstalling/clearing application data can erase local records. Add tested export/restore soon.
 
-## Next exact action
+## Exact next actions
 
-Verify the final `phase-1/foundation` HEAD CI run is green, review PR #2, then owner approves merging Phase 1. After merging, start Phase 2 daily Salah and congregation tracking, with explicit 2026-10-20 backfill support. Resolve the product/fiqh open questions before implementing challenged religious behavior.
-
-See [AGENT_HANDOFF.md](AGENT_HANDOFF.md) for handoff instructions.
+1. Verify final PR #3 commit has green Android CI and uploaded APK; fix any observed errors without weakening tests.
+2. Merge PR #3 into `main` (owner has authorized agent-managed merges); verify merge and create a concise postmerge status update in a separate branch if documentation is stale.
+3. User physically installs debug APK and reports persistence/launch status. Add Android emulator/migration test job before trusting long-term data.
+4. Begin the next milestone: decide priority of production-grade Qaza accounting, fasting, Adhkar/Duas, and remaining Salah reliability work. Preserve [owner brief](requirements/2026-10-worship-and-quran-owner-brief.md) and [ADR-0017](decisions/0017-worship-quran-tracking-slices.md).
