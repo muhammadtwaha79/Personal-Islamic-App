@@ -1,6 +1,6 @@
 # Roadmap
 
-Status legend: Phase 0 is in review; Phases 1-9 are **planned, not started**. Dates are intentionally absent; ordering follows engineering dependencies. Each phase ends only when its Definition of Done is met and recorded in `ENGINEERING_STATUS.md`.
+Status legend: Phase 0 is in review (PR #1); Phases 1-9 are **planned, not started**. Dates are intentionally absent; ordering follows engineering dependencies. Each phase ends only when its Definition of Done is met and recorded in `ENGINEERING_STATUS.md`.
 
 Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3, 5; 7 needs 2-5; 8 needs 4-5; 9 needs all. Phase 4 may be pulled ahead of Phase 3 if the owner prioritizes Qaza (the engine only needs Phase 1 plus the Salah record model from Phase 2).
 
@@ -9,8 +9,8 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 ## Phase 0: Product Architecture and Engineering Foundation
 
 - **Objectives:** shared understanding of scope; documented architecture, ledger design, fiqh rule register, roadmap, CI plan; verified GitHub control.
-- **Architecture:** `docs/architecture/overview.md`, ADRs 0001-0013.
-- **Tasks:** audit tools; write all Phase 0 documents; open PR.
+- **Architecture:** `docs/architecture/overview.md`, ADRs 0001-0015, risk register.
+- **Tasks:** audit tools; write all Phase 0 documents; open PR; incorporate owner review.
 - **Acceptance:** all required files exist on the branch and were read back; PR open; open questions listed.
 - **Testing:** document review only (no code).
 - **Deliverables:** documents and PR.
@@ -20,20 +20,22 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 
 ## Phase 1: Native Android Foundation and Cloud CI
 
-- **Objectives:** compiling app skeleton and reproducible cloud pipeline.
-- **Architecture:** single module, package boundaries, Hilt, Compose theme (emerald/ivory/gold, light and dark), navigation shell, Room database with schema export, locale scaffolding (English, Roman Urdu), `Clock`/`IdGenerator`.
-- **Tasks:** resolve and document the toolchain matrix from official sources; bootstrap wrapper via workflow; `android-ci.yml`; manifest with minimal permissions and backup restrictions; architecture test; forbidden-file check; failure-report comment.
-- **Acceptance:** a PR check run shows build, unit tests and lint passing; a debug APK artifact upload step succeeded.
+Detailed plan: `docs/phases/phase-1-plan.md`.
+
+- **Objectives:** compiling app skeleton, reproducible cloud pipeline, and the first successfully compiled debug APK.
+- **Architecture:** single module, package boundaries, Hilt, Compose theme (emerald/ivory/gold, light and dark), navigation shell, Room database with schema export, locale scaffolding (English, Roman Urdu), `Clock`/`IdGenerator`, `minSdk = 26`.
+- **Tasks:** resolve and document the toolchain matrix from official sources; bootstrap wrapper via push-triggered workflow; `android-ci.yml`; manifest with minimal permissions and backup restrictions; architecture test; forbidden-file check; success/failure report comment.
+- **Acceptance:** a PR check run shows build, unit tests and lint passing; the report comment shows the APK name, size and SHA-256; the artifact upload step succeeded.
 - **Testing:** unit-test smoke, architecture test, migration test harness skeleton.
 - **Deliverables:** Gradle project, workflows, `toolchain-matrix.md`.
-- **Dependencies:** Phase 0 merged.
-- **Risks:** version incompatibilities; no log tools (mitigated by failure comment); wrapper bootstrap friction.
+- **Dependencies:** Phase 0 merged (or owner authorization to continue on a branch); owner pre-flight Actions settings.
+- **Risks:** version incompatibilities; no log tools (mitigated by report comment); wrapper bootstrap friction; see risk register R5-R10.
 - **Definition of Done:** green CI on a clean runner, status file updated with the real run reference.
 
 ## Phase 2: Five Daily Fard Salah Tracking
 
 - **Objectives:** a complete vertical slice for daily Fard prayers.
-- **Architecture:** `PrayerRecord`, revisions, window calculation behind an interface, Home and Daily Salah screens, onboarding step for calculation settings.
+- **Architecture:** `PrayerRecord`, revisions, window calculation behind an interface, Home and Daily Salah screens, onboarding step for calculation settings (including an explicit Asr convention choice, never silently defaulted).
 - **Tasks:** prayer-time computation approach decided by ADR (offline, settings snapshotted); states and derived `NEEDS_REVIEW`; edit with revision; history view; accessibility.
 - **Acceptance:** user can log, correct and review all five prayers across days and midnight with data surviving process death and restart.
 - **Testing:** state-transition and revision tests; Room integration tests; Compose UI tests for the main flow.
@@ -45,7 +47,7 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 ## Phase 3: Sunnah and Nafl Prayer Engine
 
 - **Objectives:** profile-confirmed Sunnah table and voluntary prayer tracking.
-- **Architecture:** `FiqhProfile` confirmation, `SunnahRuleSet` from register data, `VoluntaryPrayerLog` and config.
+- **Architecture:** `FiqhProfile` confirmation (Hanafi initial), `SunnahRuleSet` from register data, `VoluntaryPrayerLog` and config.
 - **Tasks:** onboarding profile confirmation; Sunnah/Nafl screen; per-type configurable rakah; weekly review; optional guidance text only from verified rules.
 - **Acceptance:** no Sunnah table without a confirmed profile; logs persist and aggregate correctly; no Qaza created from voluntary misses.
 - **Testing:** rule-set selection tests; aggregation tests; UI tests.
@@ -57,20 +59,20 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 ## Phase 4: Qaza Recovery and Historical Obligation Ledger
 
 - **Objectives:** the production-grade append-only ledger and recovery UI.
-- **Architecture:** per `docs/domain/qaza-accounting.md`: entities, triggers, use cases, plans, projection policy.
-- **Tasks:** migrations with triggers; operations (estimate, discover, complete, reverse, reconcile); daily-miss-to-Qaza linkage with composite transactions; recovery plans; progress and history screens; Witr category gated by profile.
-- **Acceptance:** all invariants L1-L10 proven by tests; no path overdraws or double-counts; UI shows estimate, completed, remaining, progress and a non-misleading projection.
-- **Testing:** property-based, concurrency, trigger, atomicity fault-injection and migration tests (see ledger doc section 10).
+- **Architecture:** per `docs/domain/qaza-accounting.md`: entities, triggers, use cases, plans, projection policy, Witr category gating, estimate corrections.
+- **Tasks:** migrations with triggers; operations (estimate, correct estimate, discover, complete, reverse, reconcile); daily-miss-to-Qaza linkage with composite transactions; recovery plans; progress and history screens; Witr category enabled only by explicit confirmation; resolve open item O1 with the owner.
+- **Acceptance:** all invariants L1-L12 proven by tests; no path overdraws or double-counts; UI shows estimate, completed, remaining, progress and a non-misleading projection.
+- **Testing:** property-based, concurrency, trigger (including REPLACE), atomicity fault-injection and migration tests (see ledger doc section 11).
 - **Deliverables:** ledger engine, Qaza screens, test suite.
 - **Dependencies:** Phase 1 and the Phase 2 record model; FQ-003/004/014 decisions or flagged assumptions.
-- **Risks:** subtle trigger or migration bugs; user confusion when percentages drop after new discoveries (explained in UI).
+- **Risks:** subtle trigger or migration bugs (risk register R1-R4); user confusion when percentages drop after new discoveries (explained in UI).
 - **Definition of Done:** CI green with ledger test families passing; assumptions documented.
 
 ## Phase 5: Fasting and Hijri Calendar Engine
 
 - **Objectives:** Ramadan, Qaza and voluntary fasting with a configurable Hijri calendar.
-- **Architecture:** `HijriCalendar` abstraction, `FastRecord`, `FastingPlan`, `RAMADAN_FAST` on the shared ledger.
-- **Tasks:** calendar method decision by ADR; offsets and overrides; fast tracking; plans; restricted-day warnings; Qaza fasts.
+- **Architecture:** `HijriCalendar` abstraction with local adjustment and monthly overrides, `FastRecord`, `FastingPlan`, `RAMADAN_FAST` on the shared ledger.
+- **Tasks:** calculation approach decided by a documented evaluation and ADR (none selected yet); offsets and overrides; fast tracking; plans; restricted-day warnings; Qaza fasts.
 - **Acceptance:** dates correct under offsets; fasting types never conflated; no automatic Kaffarah or voluntary-fast Qaza.
 - **Testing:** calendar offset tests; restricted-day tests; ledger reuse tests.
 - **Deliverables:** Fasting and Calendar screens.
@@ -82,12 +84,12 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 
 - **Objectives:** optional, respectful reminders and planning.
 - **Architecture:** WorkManager scheduling (exact alarms only if justified), notification channels, calm copy.
-- **Tasks:** prayer and fasting reminders; quiet hours; permission flows; reboot and time-change handling.
+- **Tasks:** prayer and fasting reminders; quiet hours; permission flows; reboot and time-change handling; idempotent notification actions.
 - **Acceptance:** reminders fire reliably within platform limits and never change records automatically.
 - **Testing:** scheduler unit tests; instrumented tests for permission and reschedule behavior.
 - **Deliverables:** settings and notification features.
 - **Dependencies:** Phases 2, 3, 5.
-- **Risks:** OEM battery restrictions; permission friction; lock-screen privacy.
+- **Risks:** OEM battery restrictions; permission friction; lock-screen privacy; double delivery (R13).
 - **Definition of Done:** documented reliability limits; no pressure-inducing copy.
 
 ## Phase 7: Progress Intelligence and Reflection
@@ -105,7 +107,7 @@ Dependency chain: 0 -> 1 -> 2 -> 3 -> 4; 5 needs 4 (shared ledger); 6 needs 2, 3
 ## Phase 8: Data Security, Backup and Portability
 
 - **Objectives:** encrypted backup, safe restore, export, optional app lock.
-- **Architecture:** per `docs/security/privacy-model.md`; staging restore with invariant verification.
+- **Architecture:** per `docs/security/privacy-model.md`; staging restore with invariant verification (ledger L12).
 - **Tasks:** cryptographic ADR with sources; backup/restore; manual export; app lock; database-at-rest decision.
 - **Acceptance:** round-trip restores identical balances; tamper and wrong-passphrase handling proven; claims in docs match implementation.
 - **Testing:** backup round-trip, corruption, tamper, migration-on-restore tests.
