@@ -146,7 +146,7 @@ The owner explicitly requested these modules **after Salah, Sunnah/Nafl and Qura
 
 ## October 2026 — Source-linked Masnoon Duas, Sunnah Habits and Munajat
 
-**PR #7: IN PROGRESS pending latest-head Android CI and review** — https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7 . Phase 0/1, Fard/Nafl/Quran tracking and Salawat PR #5 have already merged.
+**PR #7: MERGED after verified Android CI** — [PR #7](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7), merge `baab2cf`, [successful run 39111339151](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151). Phase 0/1, Fard/Nafl/Quran tracking and Salawat PR #5 have already merged.
 
 **New implemented branch slice:** source-linked **28** morning/evening/occasional/post-Salah adhkar and dua entries with original Arabic prompts, reported grades, links to named hadith collection pages, independent counters per window/prayer, **10** context-dependent Sunnah habit self-reports, and *Munajat-e-Maqbool* manually selected manzil 1–7 (edition note and completion checkbox; no book text). Reuses additive Room migration v4→v5 and existing append-only recitation journal.
 
