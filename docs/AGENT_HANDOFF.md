@@ -15,18 +15,18 @@ PRs #1–4 were merged. On main: Salah/Jamaat/Takbeer, 40-day personal challenge
 
 ## Active work
 
-- Working branch: `feature/salawat-adhkar-counting`, PR #5 https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5.
+- **[MERGED]** Salawat and daily Dhikr PR #5: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5, merge SHA `5edc84e4d77612b32535e126cfd026b4d312d45c`. No active source branch ownership remains; create a new branch from the latest `main` for future work.
 - User-supplied Arabic 20-salawat catalog: `domain/dhikr/SalawatCatalog.kt`. Formulations, historical attribution and promised virtues are **UNVERIFIED**; there is no scholarly stamp. A separate primary daily short Salawat is configured for 1,200x.
 - Also 1,200x daily Istighfar, 1,000x Bismillah, 10x of each of 20 user-supplied Salawat after EACH of five Fard prayers, separately tracked. Dala'il daily manzil checkbox with manual 1–7 and optional edition; no copyrighted book text.
 - Room v4 with additive 3→4 migration and event journal, UI Dhikr tab, Kotlin counting tests.
-- CI run **39108218410** on source `61ea289` succeeded and uploaded APK, but **later code/performance/doc commits exist**. Re-verify PR's *final* current SHA before merging.
+- **[VERIFIED]** Final PR #5 source `5e29b81` passed [Android Actions run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987). APK artifact `ibadah-companion-debug-apk` ID `12128819307`. Compilation, JVM tests, lint and artifact upload succeeded. GitHub confirmed merge.
 
 ## Next exact action
 
-1. Inspect PR #5 head and Actions run for **same** SHA. If all build/test/lint/APK artifact checks pass, change draft PR to ready and merge per standing user authorization.
-2. Read committed feature status and update `docs/ENGINEERING_STATUS.md` if current.
-3. Ask user to install new debug APK from successful CI run; confirm previous personal logs survive upgrade (NO DATA WIPE), and a short Salawat +1 / after-Fard +10 / correction / daily manzil persist after restart. Tests on a populated database are still missing.
-4. Branch for next milestone from merged main: device migration tests and user-controlled export/backup before relying exclusively on the tracker. Then Qaza ledger, fasting and reviewed daily adhkar/dua library remain important.
+1. Read GitHub `main` and open PRs (this docs-only postmerge PR may still be open and must be verified).
+2. The user should install the [final Salawat debug APK](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987) and verify prior local Salah/Quran data survives the app upgrade, and that Dhikr counters persist after restart.
+3. Start a new task branch from latest `main` for Room populated migration tests, local export/restore and other data-safety hardening. Do **not** claim phone verification from a green CI run.
+4. Continue Qaza ledger, fasting and sourced morning/evening Adhkar/Duas in dedicated later milestones, with appropriate fiqh/textual review.
 
 ## Risks
 
