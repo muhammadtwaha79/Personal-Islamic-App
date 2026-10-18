@@ -10,14 +10,12 @@
 
 ## Current feature — Salawat and daily Dhikr
 
-- Branch: `feature/salawat-adhkar-counting`.
-- PR #5: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5
+- [MERGED] Salawat / daily Dhikr PR #5: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/5 — merge commit **`5edc84e4d77612b32535e126cfd026b4d312d45c`**. The previous development branch `feature/salawat-adhkar-counting` is now historical.
 - [IMPLEMENTED] 1,200x independent short Salawat, 1,200x Istighfar, 1,000x Bismillah daily goals, signed adjustments with transactional nonnegative count checks.
 - [IMPLEMENTED] 20 owner-supplied Arabic Salawat each with a **personal goal 10x after each of five Fard prayers**; 100 separate after-Fard goals. Full Arabic text shown in an RTL dialog. Source/attribution/merit claims are UNVERIFIED.
 - [IMPLEMENTED] Dala'il al-Khayrat daily manzil 1–7 manual selection, edition label, completion checkbox. The copyrighted book itself is not included; no edition day mapping is assumed.
 - [IMPLEMENTED] Room schema v4 (new `recitation_event` and `dalail_daily` tables), explicit additive 3→4 migration, date/practice/prayer index for efficient queries, event journal and basic JVM rules tests.
-- [VERIFIED ON EARLIER FEATURE HEAD] GitHub Actions run **39108218410** concluded **success** on implementation SHA `61ea289b8983bf6c2b7f6a31cf303d7707884bf8`: wrapper validation, Kotlin compilation, JVM tests, lint, APK creation and artifact upload. Debug APK artifact ID **12129013814**.
-- [PENDING VERIFICATION] Index and documentation commits after `61ea289` need final-head CI before PR #5 can merge. Do not treat the earlier run as confirmation of the latest revision.
+- [VERIFIED] Final Salawat PR #5 head **`5e29b81be44c57af8e5542e0440532a290627d41`** passed full Android CI **39108600987**: wrapper, compilation, unit tests, lint, APK assembly and artifact upload all succeeded. [View verified run](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987). APK artifact `ibadah-companion-debug-apk`, ID **12128819307** (GitHub artifact ZIP ≈ 12.1 MB; not the raw APK SHA-256). GitHub confirmed PR #5 merge.
 
 ## Quality and religious limitations
 
@@ -28,7 +26,6 @@
 
 ## Exact next task
 
-1. Inspect PR #5's **current** head SHA; wait for full Android CI success plus debug APK artifact upload for that SHA. Fix failures and reverify if necessary.
-2. Merge PR #5 into main using the user's standing authorization once verified; verify GitHub merge result. Record final merge commit in a new small docs-only update if needed.
-3. Ask owner to test APK installation and count persistence on a real phone; add Android migration/device instrumentation before treating the tracker as production-reliable.
-4. Next milestones: secure backup/restore, append-only Qaza accounting, fasting, optional sourced Adhkar/Duas, and Arabic textual/source review.
+1. Ask the owner to download the new APK from [run 39108600987](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39108600987) and verify installation, app restart persistence, +1/+10 corrections, Arabic view, after-Fard counters and Dala'il manzil on device.
+2. Add an Android instrumented **populated Room v3→v4 migration test** and restore/export path before depending on local SQLite as the only long-term record.
+3. Continue previously approved Qaza obligations ledger and fasting plus the newly scoped authenticated morning/evening Adhkar and Duas library. Preserve Arabic text/source review status.
