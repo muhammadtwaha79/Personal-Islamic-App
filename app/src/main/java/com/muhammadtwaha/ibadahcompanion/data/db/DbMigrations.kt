@@ -5,6 +5,28 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 /** Explicit, non-destructive upgrade from the previously shipped Phase 1 Room schema. */
 object DbMigrations {
+    /** Add the append-only recitation journal and optional Dala'il day selection. */
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `recitation_event` (
+                    `event_id` TEXT NOT NULL, `date` TEXT NOT NULL,
+                    `item_id` TEXT NOT NULL, `prayer` TEXT NOT NULL,
+                    `delta` INTEGER NOT NULL, `recorded_at` INTEGER NOT NULL,
+                    PRIMARY KEY(`event_id`)
+                )
+            """.trimIndent())
+            db.execSQL("""
+                CREATE TABLE IF NOT EXISTS `dalail_daily` (
+                    `date` TEXT NOT NULL, `manzil` INTEGER NOT NULL,
+                    `edition` TEXT NOT NULL, `completed` INTEGER NOT NULL,
+                    `updated_at` INTEGER NOT NULL,
+                    PRIMARY KEY(`date`)
+                )
+            """.trimIndent())
+        }
+    }
+
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("""
