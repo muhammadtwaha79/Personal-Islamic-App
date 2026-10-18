@@ -47,4 +47,22 @@ interface WorshipDao {
 
     @Upsert
     suspend fun upsertQuranDay(record: QuranDay)
+
+    @Query("SELECT * FROM quran_khatam_event WHERE date >= :from AND date <= :until")
+    fun observeKhatams(from: String, until: String): Flow<List<QuranKhatamEvent>>
+
+    @Query("SELECT COALESCE(SUM(delta), 0) FROM quran_khatam_event WHERE date = :date")
+    suspend fun khatamsOnDate(date: String): Int
+
+    @Insert
+    suspend fun insertKhatam(entry: QuranKhatamEvent)
+
+    @Transaction
+    suspend fun recordKhatam(entry: QuranKhatamEvent) {
+        require(entry.delta == 1 || entry.delta == -1)
+        require(khatamsOnDate(entry.date) + entry.delta >= 0) {
+            "Cannot undo a khatam that was not recorded."
+        }
+        insertKhatam(entry)
+    }
 }
