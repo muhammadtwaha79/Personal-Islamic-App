@@ -1,55 +1,53 @@
 # Toolchain Compatibility Matrix (Phase 1, step 1)
 
-*Retrieved: 2026-10-18. Status: **PARTIAL**. Only entries with an official source link are `VERIFIED`. Everything else is `UNKNOWN` and must not be guessed or filled from memory or third-party repositories. Rule source: [../phases/phase-1-plan.md](../phases/phase-1-plan.md), [ci-build-strategy.md](ci-build-strategy.md) section 6.*
+*Retrieved: 2026-10-18. Status: **FROZEN for the first Phase 1 build; compatibility is only proven when CI passes.** `VERIFIED` = read from an official source cited here. `UNVERIFIED` = chosen with a stated reason; CI is the test. No version below came from memory or from third-party sample repositories.*
 
-## Verified
+## Pinned versions
 
-| Component | Version | Evidence | Source |
+| Component | Version | Status | Source / reason |
 | --- | --- | --- | --- |
-| Android Gradle Plugin (AGP) | **9.4.0** (stable, September 2026) | Release notes page (last updated 2026-10-16 UTC). AGP 9.5 exists only as a preview and is not used. | https://developer.android.com/build/releases/agp-9-4-0-release-notes |
-| Gradle | **9.6.0** | AGP 9.4 lists Gradle minimum **9.6.0** and default **9.6.0**. Gradle 9.6.0 released 2026-06-18. | https://developer.android.com/build/releases/agp-9-4-0-release-notes ; https://github.com/gradle/gradle-distributions/releases/tag/v9.6.0 |
-| Gradle 9.6.0 `bin` distribution SHA-256 | `bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01` | Published checksum on the Gradle release page; independently matches the `distributionSha256Sum` in AOSP's `gradle-wrapper.properties` for `gradle-9.6.0-bin.zip`. | https://github.com/gradle/gradle-distributions/releases/tag/v9.6.0 ; https://android.googlesource.com/platform/frameworks/support/+/HEAD/gradle/wrapper/gradle-wrapper.properties |
-| Gradle wrapper JAR SHA-256 (9.6.0) | `497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7` | Published on the same release page. Use only to cross-check the bootstrapped jar. | https://github.com/gradle/gradle-distributions/releases/tag/v9.6.0 |
-| JDK | **17** (AGP 9.4 minimum and default) | AGP 9.4 compatibility table. | https://developer.android.com/build/releases/agp-9-4-0-release-notes |
-| SDK Build Tools | **36.0.0** (AGP 9.4 minimum and default) | AGP 9.4 compatibility table. | same |
-| Maximum API level supported by AGP 9.4 | **37** | AGP 9.4 compatibility table. | same |
+| Android Gradle Plugin | **9.4.0** | VERIFIED | https://developer.android.com/build/releases/agp-9-4-0-release-notes (stable, Sept 2026; max API 37; requires Gradle >= 9.6.0, JDK 17, Build Tools 36.0.0) |
+| Gradle | **9.6.0** | VERIFIED | Same AGP page (min = default = 9.6.0). `bin` SHA-256 `bbaeb2fef8710818cf0e261201dab964c572f92b942812df0c3620d62a529a01`; wrapper jar SHA-256 `497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7`: https://github.com/gradle/gradle-distributions/releases/tag/v9.6.0 (bin checksum cross-checked against AOSP's `gradle-wrapper.properties`). Gradle 9.7.x exists but is not needed. |
+| JDK | **17** (Temurin via setup-java) | VERIFIED | AGP 9.4 minimum and default |
+| Kotlin | **2.4.0** | UNVERIFIED (compat with Gradle 9.6.0) | Released June 2026: https://blog.jetbrains.com/kotlin/2026/06/kotlin-2-4-0-released/ (states Gradle 9.5.0 compatibility). Chosen over 2.4.20 (2026-09-07) because KSP release notes explicitly mention Kotlin 2.4.0 support and nothing verifies 2.4.20 with KSP/Hilt. AGP 9 built-in Kotlin is used, no `kotlin-android` plugin. |
+| Kotlin Compose compiler plugin | **2.4.0** (same as Kotlin) | VERIFIED rule, UNVERIFIED instance | `org.jetbrains.kotlin.plugin.compose` tracks the Kotlin version. Also pulls KGP 2.4.0 above AGP 9's bundled KGP (AGP 9.0 notes: https://developer.android.com/build/releases/agp-9-0-0-release-notes). |
+| KSP | **2.3.11** (2026-08-03) | VERIFIED existence and fixes | https://github.com/google/ksp/releases . KSP 2.3.x versions independently of Kotlin; 2.3.10 notes: works with Kotlin 2.4.0 module names and AGP 9 built-in Kotlin R-class fix. Known open hazard google/ksp#3053 (Room + `@Parcelize` under built-in Kotlin); Parcelize is not used. |
+| Hilt / Dagger | **2.60.1** | VERIFIED as documented current | https://dagger.dev/hilt/gradle-setup.html (uses `ksp("com.google.dagger:hilt-compiler:2.60.1")`). Hilt plugin 2.59+ is the first line supporting AGP 9 (release notes of dagger-2.59; early 2.59 had a runtime-artifact bug, issue #5099, so a later patch line is used). |
+| Compose BOM | **2026.09.00** | UNVERIFIED mapping | https://developer.android.com/develop/ui/compose/bom (newest cached copy shows 2026.09.00; others 2026.08.00). Compose libraries stable 1.12.1, Material 3 stable 1.4.0 as of 2026-10-07: https://developer.android.com/jetpack/androidx/releases/compose . Exact BOM mapping not read. |
+| Activity Compose | **1.13.0** | VERIFIED | https://developer.android.com/jetpack/androidx/releases/activity (stable, 2026-09-23) |
+| Navigation Compose | **2.10.2** | VERIFIED | https://developer.android.com/latest-updates (stable, 2026-09-23). Navigation 3 (1.2.0 stable) exists; owner brief says Navigation Compose, so Navigation 2 is used. |
+| Room (runtime, ktx, compiler) | **2.8.5** | VERIFIED | https://developer.android.com/jetpack/androidx/versions/stable-channel (2026-09-09). A Room 3 line was not investigated. |
+| JUnit | **4.13.2** | UNVERIFIED | Last JUnit 4 line; CI dependency resolution is the check. |
+| compileSdk / targetSdk / minSdk | **37 / 36 / 26** | UNVERIFIED (37) | AGP 9.4 supports up to API 37 (VERIFIED). compileSdk 37 is chosen so any AndroidX AAR requiring it passes metadata checks; whether the runner or AGP can provide platform 37 is tested by CI. targetSdk 36 is conservative. minSdk 26 per ADR-0014. |
 
-## Verified build-structure consequences of AGP 9
+## GitHub Actions (pinned by full commit SHA, resolved through the GitHub connector on 2026-10-18)
 
-Source: https://developer.android.com/build/migrate-to-built-in-kotlin (last updated 2026-09-15 UTC).
+| Action | Tag | Commit SHA | Note |
+| --- | --- | --- | --- |
+| actions/checkout | v7.0.1 | `3d3c42e5aac5ba805825da76410c181273ba90b1` | latest release (2026-07-20) |
+| actions/setup-java | v6.0.1 | `de7274f081f381c8f8158605e0321c36c376e2e6` | v6.1.0 (2026-10-14) skipped: less than two weeks old |
+| gradle/actions (setup-gradle, wrapper-validation) | v6.4.0 | `3f5f9adaf7d9fecd50b5935e54106014257a94e6` | latest release (2026-09-28) |
+| actions/upload-artifact | v7.0.1 | `043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` | v7.0.2 (2026-10-07) skipped: less than two weeks old |
 
-- AGP 9.0+ enables **built-in Kotlin** by default. The `org.jetbrains.kotlin.android` plugin must **not** be applied (applying it fails the build).
-- `kapt` is incompatible with built-in Kotlin. Use **KSP**. (Fallback `com.android.legacy-kapt` exists but is not wanted.)
-- `android.kotlinOptions{}` is replaced by `kotlin.compilerOptions{}`; `jvmTarget` defaults to `android.compileOptions.targetCompatibility`.
-- Kotlin source dirs: only `android.sourceSets{}` `kotlin` set is supported.
-- Opting out (`android.builtInKotlin=false`, `android.newDsl=false`) is temporary and not possible in AGP 10. **Decision: do not opt out.**
+Runner: `ubuntu-24.04`. Its preinstalled Android SDK packages are **not verified**; the workflow accepts licenses and lets AGP/sdkmanager provide missing packages.
 
-## Kotlin (partially known)
+## Build-structure rules from AGP 9 (VERIFIED: https://developer.android.com/build/migrate-to-built-in-kotlin)
 
-- Kotlin **2.4.0** was released in June 2026 (JetBrains blog path `/2026/06/`; secondary sources disagree on the exact day, which does not affect the choice). Its release note states compatibility with Gradle 9.5.0. https://blog.jetbrains.com/kotlin/2026/06/kotlin-2-4-0-released/
-- Kotlin **2.4.20** was released 2026-09-07. https://kotlinlang.org/docs/whatsnew2420.html
-- **UNKNOWN:** which Kotlin version AGP 9.4 built-in Kotlin uses or requires by default; whether Kotlin 2.4.x declares support for Gradle 9.6.0; therefore the Kotlin version is **not yet chosen**.
+- Built-in Kotlin is on by default. Do **not** apply `org.jetbrains.kotlin.android`. Do not opt out (not possible in AGP 10).
+- kapt is incompatible; use KSP.
+- `kotlinOptions{}` is replaced by `kotlin.compilerOptions{}`; `jvmTarget` follows `compileOptions.targetCompatibility`.
 
-## Unknown (no version chosen; each needs an official source before use)
+## Deferred (not needed in Phase 1; verify from official sources before adding)
 
-| Component | What must be established |
-| --- | --- |
-| KSP | Version scheme and a release compatible with the chosen Kotlin and with AGP 9 built-in Kotlin. |
-| Compose compiler plugin (`org.jetbrains.kotlin.plugin.compose`) | Expected to track the Kotlin version; confirm with Kotlin/Compose docs and AGP 9 interplay. |
-| Compose BOM, Material 3, Activity Compose, Lifecycle | Current stable versions from the AndroidX release pages. |
-| Navigation Compose | Current stable version and API (type-safe routes). |
-| Room (runtime, ktx, compiler, testing) | Current stable line and KSP compatibility; schema export settings. |
-| Hilt / Dagger, hilt-navigation-compose | Release that supports AGP 9 and built-in Kotlin (plugin application changed). |
-| Coroutines, kotlinx-datetime (if used), JUnit, Turbine | Current stable versions. |
-| compileSdk / targetSdk | AGP 9.4 supports up to 37; confirm whether API 37 is a stable platform and which packages the CI runner image provides. `minSdk = 26` is fixed (ADR-0014). |
-| GitHub-hosted runner image | JDK and Android SDK packages preinstalled (platform, build-tools 36.0.0); whether `sdkmanager` installs are needed. |
-| GitHub Actions (checkout, setup-java, setup-gradle, upload-artifact, wrapper validation) | Latest release tags and full commit SHAs resolved via the connector. |
+Lifecycle (explicit), hilt-navigation-compose, kotlinx-coroutines (explicit; coroutines arrive transitively via Room KTX), DataStore, WorkManager, Roborazzi/Robolectric, instrumented-test libraries, Room Gradle plugin.
+
+## Decisions recorded here pending ADR formalization
+
+1. **AGP 9 with built-in Kotlin, no opt-out; KSP only.**
+2. **GitHub Actions permissions (owner decision 2026-10-18):** repository default workflow permissions stay **restricted**. Every workflow declares top-level `permissions: contents: read` and elevates per job only. Normal CI jobs: `contents: read`. The trusted, push-triggered wrapper bootstrap job alone has `contents: write`. The PR report job alone has `pull-requests: write` and `actions: read`, runs no repository code, and is restricted to same-repository PRs. No write token is ever given to jobs that run untrusted pull-request code.
+3. **Wrapper bootstrap trigger:** push to `phase-1/foundation` limited by path filters (the wrapper properties file and the bootstrap workflow). This replaces the separate `phase-1/wrapper-bootstrap` branch from the earlier design because the connector has no branch-merge tool. It stays trusted: only users with write access can push to that branch.
 
 ## Method notes
 
-- Search results from third-party repositories showed AGP 8.x-era version sets. They are stale and were discarded.
-- No local build is possible from the agent sandbox: its network allow-list does not include Gradle or Google Maven hosts. All build verification must come from GitHub Actions check runs.
-
-## Next action
-
-Resolve every `UNKNOWN` row from official sources, then freeze the matrix and write `gradle/libs.versions.toml` from it. The Gradle wrapper bootstrap (step 3) needs the owner's Actions settings confirmation first (see [../phases/phase-1-plan.md](../phases/phase-1-plan.md)).
+- Third-party sample repositories showed stale AGP 8-era versions and were discarded as evidence.
+- The agent sandbox cannot reach Gradle or Google Maven; no local build is possible. The first CI run is the first real compatibility test; any mismatch above will be corrected here with the CI evidence.
