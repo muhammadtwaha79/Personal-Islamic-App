@@ -193,9 +193,9 @@ private fun PrayerSummary(
     val complete = record?.status == PrayerStatus.COMPLETED.name
     val missed = record?.status == PrayerStatus.MISSED.name
     val label = when {
-        complete && record.congregation == Congregation.WITH_JAMAAT.name ->
-            if (record.takbeer == Takbeer.ACHIEVED.name) "Jamaat · Takbeer-e-Ula"
-            else if (record.joining == Joining.JOINED_LATE.name) "Jamaat · joined late"
+        complete && record?.congregation == Congregation.WITH_JAMAAT.name ->
+            if (record?.takbeer == Takbeer.ACHIEVED.name) "Jamaat · Takbeer-e-Ula"
+            else if (record?.joining == Joining.JOINED_LATE.name) "Jamaat · joined late"
             else "Jamaat recorded"
         complete -> "Prayed individually"
         missed -> "Marked missed"
