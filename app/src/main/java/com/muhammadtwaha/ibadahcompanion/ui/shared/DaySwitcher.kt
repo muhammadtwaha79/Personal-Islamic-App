@@ -25,7 +25,7 @@ import java.util.Locale
 @Composable
 fun rememberTrackingDate(): Pair<LocalDate, (LocalDate) -> Unit> {
     var dateText by rememberSaveable {
-        mutableStateOf(maxOf(LocalDate.now(), WorshipRules.trackingStart).toString())
+        mutableStateOf(LocalDate.now().toString())
     }
     return LocalDate.parse(dateText) to { dateText = it.toString() }
 }
