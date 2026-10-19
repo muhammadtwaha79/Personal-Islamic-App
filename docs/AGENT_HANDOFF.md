@@ -1,36 +1,27 @@
 # Agent Handoff — Ibadah Companion
 
-**Snapshot 2026-10-18. GitHub is the authoritative memory shared among Claude Chat accounts and ChatGPT.** Before any action: verify live `main` head, open PRs, latest commits and GitHub Actions. Read [CLAUDE.md](../CLAUDE.md), [ENGINEERING_STATUS.md](ENGINEERING_STATUS.md), [SESSION_LOG.md](SESSION_LOG.md).
+**2026-10-19.** Shared institutional memory across Claude and ChatGPT accounts is GitHub, not chat. Always verify live repository `main` and open PRs before operating. Read [CLAUDE.md](../CLAUDE.md), [ENGINEERING_STATUS.md](ENGINEERING_STATUS.md), [SESSION_LOG.md](SESSION_LOG.md).
 
-## Identity and integrated state
+## Repo identity and previous milestones
 
-Repo: https://github.com/muhammadtwaha79/Personal-Islamic-App (public). Android app ID `com.muhammadtwaha.ibadahcompanion`; Kotlin/Compose/Material3/Hilt/Room v5, AGP9.4/Gradle9.6, minSdk26, fully offline, no INTERNET permission.
+https://github.com/muhammadtwaha79/Personal-Islamic-App — public repository, Android minSdk26, Kotlin/Compose/Material3/Hilt/Room v5, no INTERNET permission and no analytics. PR #1–8 were merged. The owner **physically installed a previous debug APK** and disliked the UI; no documented device/data persistence test yet.
 
-- PR #1–6: merged.
-- **PR #7 merged** `baab2cf3320c3a9ab30982b88abc8d744c0199c2`, https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7 .
-- [Verified source-head build](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151): final PR #7 head `5960a199174914099824e869780f454430e5e9e3`; wrapper, compile, JUnit, lint and APK artifact upload all successful. Artifact `ibadah-companion-debug-apk`, ID `12130677678`. **No device installation has been verified by the owner yet.**
-- No active source feature branch is held after PR #7 merge. This `docs/postmerge-masnoon-handoff` is a documentation synchronization branch; check [PR #8](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/8) actual status.
+## Current active branch
 
-## Implemented core (not necessarily production-verified)
+- **`design/elite-home-worship-ui`** is the UI overhaul branch. User personally requested: polished premium aesthetic; home-page illustration/picture-like module cards; much better Salah/other confirmation buttons; **remove Masnoon Duas**.
+- Changes: `HomeScreen.kt` now functional home dashboard with live same-day prayer progress and six built-in vector picture cards; `AppNavHost.kt` start route is `home`, compact four-tab bar; separate routes `salah`, `quran`, `nafl`, `dhikr`, `challenge`, `manzils`.
+- `EliteUi.kt` has reusable card/pill/choice/Canvas art; `Theme.kt` has cohesive emerald/ivory light/dark palettes; `SalahScreen.kt` has choose-then-confirm prayer dialog; Nafl/Quran/Dhikr/Challenge have revised cards and controls.
+- `ManzilsRepository.kt` and `ManzilsScreen.kt` preserve Munajat and Dala'il without the Masnoon catalog. Masnoon screen/catalog/repository and catalog test were removed from source. **Keep the existing Room database entities, MasnoonDao and v5 legacy tables**; destroying them would risk personal record loss. Do not assume anyone authorized data deletion.
+- Design decision: [ADR-0020](decisions/0020-home-first-visual-redesign-and-masnoon-removal.md). Product acceptance checklist: [2026-10 UI plan](phases/2026-10-elite-home-redesign-plan.md).
 
-Five Fard Salah with Jamaat/Takbeer, 40-day tracking from 20 Oct 2026, Sunnah/Nafl, Quran/Ramadan five-khatam planner, daily Salawat 1200, Istighfar 1200, Bismillah 1000, 20 personal after-Fard Salawat with owner-supplied Arabic, Dala'il daily manzil. New Masnoon source-linked starter catalog **28** dua/adhkar items and **10** Sunnah habit check-ins, Morning/Evening separate counters, 3 Qul recitations three times each, Sayyidul Istighfar, daily life and after-Fard adhkar, and separate user-selectable Munajat-e-Maqbool manzil 1–7. Room schema v5 uses additive 4→5 migration and previously existing append-only signed recitation event journal.
+## Exact next actions
 
-## Religious provenance and scope guardrails
+1. Open/check PR for `design/elite-home-worship-ui`; verify current head GitHub Actions compile/test/lint and debug APK upload. If fails, fetch job logs, fix, rerun. Do **not** declare complete on an old green PR.
+2. Merge reviewed green PR into `main` (standing user authorization to manage PR merges) only after final exact SHA passes, then fix stale postmerge GitHub docs if needed.
+3. Owner tests new Home cards and Salah/Nafl confirmation flows on physical phone. Ask for screenshots only of UI (not private worship history).
+4. IMPORTANT: GitHub-runner debug signing key may rotate. If the already installed old APK has data, **do not suggest uninstall / clear data** to install newer differently signed APK. Stable secret-backed app signing or verified export/restore is a future prerequisite for safe upgrades. No secrets or signing keys should be committed to public GitHub.
+5. After UX validation, implement data-safe export/restore, populated Room migration device tests, Qaza obligations ledger, fasting and accessibility improvements.
 
-- Source pages and reported grades are in [source register](research/masnoon-source-register.md). **7× Hasbiyallahu** Abu Dawud 5081 was graded `Mawdu'` (fabricated) by al-Albani on the cited page; it is optional with warning and EXCLUDED from ordinary trusted-goal completion. No reward guarantee.
-- 28+10 catalog is a **source-linked starter subset**, NOT every authentic prayer or daily Sunnah; some longer Arabic spelling/variants still require specialist proofreading.
-- Existing 20 user-supplied Sufi/other named Salawat attributions are UNVERIFIED; do not silently certify texts or rank religious merit. No published Munajat or Dala'il book text embedded.
-- All goals are chosen by the owner and self-reported; missing optional events never create an obligatory debt.
+## Religious/product constraints
 
-## Next exact action
-
-1. Verify latest merged PRs and status of postmerge docs PR #8. If open, inspect CI for its exact head and merge if green.
-2. User has not yet installed Android APK. Direct them to [run 39111339151](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151) → Artifacts → `ibadah-companion-debug-apk` → extract ZIP → install `app-debug.apk`. Test app launch, navigation Dhikr → Masnoon & Munajat, morning/evening independence, correction and restart persistence. Do not claim these device tests succeeded before user feedback.
-3. Future engineering work: Android/emulator v1–v5 populated Room migration and UI tests; safe encrypted backup/export and data security; Qaza ledger and fasting (original user goals), then accessible learning modes and Arabic/fiqh editorial review.
-4. Make all changes in new reviewable branches; **owner previously authorized agent-managed merges only after green CI**. Never force push or overwrite someone else's branch.
-
-## Data protection and limitations
-
-Repository is public. No personal prayer/dhikr data, secrets, keystores or device backups in GitHub. Android auto-backup disabled; no backup/restore; uninstall or clear data could permanently erase personal records. Existing CI is **not** evidence of device stability. Respect user choice and do not manufacture religion-related assessments.
-
-Useful docs: [Engineering Status](ENGINEERING_STATUS.md) · [Roadmap](ROADMAP.md) · [Research](research/masnoon-source-register.md) · [ADR-0019](decisions/0019-source-linked-daily-masnoon-adhkar.md).
+No fictional hadith rewards, unverified source claims or prayers automatically marked performed. The previous source-linked Masnoon Duas feature has been removed **by owner decision**; do not restore it without explicit request. Munajat-e-Maqbool and Dala'il al-Khayrat manzil checkboxes remain. User plans begin 20 October 2026. All personal religious history stays on phone, not GitHub.
