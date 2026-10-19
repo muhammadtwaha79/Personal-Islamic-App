@@ -1,36 +1,34 @@
 # Engineering Status — Ibadah Companion
 
-**Snapshot 2026-10-18. Always verify the live GitHub head and workflow before relying on any saved status.** [CLAUDE.md](../CLAUDE.md) · [Agent handoff](AGENT_HANDOFF.md) · [Session log](SESSION_LOG.md).
+**Snapshot: 2026-10-19.** Live GitHub evidence overrides this document. Read [CLAUDE.md](../CLAUDE.md) and [AGENT_HANDOFF.md](AGENT_HANDOFF.md) before writing.
 
-## Integrated and verified history
+## Merged baseline
 
-- PRs #1–6: merged Phase 0, native Android Phase 1, Fard/Nafl/Quran tracking, Salawat/Dhikr counters, and their documentation.
-- **[MERGED] PR #7 — Source-linked Daily Masnoon Duas, Sunnah habits, Munajat-e-Maqbool**: https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/7 — merge commit `baab2cf3320c3a9ab30982b88abc8d744c0199c2`.
-- **[GREEN CI]** Final PR #7 source SHA `5960a199174914099824e869780f454430e5e9e3` passed [GitHub Actions run 39111339151](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151), including Gradle wrapper validation, Kotlin compilation, unit tests, Android lint, debug APK assembly, tests report and APK artifact upload.
-- [Artifact] `ibadah-companion-debug-apk`, GitHub artifact ID **12130677678**, artifact ZIP **12,216,635 bytes** (this is NOT the raw APK size or SHA-256). Expiration reported 2026-11-01 09:29:58 UTC (depending on GitHub retention settings).
+- PRs #1–8 previously merged. Native offline Android Kotlin/Compose/Material3/Hilt/Room v5 with Salah, Sunnah/Nafl, Quran/Ramadan, Salawat/Dhikr, Takbeer 40-day challenge, Dala'il/Munajat trackers.
+- Old UI was **installed on the owner's real Android phone** in October 2026; owner explicitly reported poor visual design. No detailed persistence/restart test yet.
+- Existing verified compiled APK: [run 39111903815](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111903815).
 
-## Implemented functionality merged to main
+## Active work — Premium UI redesign
 
-- Offline-first Kotlin/Compose/Material3, Hilt, Room schema **v5**, additive migration chain v1→2→3→4→5; no INTERNET permission, no analytics.
-- Fard Salah user log (Jamaat/alone, Takbeer-e-Ula), 40-day self-tracking challenge starting **2026-10-20**, voluntary Sunnah/Nafl, Quran half-para/Yaseen/Waqiah/Mulk, manually selected Ramadan range and 5 confirmed Quran Khatams.
-- Salawat/Dhikr: independent daily targets short Salawat 1200, Istighfar 1200, Bismillah 1000; user-provided **20** Arabic Salawat with 10 repetition goal each after every Fard; manually selected *Dala'il al-Khayrat* manzil.
-- **New Masnoon module:** 28 source-linked Morning/Evening/Occasion/After-Salah dua/dhikr entries, including Sayyidul Istighfar, three Qul Surahs 3× each morning/evening (read entire surah from Mushaf), 3× Bismillahilladhi, 100× Subhanallahi wa bihamdihi, with independent date and scope counters; 10 source-linked situational Sunnah habits.
-- Separate **Munajat-e-Maqbool** daily manzil 1–7 manual choice, edition label, complete/correct actions; no book text or automatic weekly mapping.
-- Requested 7× Hasbiyallahu has **explicit disputed/criticized grading** (Abu Dawud 5081 listed Mawdu' by al-Albani), not counted toward ordinary sourced-masnoon completion; no promise of special reward.
+- Development branch: `design/elite-home-worship-ui`. Find its active PR on GitHub and inspect the exact latest head.
+- [IMPLEMENTED ON BRANCH] Home-first navigation with actual prayer progress hero, 6 original Compose Canvas illustrated module tiles, light/dark emerald/ivory design theme, compact 4-tab bottom bar.
+- [IMPLEMENTED ON BRANCH] Salah prayer cards with separate dedicated two-step dialog to select Fard completion/Jamaat/Takbeer/missed/unknown and explicitly confirm; Friday Dhuhr/Jumu'ah requires user selection. Reuses existing transaction and Salah revision history.
+- [IMPLEMENTED ON BRANCH] Sunnah/Nafl card UI, Quran daily goal/Surah/Ramadan layouts, 40-day challenge dashboard, Salawat/Dhikr counters, and new combined Dala'il + Munajat Manzils screen with selection and undo.
+- [REMOVED FROM ACTIVE APP] Masnoon Duas module/UI and previous catalog; owner requested its removal. Historical religious/source research docs persist, but Masnoon catalog is no longer a user-facing route. **Legacy database tables and records are deliberately preserved** for non-destructive upgrade; Room version stays **v5**.
+- [PENDING VERIFICATION] Changes have been committed on the feature branch but require exact-head GitHub Actions compile, JUnit tests, lint, APK upload and subsequent real-phone UI smoke check. **Do not claim green CI before checking it.**
 
-## Limitations — do not overclaim
+## Critical constraints
 
-- **NOT VERIFIED on a physical Android phone.** Owner has not installed the app. No on-device persistent-record smoke test or populated Room migrations test v1–v5 yet.
-- Personal records are in non-encrypted local SQLite; Android backup disabled and **no encrypted export/restore** implemented. Clearing storage or uninstalling the app can erase user records. Do not recommend it as the sole permanent historical ledger yet.
-- Arabic diacritics/variant wordings, grade disputes and fiqh applications need qualified scholarly editorial review. Source-linked references are not independent certification of every letter or every religious rule.
-- The curated 28+10 content is **not exhaustive**. Future source-led enrichment with Roman Urdu translations, optional customizable routines and reviewed material remains open.
-- Qaza ledger, fasting/Hijri, full accessibility/instrumented testing, encrypted backup, app lock and reminders remain pending.
+- DEBUG-SIGNING: a fresh ephemeral GitHub Actions runner may sign new APK with a different debug key. Upgrading an installed APK can fail with signature conflict. **No stable managed release-signing key / private keystore has been provisioned.** Do not tell the owner to uninstall or clear an app containing historical personal records without safe backup.
+- APP DATA: offline local non-encrypted SQLite; Android backup disabled and encrypted export/restore not implemented.
+- RELIGION: preserve source/fiqh caveats and no reward guarantee. Previous Masnoon source materials are historical docs, not an active educational catalog.
+- OUTSTANDING: Qaza ledger, fasting, migration instrumentation, accessibility, secure backup/export and stable signed release.
 
 ## Next exact action
 
-1. Confirm [PR #8 postmerge docs](https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/8) (if it exists) is merged, or merge after green CI under the owner's standing authorization.
-2. Ask owner to install the [final Masnoon APK from run 39111339151](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111339151), download artifact ZIP, extract and install debug APK **without clearing older app storage if present**.
-3. Owner tests Salah/Salawat/Quran/Dhikr/Masnoon/Munajat records and retention after restart; record findings (NOT personal worship data) in GitHub.
-4. Next engineering branch should prioritize device/emulator persistence and populated Room migration checks plus safe encrypted export/restore before making this the only ledger; then pursue Qaza and fasting. Continue source checks for expanded Masnoon content.
+1. Verify latest branch head has passing GitHub Actions build, test and lint, and an uploaded debug APK artifact. Fix build issues, update handoff, then merge PR under owner's existing blanket authorization.
+2. User visually tests the redesigned app on their Android phone (Home six tiles, Salah two-step confirm, Nafl, Quran, Dhikr, Manzils, 40-Day) and reports actual UI usability.
+3. Address stable signing and safe export/restore before installing over a data-bearing old APK.
+4. Continue Qaza/fasting roadmap after UI acceptance.
 
-Research: [Masnoon source register](research/masnoon-source-register.md) · [Owner requirements](requirements/masnoon-adhkar-munajat-2026-10-owner-brief.md) · [ADR-0019](decisions/0019-source-linked-daily-masnoon-adhkar.md).
+See [ADR-0020](decisions/0020-home-first-visual-redesign-and-masnoon-removal.md).
