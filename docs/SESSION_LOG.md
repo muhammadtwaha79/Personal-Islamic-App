@@ -135,3 +135,18 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - Started `docs/postmerge-masnoon-handoff` to reconcile the now-merged state; check PR #8 and merge after green CI when available. Documentation-only.
 - **Outstanding:** user has not installed the APK. Physical Android UI, populated Room migrations, Islamic editorial checking, encrypted backups, Qaza and fasting are NOT verified/completed. No claim the curated collection exhausts authentic daily Sunnah.
 - Next: owner downloads/installs verified debug APK and reports smoke tests (not private worship data); engineering adds migration/backup tests and continues remaining high-priority features.
+
+
+## S-012: Owner-requested complete illustrated UI redesign
+
+- Date: 2026-10-19. Agent: ChatGPT, continuing autonomous GitHub engineering under standing permission to merge verified PRs.
+- Owner installed an earlier debug APK and explicitly reported the UI was unattractive. Requested a premium design, a picture-card home screen opening modules, refined Salah and other worship confirmation controls, and removal of Masnoon Duas.
+- Created branch `design/elite-home-worship-ui` from `main`.
+- Implemented reusable Compose `EliteUi` design kit with coherent emerald/ivory/dark palette, accessible touch-friendly choice rows and **original vector Canvas illustrations**; replaced placeholder home with live same-day prayer hero and six picture-style tiles, reduced bottom navigation to four core destinations.
+- Rewrote Salah as five focused cards and a **two-step select-and-confirm dialog** for Jamaat/opening Takbeer/late/alone/missed/unknown, explicitly requiring Friday Jumu'ah vs Dhuhr selection when confirming a Friday midday prayer. Existing Room history and write invariants unchanged.
+- Redesigned Quran half-juz/surah confirmation/Ramadan, Nawafil rakahs/confirmation, Dhikr counters/Arabic reader, 40-Day challenge, and separate Manzils (Dala'il/Munajat) screens.
+- Removed obsolete Masnoon screen/catalog/repository and its JUnit catalog test from the app source, but **retained Room v5 legacy schema, MasnoonDao and tables** so existing local records cannot be destroyed by redesign. Research source documents remain historical.
+- Updated `README.md`, [ADR-0020](decisions/0020-home-first-visual-redesign-and-masnoon-removal.md), design plan, `ENGINEERING_STATUS.md`, `AGENT_HANDOFF.md`; no private data in GitHub.
+- At time of this entry, feature branch requires PR and final exact-HEAD **CI compile, JUnit, lint and APK artifact upload**; no claim of successful redesigned phone installation.
+- Important: Debug-signing keys on cloud runners may rotate; upgrading an old installed build can fail signature check. No encrypted export/restore. Never advise uninstalling a data-bearing app until safe recovery exists.
+- Next: create PR, inspect latest-head CI, resolve real compilation errors, merge once green; then owner visually tests new UI and navigation on phone.
