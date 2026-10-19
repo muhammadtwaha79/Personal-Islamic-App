@@ -150,3 +150,14 @@ Concise, chronological record of meaningful sessions. Concrete work only. No cha
 - At time of this entry, feature branch requires PR and final exact-HEAD **CI compile, JUnit, lint and APK artifact upload**; no claim of successful redesigned phone installation.
 - Important: Debug-signing keys on cloud runners may rotate; upgrading an old installed build can fail signature check. No encrypted export/restore. Never advise uninstalling a data-bearing app until safe recovery exists.
 - Next: create PR, inspect latest-head CI, resolve real compilation errors, merge once green; then owner visually tests new UI and navigation on phone.
+
+
+## S-013: Premium home redesign final CI and autonomous merge
+
+- Date 2026-10-19. Owner requested home-first picture-style cards, a higher quality UI with clear Salah/Nafl confirmations, and removal of Masnoon Duas after personally installing the previous APK and finding its UI unsatisfactory.
+- The redesign branch `design/elite-home-worship-ui` reached source SHA `de71c22a73b0059a7511b7aa150202dbd4466bf8` with 24 affected files including original Compose Canvas artwork, Home hero/6 module tiles, updated Material3 light/dark theme, 4-tab nav, deliberate two-step Salah confirm modal, new Nafl/Quran/Dhikr/40-day cards and independent Dala'il+Munajat Manzils screen. Masnoon screen/catalog/repository/test removed, **Room v5 schema/tables preserved**.
+- **[VERIFIED]** [GitHub Actions run 39205889211](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39205889211) on that exact source SHA concluded **success** for Gradle wrapper, Android compilation, JVM tests, lint, APK assembly and artifact upload. Artifact `ibadah-companion-debug-apk`, ID `12165339320`; Android app versionCode2/versionName`0.2.0-home-redesign`.
+- PR #9 was marked ready and **merged** into `main` as `7ede15d1dc289ab17ccffea1454860e9444b5c35`, confirmed by GitHub merge response.
+- Postmerge docs-only branch `docs/postmerge-premium-home-release` records new links in README/status/handoff and requires separate PR/CI merge. No new Android application source change in that doc branch.
+- Real phone acceptance for redesigned APK **not yet verified**. User owns an older debug build; ephemeral GitHub debug signing keys may differ between runs, causing update failure. Stable signing, encrypted export/restore and device migration tests remain urgently needed before uninstalling an app with valuable stored records.
+- Next: merge postmerge docs if CI green; provide verified redesigned APK link; ask owner to try Home and Salah confirmation and share UI feedback; prioritize safe upgrade strategy and Qaza/Fasting roadmap.

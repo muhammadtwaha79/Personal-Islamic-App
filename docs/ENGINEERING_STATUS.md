@@ -1,34 +1,34 @@
 # Engineering Status — Ibadah Companion
 
-**Snapshot: 2026-10-19.** Live GitHub evidence overrides this document. Read [CLAUDE.md](../CLAUDE.md) and [AGENT_HANDOFF.md](AGENT_HANDOFF.md) before writing.
+**Snapshot: 2026-10-19.** Verify live GitHub refs and Actions; this file is a saved handoff. [CLAUDE.md](../CLAUDE.md) · [Agent handoff](AGENT_HANDOFF.md).
 
-## Merged baseline
+## Merged milestones
 
-- PRs #1–8 previously merged. Native offline Android Kotlin/Compose/Material3/Hilt/Room v5 with Salah, Sunnah/Nafl, Quran/Ramadan, Salawat/Dhikr, Takbeer 40-day challenge, Dala'il/Munajat trackers.
-- Old UI was **installed on the owner's real Android phone** in October 2026; owner explicitly reported poor visual design. No detailed persistence/restart test yet.
-- Existing verified compiled APK: [run 39111903815](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39111903815).
+- **[MERGED] PR #9 — Premium illustrated home and worship UX:** https://github.com/muhammadtwaha79/Personal-Islamic-App/pull/9 ; GitHub merge commit **`7ede15d1dc289ab17ccffea1454860e9444b5c35`**.
+- Source PR head **`de71c22a73b0059a7511b7aa150202dbd4466bf8`** passed [Android Actions run **39205889211**](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39205889211): wrapper validation, Kotlin compilation, JVM unit tests, lint, debug APK and artifact upload all **success**. APK artifact `ibadah-companion-debug-apk`, ID **12165339320** (ZIP archive size 12,263,161 bytes). APK itself has not been installed/tested on device after redesign.
+- Previous PRs #1–8 were merged, covering Android baseline, Salah, Quran, Sunnah/Nafl, Salawat/Dhikr and previous Masnoon feature. Owner physically installed the **older** APK and reported unsatisfactory UI.
 
-## Active work — Premium UI redesign
+## Current merged app UI
 
-- Development branch: `design/elite-home-worship-ui`. Find its active PR on GitHub and inspect the exact latest head.
-- [IMPLEMENTED ON BRANCH] Home-first navigation with actual prayer progress hero, 6 original Compose Canvas illustrated module tiles, light/dark emerald/ivory design theme, compact 4-tab bottom bar.
-- [IMPLEMENTED ON BRANCH] Salah prayer cards with separate dedicated two-step dialog to select Fard completion/Jamaat/Takbeer/missed/unknown and explicitly confirm; Friday Dhuhr/Jumu'ah requires user selection. Reuses existing transaction and Salah revision history.
-- [IMPLEMENTED ON BRANCH] Sunnah/Nafl card UI, Quran daily goal/Surah/Ramadan layouts, 40-day challenge dashboard, Salawat/Dhikr counters, and new combined Dala'il + Munajat Manzils screen with selection and undo.
-- [REMOVED FROM ACTIVE APP] Masnoon Duas module/UI and previous catalog; owner requested its removal. Historical religious/source research docs persist, but Masnoon catalog is no longer a user-facing route. **Legacy database tables and records are deliberately preserved** for non-destructive upgrade; Room version stays **v5**.
-- [PENDING VERIFICATION] Changes have been committed on the feature branch but require exact-head GitHub Actions compile, JUnit tests, lint, APK upload and subsequent real-phone UI smoke check. **Do not claim green CI before checking it.**
+- **0.2.0-home-redesign** Android build, application ID unchanged `com.muhammadtwaha.ibadahcompanion`, minSdk 26.
+- Default route = premium Home with actual today Fard progress hero and six original vector-picture illustrated tiles: Daily Salah, Al-Quran, Sunnah & Nafl, Salawat & Dhikr, 40-Day Journey and Manzils. Four-item main bottom navigation (Home, Salah, Quran, Dhikr).
+- Five Fard Salah cards plus deliberate **choose → confirm** modal for Jamaat/opening Takbeer, late, uncertain, individual, missed/unknown. Friday Jumu'ah/Dhuhr requires explicit user choice. Existing transactional Room revisions unchanged.
+- More legible Nawafil rakah/confirmation, Quran half-para + Surah + five-Ramadan-khatam tracker, 40-day challenge progress and Dhikr counters/Arabic reader.
+- New Manzils screen keeps Dala'il al-Khayrat and Munajat-e-Maqbool independently selectable, with edition notes/undo and no book text.
+- **Masnoon Duas removed by owner request:** no Masnoon navigation/catalog/screen/repository; legacy Room v5 data tables and schemas remain for non-destructive user-data preservation. Prior source research docs remain historical only.
 
-## Critical constraints
+## Known limitations
 
-- DEBUG-SIGNING: a fresh ephemeral GitHub Actions runner may sign new APK with a different debug key. Upgrading an installed APK can fail with signature conflict. **No stable managed release-signing key / private keystore has been provisioned.** Do not tell the owner to uninstall or clear an app containing historical personal records without safe backup.
-- APP DATA: offline local non-encrypted SQLite; Android backup disabled and encrypted export/restore not implemented.
-- RELIGION: preserve source/fiqh caveats and no reward guarantee. Previous Masnoon source materials are historical docs, not an active educational catalog.
-- OUTSTANDING: Qaza ledger, fasting, migration instrumentation, accessibility, secure backup/export and stable signed release.
+- [PENDING] Real-phone visual verification after redesign; screenshot of Home, Salah modal, module navigation, light/dark, compact layout. CI does not prove these.
+- [RISK] Debug-signing keys on GitHub ephemeral runners can change. APK upgrades onto an older installed differently-signed app may fail. Do NOT advise uninstall/clear-data if existing records matter; durable, secret-backed signing or verified export/restore is required for data-safe upgrades.
+- Room database is local and unencrypted; Android auto-backup disabled, encrypted export not built, and populated migration/device tests incomplete.
+- Qaza obligations ledger, fasting/Hijri, accessibility review and source-sensitive Islamic review remain incomplete. Never claim original product roadmap is fully done.
 
-## Next exact action
+## Exact next action
 
-1. Verify latest branch head has passing GitHub Actions build, test and lint, and an uploaded debug APK artifact. Fix build issues, update handoff, then merge PR under owner's existing blanket authorization.
-2. User visually tests the redesigned app on their Android phone (Home six tiles, Salah two-step confirm, Nafl, Quran, Dhikr, Manzils, 40-Day) and reports actual UI usability.
-3. Address stable signing and safe export/restore before installing over a data-bearing old APK.
-4. Continue Qaza/fasting roadmap after UI acceptance.
+1. Confirm documentation-sync PR #10, if created, is green and merged. Always use exact head SHA.
+2. Provide [redesigned APK run 39205889211](https://github.com/muhammadtwaha79/Personal-Islamic-App/actions/runs/39205889211) to owner for a carefully planned phone install (signature conflict warning).
+3. Request UI screenshots/feedback after safe installation; iterate screen density and controls.
+4. Implement stable release signing, encrypted export/restore and verified persistence/migration tests before relying solely on device records; then resume Qaza and fasting program.
 
-See [ADR-0020](decisions/0020-home-first-visual-redesign-and-masnoon-removal.md).
+[ADR-0020](decisions/0020-home-first-visual-redesign-and-masnoon-removal.md) · [Roadmap](ROADMAP.md).
